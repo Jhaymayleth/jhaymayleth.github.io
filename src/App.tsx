@@ -1,37 +1,77 @@
+import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [menuOpen])
+
+  const closeMenu = () => setMenuOpen(false)
+
   return (
-    <main className="portfolio">
-      <nav className="navbar">
+    <>
+      <a className="skip-link" href="#contenido-principal">
+        Saltar al contenido
+      </a>
+
+      <nav
+        className={`navbar${menuOpen ? ' navbar--open' : ''}`}
+        aria-label="Navegación principal"
+      >
         <a href="#" className="brand">
           JMR<span>.</span>
         </a>
 
-        <div className="nav-links">
-          <a href="#about">Sobre mí</a>
-          <a href="#projects">Proyectos</a>
-          <a href="#contact">Contacto</a>
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-expanded={menuOpen}
+          aria-controls="primary-navigation"
+          aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span className="nav-toggle-bar" />
+        </button>
+
+        <div className="nav-links" id="primary-navigation">
+          <a href="#about" onClick={closeMenu}>
+            Sobre mí
+          </a>
+          <a href="#projects" onClick={closeMenu}>
+            Proyectos
+          </a>
+          <a href="#contact" onClick={closeMenu}>
+            Contacto
+          </a>
         </div>
 
-        <a href="#contact" className="nav-cta">
+        <a href="#contact" className="nav-cta" onClick={closeMenu}>
           Hablemos <span>↗</span>
         </a>
       </nav>
 
-      <section className="hero">
+      <main className="portfolio" id="contenido-principal" tabIndex={-1}>
+        <section className="hero">
         <div className="hero-content">
           <div className="availability">
             <span className="status-dot" />
             SOFTWARE DEVELOPER · COLOMBIA
           </div>
 
-          <h1>
-            Construyo ideas.
-            <br />
-            <span>Creo experiencias</span>
-            <br />
-            digitales.
+          <h1 className="hero-title">
+            <span className="hero-title-line">Construyo ideas.</span>
+            <span className="hero-title-line hero-title-line--accent">
+              Creo experiencias digitales.
+            </span>
           </h1>
 
           <p className="hero-description">
@@ -54,23 +94,26 @@ function App() {
         <div className="hero-visual">
           <div className="visual-index">01 / INTRODUCTION</div>
 
-          <div className="profile-image-container">
-            <img
-              src="/public/images/profile.png"
-              alt="José Mauricio Rangel Núñez, desarrollador de software"
-              className="profile-image"
-            />
-
-            <div className="profile-image-label">
-              <span>JOSÉ MAURICIO RANGEL</span>
-              <span>SOFTWARE DEVELOPER</span>
+          <figure className="profile-figure">
+            <div className="profile-image-container">
+              <img
+                src="/images/profile-840.webp"
+                srcSet="/images/profile-480.webp 480w, /images/profile-840.webp 840w, /images/profile-1080.webp 1080w"
+                sizes="(max-width: 1024px) 360px, 420px"
+                width={1086}
+                height={1448}
+                alt="José Mauricio Rangel Núñez, desarrollador de software"
+                className="profile-image"
+                fetchPriority="high"
+                decoding="async"
+              />
             </div>
-          </div>
 
-          <div className="visual-caption">
-            <span>DESIGNED TO CREATE</span>
-            <span>2026 — PRESENT</span>
-          </div>
+            <figcaption className="profile-caption">
+              <span className="profile-name">José Mauricio Rangel</span>
+              <span className="profile-role">SOFTWARE DEVELOPER</span>
+            </figcaption>
+          </figure>
         </div>
 
         <div className="hero-footer">
@@ -89,11 +132,12 @@ function App() {
         <h2>Proyectos que convierten ideas en soluciones.</h2>
       </section>
 
-      <section id="contact" className="placeholder-section">
-        <span>04 / CONTACT</span>
-        <h2>Construyamos algo interesante.</h2>
-      </section>
-    </main>
+        <section id="contact" className="placeholder-section">
+          <span>04 / CONTACT</span>
+          <h2>Construyamos algo interesante.</h2>
+        </section>
+      </main>
+    </>
   )
 }
 
