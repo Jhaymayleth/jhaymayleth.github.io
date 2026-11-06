@@ -1,0 +1,62 @@
+import { useLanguage } from '../../i18n/useLanguage'
+import { aboutFacts, aboutFocus, aboutParagraphs } from '../../data/about'
+import { SectionHeader } from '../../components/shared/SectionHeader'
+
+export function About() {
+  const { locale, t } = useLanguage()
+
+  return (
+    <section id="sobre-mi" className="border-b border-sumi/10 py-20 lg:py-28">
+      <div className="mx-auto max-w-6xl px-6">
+        <SectionHeader
+          index={t.about.index}
+          label={t.about.label}
+          title={t.about.title}
+        />
+
+        <div className="mt-14 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+          <div className="max-w-xl">
+            <div className="space-y-5 text-[15px] leading-relaxed text-sumi-soft sm:text-base">
+              {aboutParagraphs[locale].map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+
+            <h3 className="mt-9 font-mono text-[11px] uppercase tracking-[0.18em] text-torii">
+              {t.about.focus}
+            </h3>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {aboutFocus[locale].map((item) => (
+                <li
+                  key={item}
+                  className="rounded-full border border-sumi/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-sumi-soft"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <aside>
+            <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-torii">
+              {t.about.facts}
+            </h3>
+            <dl className="mt-4 border-t border-sumi/10">
+              {aboutFacts.map((fact) => (
+                <div
+                  key={fact.id}
+                  className="grid gap-1 border-b border-sumi/10 py-4 sm:grid-cols-[100px_1fr] sm:gap-4"
+                >
+                  <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-sumi-soft">
+                    {fact.label[locale]}
+                  </dt>
+                  <dd className="text-[15px] text-sumi">{fact.value[locale]}</dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
+        </div>
+      </div>
+    </section>
+  )
+}

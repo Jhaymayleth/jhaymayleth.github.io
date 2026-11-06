@@ -22,6 +22,12 @@ export interface ExperienceItem {
   stack: readonly string[]
 }
 
+export interface AboutFact {
+  id: string
+  label: LocalizedText
+  value: LocalizedText
+}
+
 export interface SkillGroup {
   id: string
   title: LocalizedText

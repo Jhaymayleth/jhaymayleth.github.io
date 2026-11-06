@@ -4,8 +4,10 @@ import { Navbar } from './components/layout/Navbar'
 import { Footer } from './components/layout/Footer'
 import { SectionPlaceholder } from './components/shared/SectionPlaceholder'
 import { Hero } from './features/home/Hero'
+import { About } from './features/about/About'
 import { Experience } from './features/experience/Experience'
 import { Skills } from './features/skills/Skills'
+import { Contact } from './features/contact/Contact'
 
 function Portfolio() {
   const { t } = useLanguage()
@@ -17,14 +19,7 @@ function Portfolio() {
       <main id="contenido-principal" tabIndex={-1} className="focus:outline-none">
         <Hero />
 
-        <SectionPlaceholder
-          id="sobre-mi"
-          index={t.placeholders.about.index}
-          label={t.placeholders.about.label}
-          title={t.placeholders.about.title}
-          note={t.placeholders.note}
-        />
-
+        <About />
         <Experience />
         <Skills />
 
@@ -36,13 +31,7 @@ function Portfolio() {
           note={t.placeholders.note}
         />
 
-        <SectionPlaceholder
-          id="contacto"
-          index={t.placeholders.contact.index}
-          label={t.placeholders.contact.label}
-          title={t.placeholders.contact.title}
-          note={t.placeholders.note}
-        />
+        <Contact />
       </main>
 
       <Footer />

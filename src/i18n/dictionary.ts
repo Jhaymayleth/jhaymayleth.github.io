@@ -50,22 +50,32 @@ const es = {
     soft: 'Habilidades humanas',
     languages: 'Idiomas',
   },
+  about: {
+    index: '02',
+    label: 'Perfil',
+    title: 'Quién soy y qué estoy construyendo',
+    focus: 'En qué me enfoco',
+    facts: 'En corto',
+  },
+  contact: {
+    index: '06',
+    label: 'Contacto',
+    title: 'Construyamos algo interesante.',
+    description:
+      'Estoy disponible para oportunidades nacionales o remotas. Escríbeme por LinkedIn o Instagram; el código está en GitHub.',
+    availability: 'Barranquilla, Colombia · Disponible nacional o remoto',
+    links: {
+      github: { label: 'GitHub', note: 'Código y proyectos' },
+      linkedin: { label: 'LinkedIn', note: 'Perfil profesional' },
+      instagram: { label: 'Instagram', note: 'Fuera del código' },
+    },
+  },
   placeholders: {
     note: 'Contenido en preparación',
-    about: {
-      index: '02',
-      label: 'Perfil',
-      title: 'Una mente curiosa, construyendo tecnología.',
-    },
     projects: {
       index: '05',
       label: 'Trabajo seleccionado',
       title: 'Proyectos que convierten ideas en soluciones.',
-    },
-    contact: {
-      index: '06',
-      label: 'Contacto',
-      title: 'Construyamos algo interesante.',
     },
   },
   footer: {
@@ -122,22 +132,32 @@ const en: Dictionary = {
     soft: 'Human skills',
     languages: 'Languages',
   },
+  about: {
+    index: '02',
+    label: 'Profile',
+    title: 'Who I am and what I’m building',
+    focus: 'Where I focus',
+    facts: 'At a glance',
+  },
+  contact: {
+    index: '06',
+    label: 'Contact',
+    title: 'Let’s build something interesting.',
+    description:
+      'I’m available for opportunities nationwide in Colombia or remote. Reach me on LinkedIn or Instagram; the code is on GitHub.',
+    availability: 'Barranquilla, Colombia · Available nationwide or remote',
+    links: {
+      github: { label: 'GitHub', note: 'Code and projects' },
+      linkedin: { label: 'LinkedIn', note: 'Professional profile' },
+      instagram: { label: 'Instagram', note: 'Beyond the code' },
+    },
+  },
   placeholders: {
     note: 'Content in progress',
-    about: {
-      index: '02',
-      label: 'Profile',
-      title: 'A curious mind, building technology.',
-    },
     projects: {
       index: '05',
       label: 'Selected work',
       title: 'Projects that turn ideas into solutions.',
-    },
-    contact: {
-      index: '06',
-      label: 'Contact',
-      title: 'Let’s build something interesting.',
     },
   },
   footer: {

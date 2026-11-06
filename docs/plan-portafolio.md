@@ -229,7 +229,9 @@ El email y los teléfonos quedan **solo dentro de la tarjeta digital / `.vcf`** 
 - `components/layout/Navbar.tsx`: sticky, brand propio, menú móvil con bloqueo de scroll, focus trap, cierre con `Escape` y retorno de foco.
 - `components/layout/Footer.tsx` con solo GitHub/LinkedIn/Instagram.
 - `features/home/Hero.tsx`: claim bilingüe, badge Barranquilla nacional/remoto, CTA `Ver mis proyectos`, foto WebP con `srcset`, numeración `01 — 06`.
-- Bilingüe ES/EN completo en la infraestructura (`src/i18n/`) y en Hero, Experience, Skills, navbar y footer. Selector ES/EN en navbar desktop y móvil.
+- `features/about/About.tsx`: perfil, formación y ficha en dos idiomas, solo con hechos del CV.
+- `features/contact/Contact.tsx`: únicamente GitHub, LinkedIn e Instagram. Sin email ni teléfonos.
+- Bilingüe ES/EN completo en la infraestructura (`src/i18n/`) y en Hero, About, Experience, Skills, Contact, navbar y footer. Selector ES/EN en navbar desktop y móvil.
 - `src/data/` con `profile.ts`, `experience.ts`, `skills.ts`; tipos en `src/types/content.ts`.
 - `features/experience/Experience.tsx` con Riwi y Universidad de Cartagena desde el CV.
 - `features/skills/Skills.tsx` con grupos de stack, "aprendiendo ahora", habilidades humanas e idiomas.
@@ -238,9 +240,9 @@ El email y los teléfonos quedan **solo dentro de la tarjeta digital / `.vcf`** 
 
 **Deuda / pendiente:**
 
-1. About, Proyectos y Contacto siguen como placeholder marcado ("Contenido en preparación").
+1. Proyectos sigue como placeholder marcado ("Contenido en preparación"). About y Contacto ya son secciones reales.
 2. Skills sin logos: el stack visual de la Sección 6.2 sigue como texto mono agrupado.
-3. Faltan datos de los 5 proyectos, logotipo propio, guión del avatar y alcance del `.vcf`.
+3. Faltan datos de los 5 proyectos, foto adicional para About, logotipo propio, guión del avatar y alcance del `.vcf`.
 4. SEO parcial: título y description en español, pero sin OG/Twitter, canonical, JSON-LD, `robots.txt` ni `sitemap.xml`.
 5. `README.md` sigue siendo la plantilla de Vite.
 6. Revisión visual del Home (Fase 1) pendiente: no hay capturas ni lista de ajustes aprobada.
@@ -248,7 +250,7 @@ El email y los teléfonos quedan **solo dentro de la tarjeta digital / `.vcf`** 
 
 ## 9. Ideas pendientes (datos que faltan del titular)
 
-1. ~~CV PDF~~ **entregado el 2026-11-06**, aplicado a Experience y Skills. Falta redactar About.
+1. ~~CV PDF~~ **entregado el 2026-11-06**, aplicado a About, Experience y Skills. Falta la foto adicional de About y el relato personal.
    - LinkedIn e Instagram **entregados**: ver §6.4.
 2. Por cada proyecto (5): año/período, rol exacto, problema en 2-3 líneas, stack exacto.
 3. Guión del avatar por aprobar (borrador + preguntas/respuestas).

@@ -67,21 +67,21 @@
 
 ---
 
-## Fase 3 — Contenido base (About, Experience, Skills, Contact) [EN CURSO]
+## Fase 3 — Contenido base (About, Experience, Skills, Contact) [COMPLETADA 2026-11-06]
 
 **Objetivo:** secciones reales bilingües con datos del CV, sin inventar métricas. Contacto público limitado a GitHub/LinkedIn/Instagram.
 
 **Pasos:**
 
 1. [x] Recibir y aplicar datos del CV: historia, hitos, experiencia formativa (aplicado a Experience y Skills).
-2. [ ] `features/about/About.tsx` — historia y perfil + foto adicional.
+2. [x] `features/about/About.tsx` — perfil, formación y ficha desde el CV. La **foto adicional** aún no existe: la sección funciona sin ella y se inserta cuando el titular la entregue.
 3. [x] `features/experience/Experience.tsx` — experiencia formativa (= proyectos, ver Fase 4). Por ahora cubre Riwi y Universidad de Cartagena; falta enlazar proyectos.
 4. [x] `features/skills/Skills.tsx` — stack + "aprendiendo actualmente". Los **logos** siguen pendientes (hoy es texto mono agrupado).
-5. [ ] `features/contact/Contact.tsx` — solo enlaces públicos (GitHub, LinkedIn, Instagram). Email/teléfonos NO en web.
+5. [x] `features/contact/Contact.tsx` — solo enlaces públicos (GitHub, LinkedIn, Instagram). Email/teléfonos NO en web.
 6. [x] Datos centralizados en `src/data/` + tipos en `src/types/` (`profile.ts`, `experience.ts`, `skills.ts`, `content.ts`).
-7. [x] Bilingüe completo ES/EN: sistema resuelto como **diccionario tipado + contexto React**, sin rutas. Aplica a las secciones construidas; About y Contacto quedan por redactar.
+7. [x] Bilingüe completo ES/EN: sistema resuelto como **diccionario tipado + contexto React**, sin rutas. Cubre Hero, About, Experience, Skills, Contact, navbar y footer.
 
-**Criterio de salida:** navegación Home → About → Experience → Skills → Contact sin placeholders, bilingüe, sin datos privados en web.
+**Criterio de salida:** navegación Home → About → Experience → Skills → Contact sin placeholders, bilingüe, sin datos privados en web. **Cumplido**, salvo que Proyectos sigue como placeholder hasta la Fase 4 (fuera de esta fase).
 
 ---
 
