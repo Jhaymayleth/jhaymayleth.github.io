@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Documento personal: no se publica en el repo
+Jose Mauricio Rangel Nuñez.pdf
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
