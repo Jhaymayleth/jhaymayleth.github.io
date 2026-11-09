@@ -53,7 +53,7 @@ export function Contact() {
         <ul
           data-reveal
           style={revealDelay(200)}
-          className="mt-12 grid gap-4 sm:grid-cols-3"
+          className="mt-12 grid gap-4 md:grid-cols-3"
         >
           {CHANNELS.map((channel) => (
             <li key={channel.id}>
@@ -61,7 +61,7 @@ export function Contact() {
                 href={channel.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-full flex-col justify-between rounded-2xl border border-sumi-soft/30 bg-panel/65 p-5 transition-colors hover:border-carmesi/40 hover:bg-panel/85"
+                className="group flex h-full flex-col justify-between rounded-2xl border border-sumi-soft/30 bg-panel/65 p-5 shadow-soft backdrop-blur-[2px] transition-[color,background-color,border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-carmesi/45 hover:bg-panel/85 hover:shadow-elevated focus-visible:-translate-y-1"
               >
                 <span className="flex items-center justify-between gap-4">
                   <span className="flex items-center gap-2.5">

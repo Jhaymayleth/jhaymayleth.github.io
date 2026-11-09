@@ -15,7 +15,7 @@ function MoonIcon() {
       strokeWidth={1.6}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-4 w-4"
+      className="theme-toggle-icon h-4 w-4"
     >
       <path d="M20.4 14.6A8.6 8.6 0 0 1 9.4 3.6a8.6 8.6 0 1 0 11 11Z" />
     </svg>
@@ -32,7 +32,7 @@ function SunIcon() {
       strokeWidth={1.6}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-4 w-4"
+      className="theme-toggle-icon h-4 w-4"
     >
       <circle cx="12" cy="12" r="4" />
       <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
@@ -52,7 +52,7 @@ export function ThemeToggle({ className = '' }: ThemeToggleProps) {
       onClick={toggleTheme}
       aria-label={label}
       title={label}
-      className={`flex h-10 w-10 items-center justify-center rounded-full border border-ink-block-fg/30 text-ink-block-fg transition-colors hover:border-carmesi-bright/50 hover:text-carmesi-bright ${className}`}
+      className={`theme-toggle flex h-10 w-10 items-center justify-center rounded-full border border-ink-block-fg/30 text-ink-block-fg transition-[color,border-color,transform] duration-200 hover:border-carmesi-on-block hover:text-carmesi-on-block active:scale-95 ${className}`}
     >
       {isDark ? <SunIcon /> : <MoonIcon />}
     </button>

@@ -17,7 +17,7 @@ export function About() {
   return (
     <section
       id="sobre-mi"
-      className="chapter chapter-center relative isolate overflow-hidden py-20 lg:py-28"
+      className="chapter chapter-center washi-texture relative isolate overflow-hidden py-20 lg:py-28"
     >
       <SectionDivider />
       <ContourLines />

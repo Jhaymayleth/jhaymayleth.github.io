@@ -46,11 +46,11 @@ export function Footer() {
                   href={link.href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="flex items-center gap-2 text-sm text-ink-block-fg/80 underline-offset-4 transition-colors hover:text-carmesi-bright hover:underline"
+                  className="footer-link group flex items-center gap-2 text-sm text-ink-block-fg/80 underline-offset-4 transition-colors hover:text-carmesi-on-block hover:underline"
                 >
                   <SocialIcon name={link.id} className="h-4 w-4" />
                   {link.label}
-                  <span aria-hidden="true"> ↗</span>
+                  <span aria-hidden="true" className="footer-link-arrow"> ↗</span>
                 </a>
               </li>
             ))}

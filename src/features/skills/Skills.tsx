@@ -42,7 +42,11 @@ export function Skills() {
               </h3>
               <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-6">
                 {group.items.map((item) => (
-                  <li key={item} className="technology-item">
+                  <li
+                    key={item}
+                    className="technology-item"
+                    title={`${group.title[locale]} · ${item}`}
+                  >
                     <TechnologyMark technology={item} />
                     {item}
                   </li>

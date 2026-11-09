@@ -114,14 +114,14 @@ export function Navbar() {
   const closeMenu = () => setOpen(false)
 
   return (
-    <header className="sticky top-0 z-40 bg-ink-block text-ink-block-fg transition-colors duration-300">
+    <header className="site-header sticky top-0 z-40 bg-ink-block text-ink-block-fg transition-colors duration-300">
       <a className="skip-link" href="#contenido-principal">
         {t.skipLink}
       </a>
 
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-5">
         <a href="#inicio" className="flex flex-col leading-none">
-          <span className="font-display text-lg tracking-tight text-ink-block-fg transition-colors hover:text-carmesi-bright">
+          <span className="font-display text-lg tracking-tight text-ink-block-fg transition-colors hover:text-carmesi-on-block">
             {profile.shortName}
           </span>
           <span className="mt-1 font-mono text-[9px] uppercase tracking-[0.26em] text-ink-block-fg/60">
@@ -131,32 +131,32 @@ export function Navbar() {
 
         <nav
           aria-label={t.nav.home}
-          className="hidden items-center gap-7 lg:flex"
+          className="hidden items-center gap-5 xl:flex 2xl:gap-7"
         >
           {SECTION_ORDER.map((key) => (
             <a
               key={key}
               href={SECTION_HREFS[key]}
-              className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-block-fg/70 underline-offset-4 transition-colors hover:text-carmesi-bright hover:underline"
+              className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-block-fg/70 underline-offset-4 transition-colors hover:text-carmesi-on-block hover:underline"
             >
               {t.nav[key]}
             </a>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-4 lg:flex">
+        <div className="hidden items-center gap-3 xl:flex 2xl:gap-4">
           <ThemeToggle />
           <LanguageSwitch />
           <a
             href="#contacto"
-            className="inline-flex items-center gap-1.5 rounded-full bg-ink-block-fg px-5 py-2.5 text-sm font-medium text-ink-block transition-colors hover:bg-carmesi-bright hover:text-white"
+            className="inline-flex items-center gap-1.5 rounded-full bg-ink-block-fg px-5 py-2.5 text-sm font-medium text-ink-block transition-colors hover:bg-carmesi-bright hover:text-carmesi-bright-fg"
           >
             {t.nav.cta}
             <span aria-hidden="true">↗</span>
           </a>
         </div>
 
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-2 xl:hidden">
           <ThemeToggle />
           <button
             ref={toggleRef}
@@ -187,7 +187,7 @@ export function Navbar() {
               role="dialog"
               aria-modal="true"
               aria-label={t.nav.home}
-              className="fixed inset-0 z-50 flex flex-col bg-ink-block text-ink-block-fg lg:hidden"
+              className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-ink-block text-ink-block-fg xl:hidden"
             >
               <div className="flex items-center justify-between border-b border-ink-block-fg/20 px-6 py-4">
                 <span className="font-display text-lg text-ink-block-fg">
@@ -212,7 +212,7 @@ export function Navbar() {
                     key={key}
                     href={SECTION_HREFS[key]}
                     onClick={closeMenu}
-                    className="font-display text-3xl text-ink-block-fg transition-colors hover:text-carmesi-bright"
+                    className="font-display text-3xl text-ink-block-fg transition-colors hover:text-carmesi-on-block"
                   >
                     {t.nav[key]}
                   </a>
@@ -239,7 +239,7 @@ export function Navbar() {
         aria-hidden="true"
         viewBox="0 0 1440 18"
         preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-x-0 -bottom-[9px] z-10 h-[18px] w-full -scale-y-100 text-washi"
+        className="hidden"
       >
         <path
         fill="currentColor"

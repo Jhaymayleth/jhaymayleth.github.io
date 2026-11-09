@@ -14,7 +14,17 @@ export function Hero() {
     <section id="inicio" className="chapter relative isolate overflow-hidden">
       <VerticalLabel index={t.hero.index} />
 
-      <div className="mx-auto grid max-w-6xl gap-14 px-6 pt-16 pb-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-20 lg:pt-16">
+      <img
+        aria-hidden="true"
+        alt=""
+        src="/assets/visual/ink/sumi-ink-stroke.webp"
+        loading="lazy"
+        decoding="async"
+        fetchPriority="low"
+        className="hero-ink pointer-events-none absolute"
+      />
+
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-10 px-6 pt-16 pb-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-20 lg:pt-16">
         <div className="max-w-xl">
           <span
             data-reveal
@@ -58,19 +68,19 @@ export function Hero() {
           >
             <a
               href="#proyectos"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-sumi px-6 py-3.5 text-sm font-medium text-washi transition-colors hover:bg-carmesi"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-sumi px-6 py-3.5 text-sm font-medium text-washi transition-[color,background-color,transform] duration-200 hover:-translate-y-0.5 hover:bg-carmesi hover:text-carmesi-fg active:translate-y-0"
             >
               {t.hero.primaryCta}
               <span
                 aria-hidden="true"
-                className="transition-transform group-hover:translate-x-0.5"
+                className="transition-transform duration-200 group-hover:translate-x-0.5"
               >
                 ↗
               </span>
             </a>
             <a
               href="#experiencia"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-sumi-soft/40 px-6 py-3.5 text-sm font-medium text-carmesi transition-colors hover:border-carmesi/50 hover:bg-carmesi/[0.05]"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-sumi-soft/40 px-6 py-3.5 text-sm font-medium text-carmesi transition-[color,border-color,background-color,transform] duration-200 hover:-translate-y-0.5 hover:border-carmesi/50 hover:bg-carmesi/[0.05] active:translate-y-0"
             >
               {t.hero.secondaryCta}
             </a>

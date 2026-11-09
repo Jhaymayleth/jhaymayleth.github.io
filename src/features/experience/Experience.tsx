@@ -10,7 +10,7 @@ export function Experience() {
   return (
     <section
       id="experiencia"
-      className="relative isolate overflow-hidden py-20 lg:py-28"
+      className="washi-texture relative isolate overflow-hidden py-20 lg:py-28"
     >
       <SectionDivider />
 
@@ -34,7 +34,7 @@ export function Experience() {
               className="grid gap-4 border-b border-sumi-soft/25 py-8 md:grid-cols-[210px_1fr] md:gap-10"
             >
               <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-carmesi">
+                <p className="inline-flex rounded-full border border-carmesi/25 bg-carmesi/[0.045] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-carmesi">
                   {item.period[locale]}
                 </p>
                 <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-sumi-soft">
@@ -69,7 +69,7 @@ export function Experience() {
                       >
                         <span
                           aria-hidden="true"
-                          className="mt-2 h-1 w-1 shrink-0 rounded-full bg-sumi-soft"
+                          className="mt-2 h-1 w-1 shrink-0 rounded-full bg-carmesi/65"
                         />
                         {point}
                       </li>
