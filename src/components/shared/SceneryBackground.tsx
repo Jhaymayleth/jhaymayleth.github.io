@@ -58,6 +58,7 @@ export function SceneryBackground() {
 
   return (
     <div aria-hidden="true" className="scenery">
+      <div className="scenery-mobile-image" />
       <img
         src={scene.src}
         srcSet={scene.srcSet}

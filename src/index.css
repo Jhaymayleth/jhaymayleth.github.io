@@ -258,6 +258,10 @@
   will-change: transform;
 }
 
+.scenery-mobile-image {
+  display: none;
+}
+
 .scenery-veil {
   position: absolute;
   inset: 0;
@@ -378,8 +382,30 @@
 }
 
 @media (max-width: 640px) {
+  .scenery-mobile-image {
+    position: absolute;
+    inset: 0;
+    display: block;
+    background-image: url('/images/contact-light.webp');
+    background-position: center 42%;
+    background-size: cover;
+  }
+
+  :root[data-theme='dark'] .scenery-mobile-image {
+    background-image: url('/images/contact-dark.webp');
+  }
+
   .scenery-image {
-    object-position: 74% 40%;
+    display: none;
+  }
+
+  .scenery-veil {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--paper) 8%, transparent) 0%,
+      color-mix(in oklab, var(--paper) 24%, transparent) 58%,
+      color-mix(in oklab, var(--paper) 48%, transparent) 100%
+    );
   }
 
   .scenery-glow {
