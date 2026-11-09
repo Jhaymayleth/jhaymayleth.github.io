@@ -30,7 +30,7 @@ function LanguageSwitch() {
     <div
       role="group"
       aria-label={t.nav.language}
-      className="flex items-center gap-0.5 rounded-full border border-sumi/15 p-1"
+      className="flex items-center gap-0.5 rounded-full border border-sumi-soft/30 p-1"
     >
       {LOCALES.map((code) => {
         const active = locale === code
@@ -43,7 +43,7 @@ function LanguageSwitch() {
             className={`rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest transition-colors ${
               active
                 ? 'bg-sumi text-washi'
-                : 'text-sumi-soft hover:text-sumi'
+                : 'text-sumi-soft hover:text-carmesi'
             }`}
           >
             {code}
@@ -112,14 +112,14 @@ export function Navbar() {
   const closeMenu = () => setOpen(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-sumi/10 bg-washi/85 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-sumi-soft/25 bg-washi/85 backdrop-blur">
       <a className="skip-link" href="#contenido-principal">
         {t.skipLink}
       </a>
 
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
         <a href="#inicio" className="flex flex-col leading-none">
-          <span className="font-display text-lg tracking-tight text-sumi">
+          <span className="font-display text-lg tracking-tight text-sumi transition-colors hover:text-carmesi">
             {profile.shortName}
           </span>
           <span className="mt-1 font-mono text-[9px] uppercase tracking-[0.26em] text-sumi-soft">
@@ -135,7 +135,7 @@ export function Navbar() {
             <a
               key={key}
               href={SECTION_HREFS[key]}
-              className="font-mono text-[11px] uppercase tracking-[0.18em] text-sumi-soft transition-colors hover:text-torii"
+              className="font-mono text-[11px] uppercase tracking-[0.18em] text-sumi-soft underline-offset-4 transition-colors hover:text-carmesi hover:underline"
             >
               {t.nav[key]}
             </a>
@@ -146,7 +146,7 @@ export function Navbar() {
           <LanguageSwitch />
           <a
             href="#contacto"
-            className="inline-flex items-center gap-1.5 rounded-full bg-sumi px-5 py-2.5 text-sm font-medium text-washi transition-colors hover:bg-torii"
+            className="inline-flex items-center gap-1.5 rounded-full bg-sumi px-5 py-2.5 text-sm font-medium text-washi transition-colors hover:bg-carmesi"
           >
             {t.nav.cta}
             <span aria-hidden="true">↗</span>
@@ -160,7 +160,7 @@ export function Navbar() {
           aria-expanded={open}
           aria-controls="mobile-navigation"
           aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-sumi/15 lg:hidden"
+          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-sumi-soft/30 lg:hidden"
         >
           <span
             aria-hidden="true"
@@ -182,7 +182,7 @@ export function Navbar() {
           aria-label={t.nav.home}
           className="fixed inset-0 z-50 flex flex-col bg-washi lg:hidden"
         >
-          <div className="flex items-center justify-between border-b border-sumi/10 px-6 py-4">
+          <div className="flex items-center justify-between border-b border-sumi-soft/25 px-6 py-4">
             <span className="font-display text-lg text-sumi">
               {profile.shortName}
             </span>
@@ -190,7 +190,7 @@ export function Navbar() {
               type="button"
               onClick={closeMenu}
               aria-label={t.nav.closeMenu}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-sumi/15 text-lg text-sumi"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-sumi-soft/30 text-lg text-sumi"
             >
               <span aria-hidden="true">✕</span>
             </button>
@@ -202,14 +202,14 @@ export function Navbar() {
                 key={key}
                 href={SECTION_HREFS[key]}
                 onClick={closeMenu}
-                className="font-display text-3xl text-sumi transition-colors hover:text-torii"
+                className="font-display text-3xl text-sumi transition-colors hover:text-carmesi"
               >
                 {t.nav[key]}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center justify-between gap-4 border-t border-sumi/10 px-8 py-6">
+          <div className="flex items-center justify-between gap-4 border-t border-sumi-soft/25 px-8 py-6">
             <LanguageSwitch />
             <a
               href="#contacto"

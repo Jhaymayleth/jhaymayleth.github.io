@@ -76,13 +76,12 @@
 }
 
 @theme {
-  --color-washi: #f4f1ea;
-  --color-washi-deep: #ebe5d8;
-  --color-sumi: #111827;
-  --color-sumi-soft: #4b5563;
-  --color-torii: #d64533;
-  --color-torii-bright: #e03e2d;
-  --color-indigo: #2b4c9a;
+  --color-washi: #f7f5f0;
+  --color-washi-deep: #ece9e2;
+  --color-sumi: #0e100f;
+  --color-sumi-soft: #616763;
+  --color-carmesi: #a51c30;
+  --color-carmesi-bright: #c8102e;
 
   --font-display: 'Hiro Misake', 'Inter', system-ui, sans-serif;
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -91,8 +90,9 @@
 
 @layer base {
   html {
+    color-scheme: light;
     scroll-behavior: smooth;
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: 4.625rem;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -109,12 +109,12 @@
   }
 
   ::selection {
-    background-color: color-mix(in oklab, var(--color-torii) 22%, transparent);
+    background-color: color-mix(in oklab, var(--color-carmesi) 16%, transparent);
     color: var(--color-sumi);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-torii);
+    outline: 2px solid var(--color-carmesi);
     outline-offset: 3px;
   }
 
@@ -153,4 +153,538 @@
 
 .skip-link:focus-visible {
   transform: translateY(0);
+}
+
+/* ---------------------------------------------------------------------------
+   Escena sumi-e de fondo (Contacto): imagen, halo y pétalos.
+   Solo decorativa; el contenido de la sección vive por encima con z-10.
+--------------------------------------------------------------------------- */
+
+.scenery {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: var(--color-washi);
+}
+
+.scenery-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  filter: saturate(0.92) brightness(1.04);
+  transform-origin: 62% 42%;
+  animation: scenery-drift 46s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.scenery-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgb(247 245 240 / 0.96) 0,
+      rgb(247 245 240 / 0) 72px
+    ),
+    linear-gradient(
+      to right,
+      rgb(247 245 240 / 0.55),
+      transparent 14%,
+      transparent 86%,
+      rgb(247 245 240 / 0.55)
+    ),
+    linear-gradient(
+      to bottom,
+      rgb(247 245 240 / 0.92) 0%,
+      rgb(247 245 240 / 0.66) 38%,
+      rgb(247 245 240 / 0.84) 72%,
+      rgb(247 245 240 / 0.97) 100%
+    );
+}
+
+.scenery-glow {
+  position: absolute;
+  top: 9%;
+  left: 50%;
+  width: 32%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(224 62 45 / 0.18) 0%,
+    rgb(224 62 45 / 0.06) 45%,
+    transparent 70%
+  );
+  filter: blur(22px);
+  animation: scenery-glow-pulse 15s ease-in-out infinite alternate;
+  will-change: opacity, transform;
+}
+
+.scenery-petals {
+  position: absolute;
+  inset: 0;
+  container-type: size;
+}
+
+.scenery-petal {
+  position: absolute;
+  top: -6%;
+  left: var(--petal-left);
+  width: var(--petal-size);
+  height: calc(var(--petal-size) * 1.05);
+  opacity: 0;
+  filter: blur(var(--petal-blur));
+  animation: scenery-petal-fall var(--petal-duration) linear var(--petal-delay)
+    infinite;
+  will-change: transform, opacity;
+}
+
+.scenery-petal svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes scenery-drift {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.1) translate3d(-1.5%, -1%, 0);
+  }
+}
+
+@keyframes scenery-glow-pulse {
+  from {
+    opacity: 0.4;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes scenery-petal-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  8% {
+    opacity: var(--petal-opacity);
+  }
+  82% {
+    opacity: var(--petal-opacity);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--petal-drift), calc(100cqh + 4rem), 0)
+      rotate(var(--petal-spin));
+  }
+}
+
+@media (max-width: 640px) {
+  .scenery-image {
+    object-position: 74% 40%;
+  }
+
+  .scenery-glow {
+    left: 0;
+    width: 30%;
+  }
+
+  .scenery-petal:nth-child(n + 9) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scenery-image,
+  .scenery-glow {
+    animation: none;
+  }
+
+  .scenery-petals {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Capítulos, revelado y ritmo de scroll
+--------------------------------------------------------------------------- */
+
+.chapter {
+  min-height: calc(100svh - 4.625rem);
+}
+
+.chapter-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-snap-type: y proximity;
+  }
+
+  .chapter {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------------------------------
+   Etiquetas verticales y lavado de tinta
+--------------------------------------------------------------------------- */
+
+.vertical-label {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  z-index: 2;
+  display: none;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.36em;
+  color: rgb(97 103 99 / 0.7);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (min-width: 1280px) {
+  .vertical-label {
+    display: block;
+  }
+}
+
+.ink-wash {
+  position: relative;
+  isolation: isolate;
+}
+
+.ink-wash::before {
+  content: '';
+  position: absolute;
+  inset: -0.08em -0.1em;
+  z-index: -1;
+  border-radius: 9999px;
+  background: radial-gradient(
+    60% 85% at 28% 55%,
+    rgb(165 28 48 / 0.14),
+    transparent 72%
+  );
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Retrato: a color, con zoom y marco desplazado
+--------------------------------------------------------------------------- */
+
+.portrait {
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.portrait-frame {
+  transition:
+    border-color 500ms ease,
+    box-shadow 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .portrait-group:hover .portrait {
+    transform: scale(1.025);
+  }
+
+  .portrait-group:hover .portrait-frame {
+    border-color: rgb(165 28 48 / 0.4);
+    box-shadow: 0 28px 60px -38px rgb(165 28 48 / 0.45);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Niebla de transición
+--------------------------------------------------------------------------- */
+
+.mist-seam {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 160px;
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, black, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+.mist-blob {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(ellipse at center, rgb(97 103 99 / 0.14), transparent 70%);
+  filter: blur(28px);
+  opacity: 0.5;
+  will-change: transform;
+}
+
+.mist-blob--a {
+  width: 52%;
+  height: 72px;
+  top: 8px;
+  left: -8%;
+  animation: mist-a 32s ease-in-out infinite alternate;
+}
+
+.mist-blob--b {
+  width: 44%;
+  height: 54px;
+  top: 46px;
+  left: 34%;
+  animation: mist-b 27s ease-in-out infinite alternate;
+}
+
+.mist-blob--c {
+  width: 38%;
+  height: 48px;
+  top: 22px;
+  left: 72%;
+  animation: mist-c 36s ease-in-out infinite alternate;
+}
+
+@keyframes mist-a {
+  from {
+    transform: translate3d(-6%, 0, 0);
+  }
+  to {
+    transform: translate3d(10%, 0, 0);
+  }
+}
+
+@keyframes mist-b {
+  from {
+    transform: translate3d(8%, 0, 0);
+  }
+  to {
+    transform: translate3d(-9%, 0, 0);
+  }
+}
+
+@keyframes mist-c {
+  from {
+    transform: translate3d(-5%, 0, 0);
+  }
+  to {
+    transform: translate3d(7%, 0, 0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Velo de transición entre secciones
+--------------------------------------------------------------------------- */
+
+.section-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(120% 85% at 50% 0%, rgb(14 16 15 / 0.1), transparent 62%),
+    rgb(247 245 240 / 0.06);
+  transition: opacity 320ms ease;
+}
+
+.section-veil.is-active {
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Ensō, contornos, olas y número fantasma
+--------------------------------------------------------------------------- */
+
+.enso-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+[data-reveal].is-visible .enso-path {
+  animation: enso-draw 1.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes enso-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.contour-lines {
+  position: absolute;
+  top: 50%;
+  right: -4rem;
+  width: min(42rem, 60vw);
+  height: min(42rem, 60vw);
+  transform: translateY(-50%);
+  color: rgb(97 103 99 / 0.18);
+  pointer-events: none;
+  mask-image: radial-gradient(circle at 55% 50%, black 0%, transparent 72%);
+  -webkit-mask-image: radial-gradient(
+    circle at 55% 50%,
+    black 0%,
+    transparent 72%
+  );
+}
+
+@media (max-width: 1023px) {
+  .contour-lines {
+    display: none;
+  }
+}
+
+.seigaiha-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(
+      circle at 50% 100%,
+      transparent 25%,
+      rgb(97 103 99 / 0.08) 26%,
+      rgb(97 103 99 / 0.08) 28%,
+      transparent 29%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      transparent 25%,
+      rgb(97 103 99 / 0.06) 26%,
+      rgb(97 103 99 / 0.06) 28%,
+      transparent 29%
+    ),
+    radial-gradient(
+      circle at 100% 100%,
+      transparent 25%,
+      rgb(97 103 99 / 0.06) 26%,
+      rgb(97 103 99 / 0.06) 28%,
+      transparent 29%
+    );
+  background-size: 76px 38px;
+  mask-image: linear-gradient(to bottom, black, black 55%, transparent 92%);
+  -webkit-mask-image: linear-gradient(to bottom, black, black 55%, transparent 92%);
+}
+
+.ghost-index {
+  position: absolute;
+  top: 50%;
+  right: -0.05em;
+  z-index: 0;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-size: clamp(9rem, 28vw, 24rem);
+  line-height: 0.78;
+  color: rgb(97 103 99 / 0.1);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 640px) {
+  .ghost-index {
+    right: -0.15em;
+    font-size: clamp(8rem, 42vw, 12rem);
+    color: rgb(97 103 99 / 0.07);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Línea de tiempo de Experiencia
+--------------------------------------------------------------------------- */
+
+.timeline-spine {
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+[data-reveal].is-visible .timeline-spine {
+  animation: timeline-draw 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes timeline-draw {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Ajustes móviles y movimiento reducido
+--------------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .mist-seam {
+    height: 110px;
+  }
+
+  .mist-blob {
+    filter: blur(18px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  html {
+    scroll-snap-type: none;
+  }
+
+  .mist-blob {
+    animation: none;
+  }
+
+  .section-veil {
+    display: none;
+  }
+
+  .enso-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .timeline-spine {
+    transform: scaleY(1);
+    animation: none;
+  }
+
+  .portrait,
+  .portrait-frame {
+    transition: none;
+  }
+
+  .portrait-group:hover .portrait {
+    transform: none;
+  }
 }

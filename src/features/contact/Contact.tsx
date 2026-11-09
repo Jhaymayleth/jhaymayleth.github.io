@@ -1,6 +1,11 @@
+import type { CSSProperties } from 'react'
 import { useLanguage } from '../../i18n/useLanguage'
 import { profile } from '../../data/profile'
 import { SectionHeader } from '../../components/shared/SectionHeader'
+import { SceneryBackground } from '../../components/shared/SceneryBackground'
+import { MistSeam } from '../../components/shared/MistSeam'
+import { VerticalLabel } from '../../components/shared/VerticalLabel'
+import { SocialIcon } from '../../components/shared/SocialIcon'
 
 /**
  * Solo los canales públicos decididos por el titular.
@@ -12,15 +17,23 @@ const CHANNELS = [
   { id: 'instagram', href: profile.links.instagram, handle: '@dylan_.rn' },
 ] as const
 
+function revealDelay(delay: number): CSSProperties {
+  return { '--reveal-delay': `${delay}ms` } as CSSProperties
+}
+
 export function Contact() {
   const { t } = useLanguage()
 
   return (
     <section
       id="contacto"
-      className="border-b border-sumi/10 bg-washi-deep/40 py-20 lg:py-28"
+      className="chapter chapter-center relative isolate overflow-hidden border-b border-sumi-soft/25 bg-washi-deep/40 py-20 lg:py-28"
     >
-      <div className="mx-auto max-w-6xl px-6">
+      <SceneryBackground />
+      <MistSeam />
+      <VerticalLabel index={t.contact.index} />
+
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
         <SectionHeader
           index={t.contact.index}
           label={t.contact.label}
@@ -28,27 +41,41 @@ export function Contact() {
           description={t.contact.description}
         />
 
-        <p className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-sumi/15 bg-white/40 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-sumi-soft">
-          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-torii" />
+        <p
+          data-reveal
+          style={revealDelay(120)}
+          className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-sumi-soft/40 bg-white/40 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-sumi-soft"
+        >
+          <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-carmesi" />
           {t.contact.availability}
         </p>
 
-        <ul className="mt-12 grid gap-4 sm:grid-cols-3">
+        <ul
+          data-reveal
+          style={revealDelay(200)}
+          className="mt-12 grid gap-4 sm:grid-cols-3"
+        >
           {CHANNELS.map((channel) => (
             <li key={channel.id}>
               <a
                 href={channel.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-full flex-col justify-between rounded-2xl border border-sumi/10 bg-white/40 p-5 transition-colors hover:border-torii/40 hover:bg-white/70"
+                className="group flex h-full flex-col justify-between rounded-2xl border border-sumi-soft/30 bg-white/65 p-5 transition-colors hover:border-carmesi/40 hover:bg-white/85"
               >
                 <span className="flex items-center justify-between gap-4">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-sumi-soft transition-colors group-hover:text-torii">
-                    {t.contact.links[channel.id].label}
+                  <span className="flex items-center gap-2.5">
+                    <SocialIcon
+                      name={channel.id}
+                      className="h-4 w-4 text-sumi-soft transition-colors group-hover:text-carmesi"
+                    />
+                    <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-carmesi">
+                      {t.contact.links[channel.id].label}
+                    </span>
                   </span>
                   <span
                     aria-hidden="true"
-                    className="text-sumi-soft transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    className="text-sumi-soft transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-carmesi"
                   >
                     ↗
                   </span>
