@@ -1,4 +1,18 @@
 import type { CSSProperties } from 'react'
+import { useTheme } from '../../theme/useTheme'
+
+const SCENES = {
+  light: {
+    src: '/images/sumi-e-temple-1672.webp',
+    srcSet:
+      '/images/sumi-e-temple-960.webp 960w, /images/sumi-e-temple-1672.webp 1672w',
+  },
+  dark: {
+    src: '/images/sumi-e-night-1672.webp',
+    srcSet:
+      '/images/sumi-e-night-960.webp 960w, /images/sumi-e-night-1672.webp 1672w',
+  },
+} as const
 
 interface Petal {
   left: number
@@ -39,11 +53,14 @@ const PETALS: readonly Petal[] = [
  * con el contenido de la sección en `relative z-10`.
  */
 export function SceneryBackground() {
+  const { theme } = useTheme()
+  const scene = SCENES[theme]
+
   return (
     <div aria-hidden="true" className="scenery">
       <img
-        src="/images/sumi-e-temple-1672.webp"
-        srcSet="/images/sumi-e-temple-960.webp 960w, /images/sumi-e-temple-1672.webp 1672w"
+        src={scene.src}
+        srcSet={scene.srcSet}
         sizes="100vw"
         alt=""
         width={1672}

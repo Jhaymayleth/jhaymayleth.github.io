@@ -1,5 +1,6 @@
 import { LanguageProvider } from './i18n/LanguageProvider'
 import { useLanguage } from './i18n/useLanguage'
+import { ThemeProvider } from './theme/ThemeProvider'
 import { Navbar } from './components/layout/Navbar'
 import { Footer } from './components/layout/Footer'
 import { SectionPlaceholder } from './components/shared/SectionPlaceholder'
@@ -45,9 +46,11 @@ function Portfolio() {
 
 function App() {
   return (
-    <LanguageProvider>
-      <Portfolio />
-    </LanguageProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <Portfolio />
+      </LanguageProvider>
+    </ThemeProvider>
   )
 }
 

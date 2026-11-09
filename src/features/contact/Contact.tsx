@@ -44,7 +44,7 @@ export function Contact() {
         <p
           data-reveal
           style={revealDelay(120)}
-          className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-sumi-soft/40 bg-white/40 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-sumi-soft"
+          className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-sumi-soft/40 bg-panel/40 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-sumi-soft"
         >
           <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-carmesi" />
           {t.contact.availability}
@@ -61,7 +61,7 @@ export function Contact() {
                 href={channel.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-full flex-col justify-between rounded-2xl border border-sumi-soft/30 bg-white/65 p-5 transition-colors hover:border-carmesi/40 hover:bg-white/85"
+                className="group flex h-full flex-col justify-between rounded-2xl border border-sumi-soft/30 bg-panel/65 p-5 transition-colors hover:border-carmesi/40 hover:bg-panel/85"
               >
                 <span className="flex items-center justify-between gap-4">
                   <span className="flex items-center gap-2.5">

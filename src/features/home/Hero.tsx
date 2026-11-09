@@ -19,7 +19,7 @@ export function Hero() {
           <span
             data-reveal
             style={revealDelay(0)}
-            className="inline-flex items-center gap-2.5 rounded-full border border-sumi-soft/30 bg-white/40 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-sumi-soft"
+            className="inline-flex items-center gap-2.5 rounded-full border border-sumi-soft/30 bg-panel/40 px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-sumi-soft"
           >
             <span className="relative flex h-1.5 w-1.5">
               <span

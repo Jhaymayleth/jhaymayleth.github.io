@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useLanguage } from '../../i18n/useLanguage'
 import { profile } from '../../data/profile'
+import { ThemeToggle } from '../shared/ThemeToggle'
 import type { Locale } from '../../types/content'
 
 const SECTION_HREFS = {
@@ -143,6 +145,7 @@ export function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-4 lg:flex">
+          <ThemeToggle />
           <LanguageSwitch />
           <a
             href="#contacto"
@@ -153,75 +156,84 @@ export function Navbar() {
           </a>
         </div>
 
-        <button
-          ref={toggleRef}
-          type="button"
-          onClick={() => setOpen((value) => !value)}
-          aria-expanded={open}
-          aria-controls="mobile-navigation"
-          aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-sumi-soft/30 lg:hidden"
-        >
-          <span
-            aria-hidden="true"
-            className={`h-px w-4 bg-sumi transition-transform ${open ? 'translate-y-[3.5px] rotate-45' : ''}`}
-          />
-          <span
-            aria-hidden="true"
-            className={`h-px w-4 bg-sumi transition-transform ${open ? '-translate-y-[3.5px] -rotate-45' : ''}`}
-          />
-        </button>
+        <div className="flex items-center gap-2 lg:hidden">
+          <ThemeToggle />
+          <button
+            ref={toggleRef}
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            aria-expanded={open}
+            aria-controls="mobile-navigation"
+            aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-sumi-soft/30"
+          >
+            <span
+              aria-hidden="true"
+              className={`h-px w-4 bg-sumi transition-transform ${open ? 'translate-y-[3.5px] rotate-45' : ''}`}
+            />
+            <span
+              aria-hidden="true"
+              className={`h-px w-4 bg-sumi transition-transform ${open ? '-translate-y-[3.5px] -rotate-45' : ''}`}
+            />
+          </button>
+        </div>
       </div>
 
-      {open ? (
-        <div
-          ref={panelRef}
-          id="mobile-navigation"
-          role="dialog"
-          aria-modal="true"
-          aria-label={t.nav.home}
-          className="fixed inset-0 z-50 flex flex-col bg-washi lg:hidden"
-        >
-          <div className="flex items-center justify-between border-b border-sumi-soft/25 px-6 py-4">
-            <span className="font-display text-lg text-sumi">
-              {profile.shortName}
-            </span>
-            <button
-              type="button"
-              onClick={closeMenu}
-              aria-label={t.nav.closeMenu}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-sumi-soft/30 text-lg text-sumi"
+      {open
+        ? createPortal(
+            <div
+              ref={panelRef}
+              id="mobile-navigation"
+              role="dialog"
+              aria-modal="true"
+              aria-label={t.nav.home}
+              className="fixed inset-0 z-50 flex flex-col bg-washi lg:hidden"
             >
-              <span aria-hidden="true">✕</span>
-            </button>
-          </div>
+              <div className="flex items-center justify-between border-b border-sumi-soft/25 px-6 py-4">
+                <span className="font-display text-lg text-sumi">
+                  {profile.shortName}
+                </span>
+                <div className="flex items-center gap-2">
+                  <ThemeToggle />
+                  <button
+                    type="button"
+                    onClick={closeMenu}
+                    aria-label={t.nav.closeMenu}
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-sumi-soft/30 text-lg text-sumi"
+                  >
+                    <span aria-hidden="true">✕</span>
+                  </button>
+                </div>
+              </div>
 
-          <nav className="flex flex-1 flex-col justify-center gap-5 px-8">
-            {SECTION_ORDER.map((key) => (
-              <a
-                key={key}
-                href={SECTION_HREFS[key]}
-                onClick={closeMenu}
-                className="font-display text-3xl text-sumi transition-colors hover:text-carmesi"
-              >
-                {t.nav[key]}
-              </a>
-            ))}
-          </nav>
+              <nav className="flex flex-1 flex-col justify-center gap-5 px-8">
+                {SECTION_ORDER.map((key) => (
+                  <a
+                    key={key}
+                    href={SECTION_HREFS[key]}
+                    onClick={closeMenu}
+                    className="font-display text-3xl text-sumi transition-colors hover:text-carmesi"
+                  >
+                    {t.nav[key]}
+                  </a>
+                ))}
+              </nav>
 
-          <div className="flex items-center justify-between gap-4 border-t border-sumi-soft/25 px-8 py-6">
-            <LanguageSwitch />
-            <a
-              href="#contacto"
-              onClick={closeMenu}
-              className="inline-flex items-center gap-1.5 rounded-full bg-sumi px-5 py-2.5 text-sm font-medium text-washi"
-            >
-              {t.nav.cta}
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </div>
-      ) : null}
+              <div className="flex items-center justify-between gap-4 border-t border-sumi-soft/25 px-8 py-6">
+                <LanguageSwitch />
+                <a
+                  href="#contacto"
+                  onClick={closeMenu}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-sumi px-5 py-2.5 text-sm font-medium text-washi"
+                >
+                  {t.nav.cta}
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </header>
   )
 }

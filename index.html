@@ -7,7 +7,23 @@
       name="description"
       content="Portafolio de José Mauricio Rangel Núñez, desarrollador Full Stack. Interfaces que se sienten, sistemas que sostienen."
     />
-    <meta name="theme-color" content="#F4F1EA" />
+    <meta name="theme-color" content="#f7f5f0" />
+    <script>
+      ;(function () {
+        try {
+          var stored = window.localStorage.getItem('portfolio:theme')
+          var dark =
+            stored === 'dark' ||
+            (stored !== 'light' &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches)
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+          var meta = document.querySelector('meta[name="theme-color"]')
+          if (meta) meta.setAttribute('content', dark ? '#0e100f' : '#f7f5f0')
+        } catch (error) {
+          document.documentElement.dataset.theme = 'light'
+        }
+      })()
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link
       rel="preload"
