@@ -32,7 +32,7 @@ function LanguageSwitch() {
     <div
       role="group"
       aria-label={t.nav.language}
-      className="flex items-center gap-0.5 rounded-full border border-sumi-soft/30 p-1"
+      className="flex items-center gap-0.5 rounded-full border border-ink-block-fg/30 p-1"
     >
       {LOCALES.map((code) => {
         const active = locale === code
@@ -44,8 +44,8 @@ function LanguageSwitch() {
             aria-pressed={active}
             className={`rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest transition-colors ${
               active
-                ? 'bg-sumi text-washi'
-                : 'text-sumi-soft hover:text-carmesi'
+                ? 'bg-ink-block-fg text-ink-block'
+                : 'text-ink-block-fg/70 hover:text-carmesi-bright'
             }`}
           >
             {code}
@@ -114,17 +114,17 @@ export function Navbar() {
   const closeMenu = () => setOpen(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-sumi-soft/25 bg-washi/85 backdrop-blur">
+    <header className="sticky top-0 z-40 bg-ink-block text-ink-block-fg transition-colors duration-300">
       <a className="skip-link" href="#contenido-principal">
         {t.skipLink}
       </a>
 
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
         <a href="#inicio" className="flex flex-col leading-none">
-          <span className="font-display text-lg tracking-tight text-sumi transition-colors hover:text-carmesi">
+          <span className="font-display text-lg tracking-tight text-ink-block-fg transition-colors hover:text-carmesi-bright">
             {profile.shortName}
           </span>
-          <span className="mt-1 font-mono text-[9px] uppercase tracking-[0.26em] text-sumi-soft">
+          <span className="mt-1 font-mono text-[9px] uppercase tracking-[0.26em] text-ink-block-fg/60">
             {t.hero.role}
           </span>
         </a>
@@ -137,7 +137,7 @@ export function Navbar() {
             <a
               key={key}
               href={SECTION_HREFS[key]}
-              className="font-mono text-[11px] uppercase tracking-[0.18em] text-sumi-soft underline-offset-4 transition-colors hover:text-carmesi hover:underline"
+              className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-block-fg/70 underline-offset-4 transition-colors hover:text-carmesi-bright hover:underline"
             >
               {t.nav[key]}
             </a>
@@ -149,7 +149,7 @@ export function Navbar() {
           <LanguageSwitch />
           <a
             href="#contacto"
-            className="inline-flex items-center gap-1.5 rounded-full bg-sumi px-5 py-2.5 text-sm font-medium text-washi transition-colors hover:bg-carmesi"
+            className="inline-flex items-center gap-1.5 rounded-full bg-ink-block-fg px-5 py-2.5 text-sm font-medium text-ink-block transition-colors hover:bg-carmesi-bright hover:text-white"
           >
             {t.nav.cta}
             <span aria-hidden="true">↗</span>
@@ -165,15 +165,15 @@ export function Navbar() {
             aria-expanded={open}
             aria-controls="mobile-navigation"
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
-            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-sumi-soft/30"
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-ink-block-fg/30"
           >
             <span
               aria-hidden="true"
-              className={`h-px w-4 bg-sumi transition-transform ${open ? 'translate-y-[3.5px] rotate-45' : ''}`}
+              className={`h-px w-4 bg-ink-block-fg transition-transform ${open ? 'translate-y-[3.5px] rotate-45' : ''}`}
             />
             <span
               aria-hidden="true"
-              className={`h-px w-4 bg-sumi transition-transform ${open ? '-translate-y-[3.5px] -rotate-45' : ''}`}
+              className={`h-px w-4 bg-ink-block-fg transition-transform ${open ? '-translate-y-[3.5px] -rotate-45' : ''}`}
             />
           </button>
         </div>
@@ -187,10 +187,10 @@ export function Navbar() {
               role="dialog"
               aria-modal="true"
               aria-label={t.nav.home}
-              className="fixed inset-0 z-50 flex flex-col bg-washi lg:hidden"
+              className="fixed inset-0 z-50 flex flex-col bg-ink-block text-ink-block-fg lg:hidden"
             >
-              <div className="flex items-center justify-between border-b border-sumi-soft/25 px-6 py-4">
-                <span className="font-display text-lg text-sumi">
+              <div className="flex items-center justify-between border-b border-ink-block-fg/20 px-6 py-4">
+                <span className="font-display text-lg text-ink-block-fg">
                   {profile.shortName}
                 </span>
                 <div className="flex items-center gap-2">
@@ -199,7 +199,7 @@ export function Navbar() {
                     type="button"
                     onClick={closeMenu}
                     aria-label={t.nav.closeMenu}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-sumi-soft/30 text-lg text-sumi"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-ink-block-fg/30 text-lg text-ink-block-fg"
                   >
                     <span aria-hidden="true">✕</span>
                   </button>
@@ -212,19 +212,19 @@ export function Navbar() {
                     key={key}
                     href={SECTION_HREFS[key]}
                     onClick={closeMenu}
-                    className="font-display text-3xl text-sumi transition-colors hover:text-carmesi"
+                    className="font-display text-3xl text-ink-block-fg transition-colors hover:text-carmesi-bright"
                   >
                     {t.nav[key]}
                   </a>
                 ))}
               </nav>
 
-              <div className="flex items-center justify-between gap-4 border-t border-sumi-soft/25 px-8 py-6">
+              <div className="flex items-center justify-between gap-4 border-t border-ink-block-fg/20 px-8 py-6">
                 <LanguageSwitch />
                 <a
                   href="#contacto"
                   onClick={closeMenu}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-sumi px-5 py-2.5 text-sm font-medium text-washi"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-ink-block-fg px-5 py-2.5 text-sm font-medium text-ink-block"
                 >
                   {t.nav.cta}
                   <span aria-hidden="true">↗</span>
@@ -234,6 +234,18 @@ export function Navbar() {
             document.body,
           )
         : null}
+
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 1440 18"
+        preserveAspectRatio="none"
+        className="pointer-events-none absolute inset-x-0 -bottom-[9px] z-10 h-[18px] w-full -scale-y-100 text-washi"
+      >
+        <path
+        fill="currentColor"
+        d="M0 0h1440v9c-60 4-120-5-180-1s-120 4-180 0-120-4-180 0-120 4-180 0-120-4-180 0-120 4-180 0-120-4-180 0-120 4-180 0-120-4-180 0V0Z"
+        />
+      </svg>
     </header>
   )
 }

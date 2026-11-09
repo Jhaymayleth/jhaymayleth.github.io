@@ -1,5 +1,5 @@
 import { SectionHeader } from './SectionHeader'
-import { MistSeam } from './MistSeam'
+import { SectionDivider } from './SectionDivider'
 import { VerticalLabel } from './VerticalLabel'
 
 interface SectionPlaceholderProps {
@@ -21,12 +21,12 @@ export function SectionPlaceholder({
   return (
     <section
       id={id}
-      className="chapter chapter-center relative isolate overflow-hidden border-b border-sumi-soft/25 py-20 lg:py-28"
+      className="chapter chapter-center relative isolate overflow-hidden py-20 lg:py-28"
     >
+      <SectionDivider />
       <span aria-hidden="true" className="ghost-index">
         {index}
       </span>
-      <MistSeam />
       <VerticalLabel index={index} />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6">

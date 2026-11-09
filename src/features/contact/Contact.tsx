@@ -2,8 +2,8 @@ import type { CSSProperties } from 'react'
 import { useLanguage } from '../../i18n/useLanguage'
 import { profile } from '../../data/profile'
 import { SectionHeader } from '../../components/shared/SectionHeader'
+import { SectionDivider } from '../../components/shared/SectionDivider'
 import { SceneryBackground } from '../../components/shared/SceneryBackground'
-import { MistSeam } from '../../components/shared/MistSeam'
 import { VerticalLabel } from '../../components/shared/VerticalLabel'
 import { SocialIcon } from '../../components/shared/SocialIcon'
 
@@ -27,10 +27,10 @@ export function Contact() {
   return (
     <section
       id="contacto"
-      className="chapter chapter-center relative isolate overflow-hidden border-b border-sumi-soft/25 bg-washi-deep/40 py-20 lg:py-28"
+      className="chapter chapter-center relative isolate overflow-hidden bg-washi-deep/40 py-20 lg:py-28"
     >
+      <SectionDivider />
       <SceneryBackground />
-      <MistSeam />
       <VerticalLabel index={t.contact.index} />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6">

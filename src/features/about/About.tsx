@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 import { useLanguage } from '../../i18n/useLanguage'
 import { aboutFacts, aboutFocus, aboutParagraphs } from '../../data/about'
 import { SectionHeader } from '../../components/shared/SectionHeader'
-import { MistSeam } from '../../components/shared/MistSeam'
+import { SectionDivider } from '../../components/shared/SectionDivider'
 import { VerticalLabel } from '../../components/shared/VerticalLabel'
 import { ContourLines } from '../../components/shared/ContourLines'
 import { Enso } from '../../components/shared/Enso'
@@ -17,10 +17,10 @@ export function About() {
   return (
     <section
       id="sobre-mi"
-      className="chapter chapter-center relative isolate overflow-hidden border-b border-sumi-soft/25 py-20 lg:py-28"
+      className="chapter chapter-center relative isolate overflow-hidden py-20 lg:py-28"
     >
+      <SectionDivider />
       <ContourLines />
-      <MistSeam />
       <VerticalLabel index={t.about.index} />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6">

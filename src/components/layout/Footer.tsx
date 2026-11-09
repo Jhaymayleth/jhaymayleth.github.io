@@ -13,7 +13,7 @@ export function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="relative bg-ink-block text-ink-block-fg">
+    <footer className="relative bg-ink-block text-ink-block-fg transition-colors duration-300">
       <svg
         aria-hidden="true"
         viewBox="0 0 1440 18"

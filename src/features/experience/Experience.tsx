@@ -1,7 +1,8 @@
 import { useLanguage } from '../../i18n/useLanguage'
 import { experience } from '../../data/experience'
 import { SectionHeader } from '../../components/shared/SectionHeader'
-import { MistSeam } from '../../components/shared/MistSeam'
+import { SectionDivider } from '../../components/shared/SectionDivider'
+import { TechnologyMark } from '../../components/shared/TechnologyMark'
 
 export function Experience() {
   const { locale, t } = useLanguage()
@@ -9,9 +10,9 @@ export function Experience() {
   return (
     <section
       id="experiencia"
-      className="relative isolate overflow-hidden border-b border-sumi-soft/25 py-20 lg:py-28"
+      className="relative isolate overflow-hidden py-20 lg:py-28"
     >
-      <MistSeam />
+      <SectionDivider />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <SectionHeader
@@ -81,8 +82,9 @@ export function Experience() {
                     {item.stack.map((tech) => (
                       <li
                         key={tech}
-                        className="rounded-full border border-sumi-soft/35 bg-sumi-soft/[0.05] px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-sumi-soft"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-sumi-soft/25 bg-panel/45 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-sumi-soft"
                       >
+                        <TechnologyMark technology={tech} compact />
                         {tech}
                       </li>
                     ))}

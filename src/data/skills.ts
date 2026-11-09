@@ -9,7 +9,7 @@ export const skillGroups: readonly SkillGroup[] = [
   {
     id: 'languages',
     title: { es: 'Lenguajes', en: 'Languages' },
-    items: ['JavaScript', 'TypeScript', 'SQL'],
+    items: ['JavaScript', 'TypeScript', 'Python'],
   },
   {
     id: 'frontend',

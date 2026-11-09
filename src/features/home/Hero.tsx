@@ -11,7 +11,7 @@ export function Hero() {
   const { t } = useLanguage()
 
   return (
-    <section id="inicio" className="chapter relative isolate overflow-hidden border-b border-sumi-soft/25">
+    <section id="inicio" className="chapter relative isolate overflow-hidden">
       <VerticalLabel index={t.hero.index} />
 
       <div className="mx-auto grid max-w-6xl gap-14 px-6 pt-16 pb-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-20 lg:pt-16">
