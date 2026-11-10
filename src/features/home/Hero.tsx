@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import { useLanguage } from '../../i18n/useLanguage'
 import { profile } from '../../data/profile'
 import { VerticalLabel } from '../../components/shared/VerticalLabel'
+import { WindLines } from '../../components/shared/WindLines'
 
 function revealDelay(delay: number): CSSProperties {
   return { '--reveal-delay': `${delay}ms` } as CSSProperties
@@ -23,6 +24,8 @@ export function Hero() {
         fetchPriority="low"
         className="hero-ink pointer-events-none absolute"
       />
+
+      <WindLines />
 
       <div className="relative z-10 mx-auto grid max-w-6xl gap-10 px-6 pt-16 pb-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-20 lg:pt-16">
         <div className="max-w-xl">

@@ -174,12 +174,12 @@ Los 5, en orden de revisión ascendente (1 → 5):
 
 ### 6.4 Tarjeta digital, QR, contacto
 
-- **Tarjeta digital con QR:** QR redirige al portafolio. Tarjeta con información relevante: nombre, foto, monograma, slogan/claim, ubicación y redes sociales. Nada más.
+- **Tarjeta digital con QR:** QR redirige al portafolio. Tarjeta con información relevante: nombre, foto, monograma, slogan/claim, ubicación, redes sociales y botón de WhatsApp. Nada más.
 - **Página exclusiva:** vive en `#tarjeta` (hash, sin router, compatible con GitHub Pages) y se abre desde un botón en Contacto.
-- **Descargas:** PDF, PNG y `.vcf` para importar contacto.
+- **Descargas:** PDF, PNG, QR y `.vcf` para importar contacto.
 - **QR:** SVG estático generado con `qrcode` (devDependency) mediante `npm run qr`; no se carga ninguna librería de QR en el cliente.
 - **PNG/PDF:** se rasterizan con `html-to-image` y `jspdf`, cargados con `import()` diferido para no pesar en la carga inicial.
-- **Contacto vía:** perfiles públicos. No hay formulario ni email en la web.
+- **Contacto vía:** perfiles públicos y WhatsApp. No hay formulario ni email en la web.
 
 #### Datos públicos vs privados (decisión del titular)
 
@@ -188,14 +188,14 @@ Los 5, en orden de revisión ascendente (1 → 5):
 - GitHub: `https://github.com/Jhaymayleth`
 - LinkedIn: `https://www.linkedin.com/in/jose-mauricio-rangel-nuñez-89b730376/`
 - Instagram: `https://www.instagram.com/dylan_.rn`
+- WhatsApp: `304 475 2063` — **publicado el 2026-11-10** como botón en la tarjeta digital.
 
 **NUNCA públicos en la web:**
 
 - Email: privado, no se documenta en el repo
-- Teléfono: privado, no se documenta en el repo
-- WhatsApp: privado, no se documenta en el repo
+- Teléfono personal distinto al WhatsApp: privado, no se documenta en el repo
 
-El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del portafolio y los tres perfiles. Sin email ni teléfonos. La misma regla aplica a PNG y PDF.
+El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del portafolio, WhatsApp y los tres perfiles. Sin email. La misma regla aplica a PNG y PDF.
 
 **CV PDF:** entregado el 2026-11-06 y ya aplicado a Experience y Skills. About sigue pendiente de redacción.
 
@@ -222,7 +222,7 @@ El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del por
 - Node.js 24.18.0, npm 12.0.2, Git 2.43.0, Krita 5.2.2.
 - No recomendar modelos locales pesados ni generación de imágenes con GPU potente.
 
-## 8. Estado real del repo (actualizado al 2026-11-09)
+## 8. Estado real del repo (actualizado al 2026-11-10)
 
 **Implementado:**
 
@@ -238,24 +238,25 @@ El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del por
 - `features/home/Hero.tsx`: claim bilingüe, badge Barranquilla nacional/remoto, CTA `Ver mis proyectos`, foto WebP con `srcset`, numeración `01 — 06`.
 - `features/about/About.tsx`: perfil, formación y ficha en dos idiomas, solo con hechos del CV.
 - `features/contact/Contact.tsx`: únicamente GitHub, LinkedIn e Instagram, más el botón `Ver mi tarjeta digital`.
-- `features/digital-card/`: página `#tarjeta` con tarjeta visual, QR, compartir/copiar enlace y descargas `.vcf`/PNG/PDF.
+- `features/digital-card/`: página `#tarjeta` con tarjeta visual, QR, compartir/copiar enlace, botón de WhatsApp y descargas `.vcf`/PNG/PDF. La tarjeta usa póster localizado (`spanish.card.png` / `english-card.webp`) y QR por idioma.
 - Bilingüe ES/EN completo en la infraestructura (`src/i18n/`) y en Hero, About, Experience, Skills, Contact, navbar, footer y tarjeta. Selector ES/EN en navbar y en la tarjeta.
 - `src/data/` con `profile.ts`, `experience.ts`, `skills.ts`, `social-links.ts`, `digital-card.ts`; tipos en `src/types/content.ts`.
 - `features/experience/Experience.tsx` con Riwi y Universidad de Cartagena desde el CV.
-- `features/skills/Skills.tsx` con grupos de stack, "aprendiendo ahora", habilidades humanas e idiomas.
+- `features/skills/Skills.tsx` con grupos de stack, "aprendiendo ahora", habilidades humanas e idiomas. Los logos ya se muestran con `simple-icons` mediante `components/shared/TechnologyMark.tsx`.
 - Numeración coherente: 01 Home, 02 About, 03 Experiencia, 04 Skills, 05 Proyectos, 06 Contacto.
-- SEO técnico: canonical, OG/Twitter, JSON-LD `Person`, `robots.txt`, `sitemap.xml`, metadatos sincronizados con idioma y vista (`useDocumentMeta`).
+- SEO técnico: canonical, OG/Twitter, JSON-LD `Person`, `robots.txt`, `sitemap.xml`, metadatos sincronizados con idioma y vista (`useDocumentMeta`) y `og-cover.png` 1200×630 generado desde la identidad del sitio.
+- Favicon propio (sello carmesí con monograma `M`) en `public/favicon.svg`; reemplaza el favicon de Vite.
 - Accesibilidad: skip-link, menú con `aria-expanded`/`aria-controls`, `:focus-visible`, `aria-live` en descargas, `prefers-reduced-motion`.
 
 **Deuda / pendiente:**
 
-1. Proyectos sigue como placeholder marcado ("Contenido en preparación"). About y Contacto ya son secciones reales.
-2. Skills sin logos: el stack visual de la Sección 6.2 sigue como texto mono agrupado.
-3. Faltan datos de los 5 proyectos, foto adicional para About, logotipo propio (la tarjeta usa el monograma tipográfico `MR`) y guión del avatar.
-4. `og-cover.png` (1200×630) pendiente de entrega; los metadatos ya apuntan a `public/images/og-cover.png`.
-5. Cloudflare Web Analytics queda documentada y desactivada hasta recibir el token real.
-6. Revisión visual del Home (Fase 1) pendiente: no hay capturas ni lista de ajustes aprobada.
-7. Inconsistencia menor en el CV: Riwi figura como 16 de febrero en formación y 17 de febrero en experiencia. La web usa "Febrero 2026" hasta que el titular confirme.
+1. Proyectos sigue como placeholder marcado ("Contenido en preparación") hasta cerrar la Fase 4.
+2. Faltan datos de los 5 proyectos, foto adicional para About, logotipo definitivo (la navbar y el favicon usan marcas tipográficas provisionales) y guión del avatar.
+3. Cloudflare Web Analytics sigue desactivada: el snippet quedó documentado y comentado en `index.html` hasta recibir el token real.
+4. Revisión visual del Home: revisión técnica hecha el 2026-11-10 con capturas 1440/390 y sin bloqueantes; falta la aprobación del titular sobre dos ajustes menores (contraste del riel vertical y aire del claim en desktop).
+5. Inconsistencia menor en el CV: Riwi figura como 16 de febrero en formación y 17 de febrero en experiencia. La web usa "Febrero 2026" hasta que el titular confirme.
+6. En el working tree hay dos borrados sin commit: `public/images/profile.png` (fuente del retrato) y `public/images/seigaiha.png`. Confirmar si se conservan en el repo o si la documentación debe actualizarse.
+7. Deploy final pendiente: el sitio en producción responde 200, pero los cambios de esta sesión (favicon, `og-cover.png` y `.vcf`) aún no se han publicado; hoy `https://jhaymayleth.github.io/images/og-cover.png` devuelve 404.
 
 ## 9. Ideas pendientes (datos que faltan del titular)
 
@@ -264,10 +265,11 @@ El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del por
 2. Por cada proyecto (5): año/período, rol exacto, problema en 2-3 líneas, stack exacto.
 3. Guión del avatar por aprobar (borrador + preguntas/respuestas).
 4. ~~Alcance del `.vcf`~~ **resuelto**: solo datos públicos, sin email ni teléfonos.
-5. Logotipo propio (marca) — pendiente; la tarjeta usa el monograma tipográfico `MR` como provisional.
+5. Logotipo propio (marca) — pendiente; navbar y favicon usan marcas provisionales.
 6. Referentes visuales concretos (si los hay).
-7. `og-cover.png` 1200×630 para compartir en redes — pendiente de entrega.
-8. Token de Cloudflare Web Analytics — pendiente; la integración queda preparada y desactivada.
+7. ~~`og-cover.png` 1200×630~~ **generado el 2026-11-10** en `public/images/og-cover.png`.
+8. Token de Cloudflare Web Analytics — pendiente; el snippet queda comentado en `index.html` hasta recibirlo.
+9. ~~Decisión sobre WhatsApp~~ **resuelta el 2026-11-10:** el titular decidió publicarlo como botón en la tarjeta digital y en el `.vcf`. La política quedó actualizada en §6.4; email y teléfono personal siguen privados.
 
 ## 10. Cómo trabajar
 
@@ -283,4 +285,4 @@ El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del por
 
 ---
 
-*Fuente: contexto del titular + auditoría del repo + respuestas de la Fase 0 + CV entregado el 2026-11-06. Este documento corrige versiones anteriores (ELYSIA fuera, Multicine = MineRoyal, paleta y tipografías nuevas, disponibilidad nacional/remoto). La ruta de ejecución está en `docs/ruta-ejecucion.md`.*
+*Fuente: contexto del titular + auditoría del repo + respuestas de la Fase 0 + CV entregado el 2026-11-06. Este documento corrige versiones anteriores (ELYSIA fuera, Multicine = MineRoyal, paleta y tipografías nuevas, disponibilidad nacional/remoto). Actualizado el 2026-11-10 con el estado real (logos de Skills, favicon, imagen OG y deuda de privacidad). La ruta de ejecución está en `docs/ruta-ejecucion.md`.*

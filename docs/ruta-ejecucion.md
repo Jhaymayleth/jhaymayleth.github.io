@@ -3,7 +3,7 @@
 > Paso a paso por fases para no olvidar nada. El contexto y las decisiones están en `docs/plan-portafolio.md`.
 
 **Repositorio:** `jhaymayleth.github.io` / **Alojamiento:** GitHub Pages, frontend estático  
-**Última actualización:** 2026-11-09
+**Última actualización:** 2026-11-10
 
 ---
 
@@ -25,7 +25,7 @@
 
 ---
 
-## Fase 1 — Revisión visual del Home [PENDIENTE]
+## Fase 1 — Revisión visual del Home [REVISADA 2026-11-10]
 
 > La Fase 2 se ejecutó primero por decisión del titular (2026-11-06). Esta revisión se hace ahora sobre el Home ya modular, después de cerrar la Fase 3.
 
@@ -33,14 +33,21 @@
 
 **Pasos:**
 
-1. Levantar local: `npm run dev` (o `preview` sobre build).
-2. Capturar desktop 1440px y móvil 390px.
-3. Revisar: composición texto/imagen, contraste, responsive, accesibilidad, foto real sin retocar, balance visual del hero.
-4. Producir lista exacta de correcciones archivo por archivo y pedir aprobación del titular.
+1. [x] Levantar local: `npm run dev`.
+2. [x] Capturar desktop 1440×900 y móvil 390×844.
+3. [x] Revisar composición, contraste, responsive, foto real sin retocar y balance del hero.
+4. [ ] Aprobar la lista de ajustes menores con el titular.
 
-**Archivos tocados en esta fase:** ninguno salvo los mínimos aprobados. No construir About/Proyectos/Avatar/Tarjeta.
+**Resultado de la revisión:**
 
-**Criterio de salida:** capturas desktop + móvil revisadas y lista de ajustes aprobada.
+- Desktop: hero equilibrado, claim en cuatro líneas, foto con marco y CTA jerarquizados. Sin desbordes ni elementos rotos.
+- Móvil: badge en dos líneas, CTA a ancho completo y foto bajo el fold; comportamiento correcto y sin scroll horizontal.
+- Sin bloqueantes. Ajustes opcionales: subir el contraste del riel vertical `01` y evaluar un tamaño de claim levemente menor en desktop para ganar aire.
+- No se modificó ningún archivo del Home en esta fase.
+
+**Archivos tocados en esta fase:** ninguno. No construir About/Proyectos/Avatar/Tarjeta.
+
+**Criterio de salida:** capturas desktop + móvil revisadas y lista de ajustes aprobada. **Pendiente solo la aprobación del titular.**
 
 ---
 
@@ -76,7 +83,7 @@
 1. [x] Recibir y aplicar datos del CV: historia, hitos, experiencia formativa (aplicado a Experience y Skills).
 2. [x] `features/about/About.tsx` — perfil, formación y ficha desde el CV. La **foto adicional** aún no existe: la sección funciona sin ella y se inserta cuando el titular la entregue.
 3. [x] `features/experience/Experience.tsx` — experiencia formativa (= proyectos, ver Fase 4). Por ahora cubre Riwi y Universidad de Cartagena; falta enlazar proyectos.
-4. [x] `features/skills/Skills.tsx` — stack + "aprendiendo actualmente". Los **logos** siguen pendientes (hoy es texto mono agrupado).
+4. [x] `features/skills/Skills.tsx` — stack + "aprendiendo actualmente". Logos integrados con `simple-icons` (`TechnologyMark`).
 5. [x] `features/contact/Contact.tsx` — solo enlaces públicos (GitHub, LinkedIn, Instagram). Email/teléfonos NO en web.
 6. [x] Datos centralizados en `src/data/` + tipos en `src/types/` (`profile.ts`, `experience.ts`, `skills.ts`, `content.ts`).
 7. [x] Bilingüe completo ES/EN: sistema resuelto como **diccionario tipado + contexto React**, sin rutas. Cubre Hero, About, Experience, Skills, Contact, navbar y footer.
@@ -150,27 +157,28 @@ ELYSIA fuera. Cuenta Vercel lista, despliegue por separado.
 
 **Pasos:**
 
-1. [x] `features/digital-card/` — página `#tarjeta` con tarjeta (nombre, foto, claim, rol, ubicación y perfiles), monograma provisional `MR` mientras no haya logo.
-2. [x] QR al portafolio (`npm run qr` → `public/images/qr-portfolio.svg`) + descargas **PDF, PNG y `.vcf`**. El `.vcf` solo lleva datos públicos: sin email ni teléfonos.
-3. [x] SEO: canonical, OpenGraph/Twitter, JSON-LD Person, `robots.txt`, `sitemap.xml` y `useDocumentMeta` para sincronizar título/description con idioma y vista.
-4. [x] Analítica sin cookies: GitHub Traffic (repo) + Cloudflare Web Analytics preparada y **desactivada** hasta recibir el token.
+1. [x] `features/digital-card/` — página `#tarjeta` con tarjeta (nombre, foto, claim, rol, ubicación y perfiles), póster localizado ES/EN y monograma provisional `M` mientras no haya logo.
+2. [x] QR al portafolio (`npm run qr` → `public/images/qr-portfolio.svg`, más variantes por idioma) + descargas **PDF, PNG, QR y `.vcf`**. El `.vcf` solo lleva datos públicos: nombre, rol, ubicación, portafolio, WhatsApp y perfiles; sin email.
+3. [x] SEO: canonical, OpenGraph/Twitter, JSON-LD Person, `robots.txt`, `sitemap.xml`, `useDocumentMeta` y `og-cover.png` 1200×630 generado. Favicon propio en `public/favicon.svg`.
+4. [x] Analítica sin cookies: GitHub Traffic (repo) + Cloudflare Web Analytics. El snippet queda documentado y **comentado** en `index.html` hasta recibir el token.
 5. [x] Reemplazar `README.md` con descripción, stack, cómo correr y estructura.
-6. [ ] `og-cover.png` 1200×630 (pendiente de entrega del titular).
-7. [ ] `npm run build` verde, deploy a GitHub Pages verificado, revisión final solo por el titular.
+6. [x] `og-cover.png` 1200×630 generado desde la identidad del sitio (claim, retrato y datos públicos).
+7. [x] `npm run lint` y `npm run build` verdes (2026-11-10).
+8. [ ] Deploy a GitHub Pages con estos cambios y verificación final del titular.
 
 **Criterio de salida:** sitio publicado sin placeholders, sin datos inventados ni código expuesto, build y deploy verificados.
 
-**Nota de cierre:** el `.vcf` y los metadatos ya están resueltos; faltan la imagen OG y el token de analítica. Los placeholders de Proyectos pertenecen a la Fase 4, aún pendiente, por lo que el MVP se publica sin esa sección completa.
+**Nota de cierre:** el `.vcf`, los metadatos, la imagen OG y el favicon ya están resueltos. WhatsApp quedó aprobado como dato público (2026-11-10) e incluido en la tarjeta y el `.vcf`. Faltan el token de analítica y la publicación del commit. Los placeholders de Proyectos pertenecen a la Fase 4, aún pendiente, por lo que el MVP se publica sin esa sección completa.
 
 ---
 
 ## Orden de ejecución y dependencias
 
-1. ~~Fase 1 (revisión Home)~~ → pendiente, movida después de Fase 3
+1. Fase 1 (revisión Home) → **revisada 2026-11-10**, pendiente aprobación de ajustes menores
 2. Fase 2 (módulos + visual nuevo) → **completada**
 3. Fase 3 (contenido) → **completada**; Fase 4 (proyectos, de a uno con limpieza) → **pendiente**
 4. Fase 5 (avatar, necesita ilustración del titular + guión aprobado) → **pendiente**
-5. Fase 6 (tarjeta/QR/SEO/publicación) → **en curso**; solo falta la imagen OG, el token de analítica y el deploy
+5. Fase 6 (tarjeta/QR/SEO/publicación) → **casi cerrada**; faltan el token de analítica y el deploy con los cambios del 2026-11-10 (WhatsApp ya aprobado como dato público)
 
 **Corte MVP para el lunes 9 de noviembre de 2026:** Home revisado modular, About/Experience/Skills/Contact bilingües, 4-5 proyectos con capturas+video+Vercel, avatar MVP, tarjeta/QR, publicado. Pulido v2 después: animaciones espaciales completas, guiones finos, detalles visuales.
 
@@ -178,4 +186,4 @@ ELYSIA fuera. Cuenta Vercel lista, despliegue por separado.
 
 ---
 
-*Actualizado el 2026-11-09: Fase 2 y 3 cerradas, Fase 6 en curso con tarjeta digital, QR y SEO implementados. Marcar cada checklist al cerrar su fase. Si surge una decisión nueva, registrarla en `docs/plan-portafolio.md` antes de implementarla.*
+*Actualizado el 2026-11-10: Fase 1 revisada, Fase 2 y 3 cerradas, Fase 6 casi cerrada con tarjeta digital, QR, SEO, favicon e imagen OG implementados. Marcar cada checklist al cerrar su fase. Si surge una decisión nueva, registrarla en `docs/plan-portafolio.md` antes de implementarla.*

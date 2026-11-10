@@ -3,6 +3,7 @@ import { experience } from '../../data/experience'
 import { SectionHeader } from '../../components/shared/SectionHeader'
 import { SectionDivider } from '../../components/shared/SectionDivider'
 import { TechnologyMark } from '../../components/shared/TechnologyMark'
+import { WindLines } from '../../components/shared/WindLines'
 
 export function Experience() {
   const { locale, t } = useLanguage()
@@ -13,6 +14,8 @@ export function Experience() {
       className="washi-texture relative isolate overflow-hidden py-20 lg:py-28"
     >
       <SectionDivider />
+
+      <WindLines />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <SectionHeader

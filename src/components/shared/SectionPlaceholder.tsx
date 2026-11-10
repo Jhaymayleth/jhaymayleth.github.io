@@ -1,6 +1,7 @@
 import { SectionHeader } from './SectionHeader'
 import { SectionDivider } from './SectionDivider'
 import { VerticalLabel } from './VerticalLabel'
+import { WindLines } from './WindLines'
 
 interface SectionPlaceholderProps {
   id: string
@@ -28,6 +29,8 @@ export function SectionPlaceholder({
         {index}
       </span>
       <VerticalLabel index={index} />
+
+      <WindLines />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
         <SectionHeader index={index} label={label} title={title} />

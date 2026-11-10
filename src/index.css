@@ -518,6 +518,98 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Líneas de viento (estética sumi-e): pinceladas que se deslizan con la brisa.
+   Móvil y movimiento reducido se manejan con la misma regla global.
+--------------------------------------------------------------------------- */
+
+.wind-lines {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Cada ráfaga inclina su grupo de pinceladas para que el viento no cruce
+   en horizontal mecánico. */
+.wind-gust {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: rotate(var(--gust-angle, -4deg));
+}
+
+.wind-wisp {
+  position: absolute;
+  display: block;
+  color: inherit;
+  opacity: 0;
+  animation: wind-sweep var(--wind-duration, 70s) linear var(--wind-delay, 0s)
+    infinite;
+  will-change: transform, opacity;
+}
+
+/* Barrido continuo: el trazo entra por un borde, acelera al cruzar, se mece
+   con la ráfaga y se desvanece al salir. El sentido lo marca el signo de
+   --wind-travel; el ciclo arranca a mitad de vuelo gracias al delay negativo. */
+@keyframes wind-sweep {
+  0% {
+    opacity: 0;
+    transform: translate3d(
+        calc(var(--wind-travel, 100vw) * -1),
+        calc(var(--wind-sway, 0px) * -0.6),
+        0
+      )
+      rotate(-1.1deg);
+  }
+  10% {
+    opacity: var(--wind-opacity, 0.06);
+  }
+  30% {
+    transform: translate3d(
+        calc(var(--wind-travel, 100vw) * -0.45),
+        calc(var(--wind-sway, 0px) * 0.8),
+        0
+      )
+      rotate(0.7deg);
+  }
+  55% {
+    transform: translate3d(
+        calc(var(--wind-travel, 100vw) * 0.15),
+        calc(var(--wind-sway, 0px) * -0.7),
+        0
+      )
+      rotate(-0.4deg);
+  }
+  80% {
+    transform: translate3d(
+        calc(var(--wind-travel, 100vw) * 0.7),
+        calc(var(--wind-sway, 0px) * 0.4),
+        0
+      )
+      rotate(0.5deg);
+  }
+  90% {
+    opacity: var(--wind-opacity, 0.06);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(
+        var(--wind-travel, 100vw),
+        calc(var(--wind-sway, 0px) * -0.2),
+        0
+      )
+      rotate(-0.6deg);
+  }
+}
+
+/* En móvil se conservan tres ráfagas; el resto solo añade ruido. */
+@media (max-width: 640px) {
+  .wind-gust:nth-child(n + 4) {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
   .scenery-mobile-image {
     position: absolute;
@@ -559,6 +651,13 @@
   .scenery-image,
   .scenery-glow {
     animation: none;
+  }
+
+  /* Sin movimiento, las pinceladas quedan como textura fija. */
+  .wind-wisp {
+    animation: none;
+    opacity: var(--wind-opacity, 0.06);
+    transform: none;
   }
 
   .scenery-petals {

@@ -6,6 +6,7 @@ import { SectionDivider } from '../../components/shared/SectionDivider'
 import { SceneryBackground } from '../../components/shared/SceneryBackground'
 import { VerticalLabel } from '../../components/shared/VerticalLabel'
 import { SocialIcon } from '../../components/shared/SocialIcon'
+import { WindLines } from '../../components/shared/WindLines'
 
 function revealDelay(delay: number): CSSProperties {
   return { '--reveal-delay': `${delay}ms` } as CSSProperties
@@ -22,6 +23,8 @@ export function Contact() {
       <SectionDivider />
       <SceneryBackground />
       <VerticalLabel index={t.contact.index} />
+
+      <WindLines />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
         <SectionHeader

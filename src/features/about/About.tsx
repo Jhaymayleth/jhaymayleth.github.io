@@ -6,6 +6,7 @@ import { SectionDivider } from '../../components/shared/SectionDivider'
 import { VerticalLabel } from '../../components/shared/VerticalLabel'
 import { ContourLines } from '../../components/shared/ContourLines'
 import { Enso } from '../../components/shared/Enso'
+import { WindLines } from '../../components/shared/WindLines'
 
 function revealDelay(delay: number): CSSProperties {
   return { '--reveal-delay': `${delay}ms` } as CSSProperties
@@ -22,6 +23,8 @@ export function About() {
       <SectionDivider />
       <ContourLines />
       <VerticalLabel index={t.about.index} />
+
+      <WindLines />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
         <SectionHeader

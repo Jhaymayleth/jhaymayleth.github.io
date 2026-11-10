@@ -8,6 +8,7 @@ import {
 import { SectionHeader } from '../../components/shared/SectionHeader'
 import { SectionDivider } from '../../components/shared/SectionDivider'
 import { TechnologyMark } from '../../components/shared/TechnologyMark'
+import { WindLines } from '../../components/shared/WindLines'
 
 export function Skills() {
   const { locale, t } = useLanguage()
@@ -19,6 +20,8 @@ export function Skills() {
     >
       <SectionDivider />
       <div aria-hidden="true" className="seigaiha-layer" />
+
+      <WindLines />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <SectionHeader

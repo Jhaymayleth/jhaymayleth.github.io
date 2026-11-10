@@ -1,5 +1,7 @@
 import type { Locale } from '../../types/content'
 import { digitalCard } from '../../data/digital-card'
+import { profile } from '../../data/profile'
+import { socialLinks } from '../../data/social-links'
 
 function triggerDownload(url: string, fileName: string) {
   const anchor = document.createElement('a')
@@ -9,6 +11,32 @@ function triggerDownload(url: string, fileName: string) {
   document.body.appendChild(anchor)
   anchor.click()
   anchor.remove()
+}
+
+function buildContactCard(locale: Locale) {
+  const lines = [
+    'BEGIN:VCARD',
+    'VERSION:3.0',
+    `N:${profile.lastName};${profile.firstName};;;`,
+    `FN:${profile.fullName}`,
+    `TITLE:${profile.role[locale]}`,
+    `ADR;TYPE=WORK:;;${profile.location[locale]};;;Colombia`,
+    `TEL;TYPE=CELL,VOICE:${digitalCard.whatsappE164}`,
+    `URL:${digitalCard.siteUrl}`,
+    ...socialLinks.map((link) => `X-SOCIALPROFILE;TYPE=${link.id}:${link.href}`),
+    'END:VCARD',
+  ]
+
+  return lines.join('\r\n')
+}
+
+export function downloadContactCard(locale: Locale) {
+  const blob = new Blob([buildContactCard(locale)], {
+    type: 'text/vcard;charset=utf-8',
+  })
+  const url = URL.createObjectURL(blob)
+  triggerDownload(url, `${digitalCard.fileName}-${locale}.vcf`)
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
 async function renderCard(node: HTMLElement) {

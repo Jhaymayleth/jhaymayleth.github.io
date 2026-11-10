@@ -16,6 +16,7 @@ export const digitalCard = {
     en: '/images/english-card.webp',
   },
   whatsappNumber: '304 475 2063',
+  whatsappE164: '+573044752063',
   whatsappUrl: 'https://wa.me/573044752063',
   links: socialLinks,
 } as const

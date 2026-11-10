@@ -1,8 +1,8 @@
 import { profile } from './profile'
 
 /**
- * Canales públicos decididos por el titular. Email y teléfonos no existen
- * aquí: nunca se publican en la web.
+ * Canales públicos decididos por el titular. Email y teléfono personal no
+ * existen aquí; el WhatsApp público se declara en `digital-card.ts`.
  */
 export const socialLinks = [
   {

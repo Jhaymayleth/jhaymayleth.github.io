@@ -2,7 +2,8 @@ import type { LocalizedText } from '../types/content'
 
 /**
  * Datos públicos del titular (fuente: CV entregado el 2026-11-06).
- * Email y teléfonos NO se referencian aquí: nunca se publican en la web.
+ * Email y teléfono personal NO se referencian aquí. El WhatsApp público
+ * decidido por el titular vive únicamente en `digital-card.ts`.
  */
 export const profile = {
   fullName: 'José Mauricio Rangel Núñez',

@@ -6,9 +6,9 @@ import { digitalCard } from '../../data/digital-card'
 import { ThemeToggle } from '../../components/shared/ThemeToggle'
 import { LanguageSwitch } from '../../components/shared/LanguageSwitch'
 import { DigitalCard } from './DigitalCard'
-import { downloadCardImage, downloadCardPdf } from './download'
+import { downloadCardImage, downloadCardPdf, downloadContactCard } from './download'
 
-type Busy = 'png' | 'pdf' | null
+type Busy = 'png' | 'pdf' | 'vcf' | null
 
 type Status =
   | { kind: 'idle' }
@@ -56,6 +56,7 @@ export function DigitalCardPage() {
         if (kind === 'png') await downloadCardImage(cardRef.current, locale)
         if (kind === 'pdf') await downloadCardPdf(cardRef.current, locale)
       }
+      if (kind === 'vcf') downloadContactCard(locale)
     } catch (error) {
       console.error(error)
       setStatus({ kind: 'error', message: t.card.downloadError })
@@ -154,6 +155,14 @@ export function DigitalCardPage() {
               className={SECONDARY}
             >
               {busy === 'pdf' ? t.card.generating : t.card.downloadPdf}
+            </button>
+            <button
+              type="button"
+              onClick={() => handleDownload('vcf')}
+              disabled={busy !== null}
+              className={SECONDARY}
+            >
+              {busy === 'vcf' ? t.card.generating : t.card.downloadVcf}
             </button>
             <a
               href={digitalCard.qrPoster[locale]}

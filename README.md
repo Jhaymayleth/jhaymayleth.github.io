@@ -12,8 +12,8 @@ Claim: *Interfaces que se sienten, sistemas que sostienen.* / *Interfaces you fe
 - **Tema claro/oscuro** que sigue al sistema hasta que el visitante elige manualmente.
 - **Secciones:** Home, About, Experience, Skills, Proyectos (pendiente) y Contacto.
 - **Tarjeta digital** en una página propia (`#tarjeta`): tarjeta visual, QR al portafolio, compartir/copiar enlace y descargas `.vcf`, PNG y PDF.
-- **SEO técnico:** canonical, OpenGraph/Twitter, JSON-LD `Person`, `robots.txt` y `sitemap.xml`.
-- **Solo datos públicos:** GitHub, LinkedIn e Instagram. El email y los teléfonos nunca se publican.
+- **SEO técnico:** canonical, OpenGraph/Twitter, JSON-LD `Person`, `robots.txt`, `sitemap.xml`, `og-cover.png` 1200×630 y favicon propio.
+- **Solo datos públicos:** GitHub, LinkedIn, Instagram y WhatsApp (aprobado el 2026-11-10). El email y el teléfono personal nunca se publican.
 
 ## Stack
 
@@ -84,4 +84,4 @@ Cada push a `main` dispara `.github/workflows/deploy.yml`: instala con `npm ci`,
 
 ## Estado
 
-Fases 2 y 3 cerradas; Fase 6 en curso (faltan la imagen OG, el token de analítica y el deploy final). Fase 4 (proyectos) y Fase 5 (avatar) siguen abiertas; la sección de Proyectos se muestra como marcador hasta entonces.
+Fase 1 revisada; Fases 2 y 3 cerradas; Fase 6 casi cerrada (faltan el token de analítica, la decisión sobre WhatsApp y el deploy final). Fase 4 (proyectos) y Fase 5 (avatar) siguen abiertas; la sección de Proyectos se muestra como marcador hasta entonces.
