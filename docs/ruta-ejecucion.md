@@ -3,7 +3,7 @@
 > Paso a paso por fases para no olvidar nada. El contexto y las decisiones están en `docs/plan-portafolio.md`.
 
 **Repositorio:** `jhaymayleth.github.io` / **Alojamiento:** GitHub Pages, frontend estático  
-**Última actualización:** 2026-11-06
+**Última actualización:** 2026-11-09
 
 ---
 
@@ -56,7 +56,7 @@
 4. [x] Extraer componentes compartidos a `components/{ui,shared}/` según uso real (`SectionHeader`, `SectionPlaceholder`).
 5. [x] Migrar estilos: utilidades **Tailwind 4** para layout; CSS nativo solo para animaciones. `src/App.css` eliminado.
 6. [x] Reemplazar sistema tipográfico a Hiro Misake + Inter + IBM Plex Mono, auto-hospedadas `woff2` en `public/fonts/`, con `preload` en `index.html`.
-7. [x] Reemplazar paleta a Washi `#F4F1EA` + Sumi `#111827` + Torii `#D64533/#E03E2D` + Indigo `#2B4C9A`.
+7. [x] Reemplazar paleta a Washi + Sumi + Torii + Indigo (luego refinada a carmesí/papel/tinta con tema claro/oscuro; ver Fase 6 y `plan-portafolio.md` §4).
 8. [x] Corregir deuda: brand `href="#"`, CTA saturada en móvil, fondos explícitos (sin `nth-of-type`), numeración de secciones, navbar sticky.
 9. [x] Añadir al workflow un paso `npm run lint`.
 10. [x] Limpiar assets de plantilla sin usar (`react.svg`, `vite.svg`, `hero.png`, `.ttf` redundante, Manrope). Mantener `profile.png` como fuente; servir WebP derivados.
@@ -144,20 +144,23 @@ ELYSIA fuera. Cuenta Vercel lista, despliegue por separado.
 
 ---
 
-## Fase 6 — Tarjeta digital, QR, SEO, analítica y publicación
+## Fase 6 — Tarjeta digital, QR, SEO, analítica y publicación [EN CURSO 2026-11-09]
 
 **Objetivo:** cerrar el portafolio para presentación pública (MVP).
 
 **Pasos:**
 
-1. `features/digital-card/` — tarjeta con nombre, foto, logotipo, claim, contacto relevante y redes sociales públicas. Nada más.
-2. QR al portafolio + descargas **PDF, PNG y `.vcf`**. Alcance del `.vcf` según criterio final del titular (email/teléfonos solo ahí, nunca en web).
-3. SEO: idioma correcto del `<title>` según bilingüe, OpenGraph/Twitter, canonical, JSON-LD Person, `robots.txt`, `sitemap.xml`.
-4. Analítica sin cookies: GitHub Traffic (repo) + Cloudflare Web Analytics (beacon libre). Solo cuántos / desde dónde / dispositivo.
-5. Reemplazar `README.md` con descripción, stack, cómo correr y estructura. Limpiar favicon.
-6. `npm run build` verde, deploy a GitHub Pages verificado, revisión final solo por el titular.
+1. [x] `features/digital-card/` — página `#tarjeta` con tarjeta (nombre, foto, claim, rol, ubicación y perfiles), monograma provisional `MR` mientras no haya logo.
+2. [x] QR al portafolio (`npm run qr` → `public/images/qr-portfolio.svg`) + descargas **PDF, PNG y `.vcf`**. El `.vcf` solo lleva datos públicos: sin email ni teléfonos.
+3. [x] SEO: canonical, OpenGraph/Twitter, JSON-LD Person, `robots.txt`, `sitemap.xml` y `useDocumentMeta` para sincronizar título/description con idioma y vista.
+4. [x] Analítica sin cookies: GitHub Traffic (repo) + Cloudflare Web Analytics preparada y **desactivada** hasta recibir el token.
+5. [x] Reemplazar `README.md` con descripción, stack, cómo correr y estructura.
+6. [ ] `og-cover.png` 1200×630 (pendiente de entrega del titular).
+7. [ ] `npm run build` verde, deploy a GitHub Pages verificado, revisión final solo por el titular.
 
 **Criterio de salida:** sitio publicado sin placeholders, sin datos inventados ni código expuesto, build y deploy verificados.
+
+**Nota de cierre:** el `.vcf` y los metadatos ya están resueltos; faltan la imagen OG y el token de analítica. Los placeholders de Proyectos pertenecen a la Fase 4, aún pendiente, por lo que el MVP se publica sin esa sección completa.
 
 ---
 
@@ -165,9 +168,9 @@ ELYSIA fuera. Cuenta Vercel lista, despliegue por separado.
 
 1. ~~Fase 1 (revisión Home)~~ → pendiente, movida después de Fase 3
 2. Fase 2 (módulos + visual nuevo) → **completada**
-3. Fase 3 (contenido) ∥ Fase 4 (proyectos, de a uno con limpieza)
-4. Fase 5 (avatar, necesita ilustración del titular + guión aprobado)
-5. Fase 6 (tarjeta/QR/SEO/publicación)
+3. Fase 3 (contenido) → **completada**; Fase 4 (proyectos, de a uno con limpieza) → **pendiente**
+4. Fase 5 (avatar, necesita ilustración del titular + guión aprobado) → **pendiente**
+5. Fase 6 (tarjeta/QR/SEO/publicación) → **en curso**; solo falta la imagen OG, el token de analítica y el deploy
 
 **Corte MVP para el lunes 9 de noviembre de 2026:** Home revisado modular, About/Experience/Skills/Contact bilingües, 4-5 proyectos con capturas+video+Vercel, avatar MVP, tarjeta/QR, publicado. Pulido v2 después: animaciones espaciales completas, guiones finos, detalles visuales.
 
@@ -175,4 +178,4 @@ ELYSIA fuera. Cuenta Vercel lista, despliegue por separado.
 
 ---
 
-*Actualizado el 2026-11-06: documentos reordenados a su archivo correcto, Fase 2 cerrada, Fase 3 en curso, publicación movida al lunes 9. Marcar cada checklist al cerrar su fase. Si surge una decisión nueva, registrarla en `docs/plan-portafolio.md` antes de implementarla.*
+*Actualizado el 2026-11-09: Fase 2 y 3 cerradas, Fase 6 en curso con tarjeta digital, QR y SEO implementados. Marcar cada checklist al cerrar su fase. Si surge una decisión nueva, registrarla en `docs/plan-portafolio.md` antes de implementarla.*

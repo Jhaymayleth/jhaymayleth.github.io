@@ -10,11 +10,15 @@ import { About } from './features/about/About'
 import { Experience } from './features/experience/Experience'
 import { Skills } from './features/skills/Skills'
 import { Contact } from './features/contact/Contact'
+import { DigitalCardPage } from './features/digital-card/DigitalCardPage'
 import { useScrollReveal } from './hooks/useScrollReveal'
+import { useDocumentMeta } from './hooks/useDocumentMeta'
+import { useHashRoute } from './hooks/useHashRoute'
 
 function Portfolio() {
   const { t } = useLanguage()
   useScrollReveal()
+  useDocumentMeta()
 
   return (
     <>
@@ -45,10 +49,12 @@ function Portfolio() {
 }
 
 function App() {
+  const route = useHashRoute()
+
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <Portfolio />
+        {route === 'card' ? <DigitalCardPage /> : <Portfolio />}
       </LanguageProvider>
     </ThemeProvider>
   )

@@ -6,6 +6,12 @@ import type { Locale } from '../types/content'
  */
 const es = {
   skipLink: 'Saltar al contenido',
+  meta: {
+    title: 'José Mauricio Rangel Núñez — Desarrollador Full Stack',
+    description:
+      'Interfaces que se sienten, sistemas que sostienen. Portafolio de José Mauricio Rangel Núñez, desarrollador Full Stack en Barranquilla, Colombia.',
+    ogLocale: 'es_CO',
+  },
   nav: {
     home: 'Inicio',
     about: 'Sobre mí',
@@ -80,6 +86,30 @@ const es = {
       title: 'Proyectos que convierten ideas en soluciones.',
     },
   },
+  card: {
+    label: 'Tarjeta digital',
+    title: 'Mi tarjeta digital',
+    description:
+      'Una vista rápida de quién soy. Guarda mis datos o comparte el enlace del portafolio.',
+    back: 'Volver al portafolio',
+    contactCta: 'Ver mi tarjeta digital',
+    contactNote: 'Guarda o comparte mis datos de contacto.',
+    qrLabel: 'Escanea para abrir el portafolio',
+    qrAlt: 'Código QR que abre https://jhaymayleth.github.io',
+    share: 'Compartir enlace',
+    copy: 'Copiar enlace',
+    copied: 'Enlace copiado',
+    copyError: 'No se pudo copiar el enlace',
+    shareError: 'No se pudo compartir el enlace',
+    shareText: 'Portafolio de José Mauricio Rangel Núñez',
+    downloads: 'Descargar',
+    downloadVcf: 'Contacto .vcf',
+    downloadPng: 'Imagen .png',
+    downloadPdf: 'PDF',
+    generating: 'Generando…',
+    downloadError: 'No se pudo generar el archivo. Inténtalo de nuevo.',
+    vcfHint: 'El .vcf solo incluye datos públicos: nombre, rol, ubicación y perfiles.',
+  },
   footer: {
     social: 'Encuéntrame en',
     credit: 'Diseñado y construido por',
@@ -90,6 +120,12 @@ export type Dictionary = typeof es
 
 const en: Dictionary = {
   skipLink: 'Skip to content',
+  meta: {
+    title: 'José Mauricio Rangel Núñez — Full Stack Developer',
+    description:
+      'Interfaces you feel, systems that hold. Portfolio of José Mauricio Rangel Núñez, Full Stack developer based in Barranquilla, Colombia.',
+    ogLocale: 'en_US',
+  },
   nav: {
     home: 'Home',
     about: 'About',
@@ -163,6 +199,30 @@ const en: Dictionary = {
       label: 'Selected work',
       title: 'Projects that turn ideas into solutions.',
     },
+  },
+  card: {
+    label: 'Digital card',
+    title: 'My digital card',
+    description:
+      'A quick look at who I am. Save my details or share the portfolio link.',
+    back: 'Back to portfolio',
+    contactCta: 'View my digital card',
+    contactNote: 'Save or share my contact details.',
+    qrLabel: 'Scan to open the portfolio',
+    qrAlt: 'QR code that opens https://jhaymayleth.github.io',
+    share: 'Share link',
+    copy: 'Copy link',
+    copied: 'Link copied',
+    copyError: 'Could not copy the link',
+    shareError: 'Could not share the link',
+    shareText: 'Portfolio of José Mauricio Rangel Núñez',
+    downloads: 'Download',
+    downloadVcf: 'Contact .vcf',
+    downloadPng: 'Image .png',
+    downloadPdf: 'PDF',
+    generating: 'Generating…',
+    downloadError: 'Could not generate the file. Please try again.',
+    vcfHint: 'The .vcf only includes public details: name, role, location and profiles.',
   },
   footer: {
     social: 'Find me on',

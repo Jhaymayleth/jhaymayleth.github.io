@@ -6,6 +6,8 @@ import type { LocalizedText } from '../types/content'
  */
 export const profile = {
   fullName: 'José Mauricio Rangel Núñez',
+  firstName: 'José Mauricio',
+  lastName: 'Rangel Núñez',
   shortName: 'Mauricio Rangel',
   role: {
     es: 'Desarrollador Full Stack',

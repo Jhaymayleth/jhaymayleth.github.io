@@ -1,12 +1,7 @@
 import { useLanguage } from '../../i18n/useLanguage'
 import { profile } from '../../data/profile'
+import { socialLinks } from '../../data/social-links'
 import { SocialIcon } from '../shared/SocialIcon'
-
-const SOCIAL_LINKS = [
-  { id: 'github', label: 'GitHub', href: profile.links.github },
-  { id: 'linkedin', label: 'LinkedIn', href: profile.links.linkedin },
-  { id: 'instagram', label: 'Instagram', href: profile.links.instagram },
-] as const
 
 export function Footer() {
   const { locale, t } = useLanguage()
@@ -40,7 +35,7 @@ export function Footer() {
             {t.footer.social}
           </p>
           <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
-            {SOCIAL_LINKS.map((link) => (
+            {socialLinks.map((link) => (
               <li key={link.id}>
                 <a
                   href={link.href}

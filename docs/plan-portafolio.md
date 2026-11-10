@@ -59,7 +59,7 @@ Riwi (formación Full Stack) y Universidad de Cartagena (Ingeniería de Software
 
 - Anime con **estilo japonés moderno**: creativo, innovador, único, limpio y destacable.
 - No es un portafolio anime: es una identidad web japonesa moderna y profesional, con el avatar anime aportando la personalidad.
-- Referencia de color: los **Torii** (arcos rojos japoneses, puertas al más allá), pero **sin rojo puro**.
+- La referencia inicial a los **Torii** quedó como antecedente. La identidad vigente (commit `style: refine portfolio visual identity`) trabaja carmesí sobre papel washi e tinta sumi, con tema claro/oscuro.
 
 | Lo que quiero proyectar | Lo que NO quiero proyectar |
 |---|---|
@@ -82,16 +82,20 @@ Riwi (formación Full Stack) y Universidad de Cartagena (Ingeniería de Software
 
 - Sin referentes concretos entregados aún.
 
-### Paleta aceptada
+### Paleta vigente
 
 | Elemento | Color |
 |---|---|
-| Fondo principal (Washi) | `#F4F1EA` |
-| Texto principal (Sumi) | `#111827` |
-| Torii (principal) | `#D64533` / `#E03E2D` |
-| Indigo (apoyo) | `#2B4C9A` |
+| Papel (Washi) | `#f7f5f0` |
+| Papel profundo | `#ece9e2` |
+| Tinta (Sumi) | `#0e100f` |
+| Tinta suave | `#616763` |
+| Carmesí (principal) | `#a51c30` |
+| Carmesí brillante (hover) | `#c8102e` |
+| Carmesí sobre bloque oscuro | `#ff929a` |
 
-Reemplaza a la paleta anterior (Cobalt `#5275E8` + Coral `#D58D76`).
+- Tema claro y oscuro con `data-theme` en `<html>`; sigue al sistema si el visitante no elige.
+- Reemplaza a la paleta Torii/Indigo (Washi `#F4F1EA`, Sumi `#111827`, Torii `#D64533`/`#E03E2D`, Indigo `#2B4C9A`) y, antes, a Cobalt/Coral.
 
 ### Tipografía aceptada
 
@@ -170,9 +174,12 @@ Los 5, en orden de revisión ascendente (1 → 5):
 
 ### 6.4 Tarjeta digital, QR, contacto
 
-- **Tarjeta digital con QR:** QR redirige al portafolio. Tarjeta con información relevante: nombre, foto, logo, slogan/claim, contacto relevante y redes sociales. Nada más.
+- **Tarjeta digital con QR:** QR redirige al portafolio. Tarjeta con información relevante: nombre, foto, monograma, slogan/claim, ubicación y redes sociales. Nada más.
+- **Página exclusiva:** vive en `#tarjeta` (hash, sin router, compatible con GitHub Pages) y se abre desde un botón en Contacto.
 - **Descargas:** PDF, PNG y `.vcf` para importar contacto.
-- **Contacto vía:** email (mecanismo exacto por definir: el email no es público, ver abajo).
+- **QR:** SVG estático generado con `qrcode` (devDependency) mediante `npm run qr`; no se carga ninguna librería de QR en el cliente.
+- **PNG/PDF:** se rasterizan con `html-to-image` y `jspdf`, cargados con `import()` diferido para no pesar en la carga inicial.
+- **Contacto vía:** perfiles públicos. No hay formulario ni email en la web.
 
 #### Datos públicos vs privados (decisión del titular)
 
@@ -188,7 +195,7 @@ Los 5, en orden de revisión ascendente (1 → 5):
 - Teléfono: privado, no se documenta en el repo
 - WhatsApp: privado, no se documenta en el repo
 
-El email y los teléfonos quedan **solo dentro de la tarjeta digital / `.vcf`** según criterio del titular. Pendiente confirmar alcance exacto del `.vcf` descargable (si el archivo descargable expone esos datos por descarga).
+El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del portafolio y los tres perfiles. Sin email ni teléfonos. La misma regla aplica a PNG y PDF.
 
 **CV PDF:** entregado el 2026-11-06 y ya aplicado a Experience y Skills. About sigue pendiente de redacción.
 
@@ -215,7 +222,7 @@ El email y los teléfonos quedan **solo dentro de la tarjeta digital / `.vcf`** 
 - Node.js 24.18.0, npm 12.0.2, Git 2.43.0, Krita 5.2.2.
 - No recomendar modelos locales pesados ni generación de imágenes con GPU potente.
 
-## 8. Estado real del repo (actualizado al 2026-11-06)
+## 8. Estado real del repo (actualizado al 2026-11-09)
 
 **Implementado:**
 
@@ -223,28 +230,30 @@ El email y los teléfonos quedan **solo dentro de la tarjeta digital / `.vcf`** 
 - `vite.config.ts` con `react()` + `tailwindcss()`, `base: '/'` correcto para sitio de usuario.
 - `.github/workflows/deploy.yml` con Node 22, `npm ci`, `npm run lint`, build y deploy a Pages.
 - Estructura `src/features/{home,about,experience,projects,skills,contact,avatar,digital-card}`, `components/{layout,ui,shared}`, `data`, `types`, `hooks`, `styles`, `i18n`.
-- Paleta Torii/Indigo en `@theme` (Washi, Sumi, Torii, Indigo). Ya no quedan Cobalt/Coral.
-- Tipografías Hiro Misake + Inter + IBM Plex Mono auto-hospedadas en `public/fonts/` con `preload` de las dos primeras caras. Manrope eliminada.
+- Paleta carmesí/papel/tinta en `@theme` (`#a51c30`, `#c8102e`, `#f7f5f0`, `#0e100f`) con tema claro/oscuro. Reemplaza Torii/Indigo.
+- Tipografías Hiro Misake + Inter + IBM Plex Mono auto-hospedadas en `public/fonts/` con `preload` de las dos primeras caras. Manrope eliminada. Hiro Misake excluye del `unicode-range` las vocales acentuadas y la ñ (el archivo las mapea a la letra base).
 - `App.tsx` solo compone. `src/App.css` eliminado: layout en Tailwind, CSS nativo solo para skip-link, tokens y `prefers-reduced-motion`.
 - `components/layout/Navbar.tsx`: sticky, brand propio, menú móvil con bloqueo de scroll, focus trap, cierre con `Escape` y retorno de foco.
-- `components/layout/Footer.tsx` con solo GitHub/LinkedIn/Instagram.
+- `components/layout/Footer.tsx` con solo GitHub/LinkedIn/Instagram desde `src/data/social-links.ts`.
 - `features/home/Hero.tsx`: claim bilingüe, badge Barranquilla nacional/remoto, CTA `Ver mis proyectos`, foto WebP con `srcset`, numeración `01 — 06`.
 - `features/about/About.tsx`: perfil, formación y ficha en dos idiomas, solo con hechos del CV.
-- `features/contact/Contact.tsx`: únicamente GitHub, LinkedIn e Instagram. Sin email ni teléfonos.
-- Bilingüe ES/EN completo en la infraestructura (`src/i18n/`) y en Hero, About, Experience, Skills, Contact, navbar y footer. Selector ES/EN en navbar desktop y móvil.
-- `src/data/` con `profile.ts`, `experience.ts`, `skills.ts`; tipos en `src/types/content.ts`.
+- `features/contact/Contact.tsx`: únicamente GitHub, LinkedIn e Instagram, más el botón `Ver mi tarjeta digital`.
+- `features/digital-card/`: página `#tarjeta` con tarjeta visual, QR, compartir/copiar enlace y descargas `.vcf`/PNG/PDF.
+- Bilingüe ES/EN completo en la infraestructura (`src/i18n/`) y en Hero, About, Experience, Skills, Contact, navbar, footer y tarjeta. Selector ES/EN en navbar y en la tarjeta.
+- `src/data/` con `profile.ts`, `experience.ts`, `skills.ts`, `social-links.ts`, `digital-card.ts`; tipos en `src/types/content.ts`.
 - `features/experience/Experience.tsx` con Riwi y Universidad de Cartagena desde el CV.
 - `features/skills/Skills.tsx` con grupos de stack, "aprendiendo ahora", habilidades humanas e idiomas.
 - Numeración coherente: 01 Home, 02 About, 03 Experiencia, 04 Skills, 05 Proyectos, 06 Contacto.
-- Accesibilidad: skip-link, menú con `aria-expanded`/`aria-controls`, `:focus-visible`, `prefers-reduced-motion`.
+- SEO técnico: canonical, OG/Twitter, JSON-LD `Person`, `robots.txt`, `sitemap.xml`, metadatos sincronizados con idioma y vista (`useDocumentMeta`).
+- Accesibilidad: skip-link, menú con `aria-expanded`/`aria-controls`, `:focus-visible`, `aria-live` en descargas, `prefers-reduced-motion`.
 
 **Deuda / pendiente:**
 
 1. Proyectos sigue como placeholder marcado ("Contenido en preparación"). About y Contacto ya son secciones reales.
 2. Skills sin logos: el stack visual de la Sección 6.2 sigue como texto mono agrupado.
-3. Faltan datos de los 5 proyectos, foto adicional para About, logotipo propio, guión del avatar y alcance del `.vcf`.
-4. SEO parcial: título y description en español, pero sin OG/Twitter, canonical, JSON-LD, `robots.txt` ni `sitemap.xml`.
-5. `README.md` sigue siendo la plantilla de Vite.
+3. Faltan datos de los 5 proyectos, foto adicional para About, logotipo propio (la tarjeta usa el monograma tipográfico `MR`) y guión del avatar.
+4. `og-cover.png` (1200×630) pendiente de entrega; los metadatos ya apuntan a `public/images/og-cover.png`.
+5. Cloudflare Web Analytics queda documentada y desactivada hasta recibir el token real.
 6. Revisión visual del Home (Fase 1) pendiente: no hay capturas ni lista de ajustes aprobada.
 7. Inconsistencia menor en el CV: Riwi figura como 16 de febrero en formación y 17 de febrero en experiencia. La web usa "Febrero 2026" hasta que el titular confirme.
 
@@ -254,9 +263,11 @@ El email y los teléfonos quedan **solo dentro de la tarjeta digital / `.vcf`** 
    - LinkedIn e Instagram **entregados**: ver §6.4.
 2. Por cada proyecto (5): año/período, rol exacto, problema en 2-3 líneas, stack exacto.
 3. Guión del avatar por aprobar (borrador + preguntas/respuestas).
-4. Alcance exacto del `.vcf` descargable (¿expone email/teléfonos?).
-5. Logotipo propio (marca) — diseño pendiente.
+4. ~~Alcance del `.vcf`~~ **resuelto**: solo datos públicos, sin email ni teléfonos.
+5. Logotipo propio (marca) — pendiente; la tarjeta usa el monograma tipográfico `MR` como provisional.
 6. Referentes visuales concretos (si los hay).
+7. `og-cover.png` 1200×630 para compartir en redes — pendiente de entrega.
+8. Token de Cloudflare Web Analytics — pendiente; la integración queda preparada y desactivada.
 
 ## 10. Cómo trabajar
 

@@ -7,6 +7,10 @@
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
+  /* El archivo mapea É/Ñ/Ú/Ó a la letra base. Se excluyen del rango para
+     que Inter dibuje los acentos y el español no pierda tildes ni la ñ. */
+  unicode-range: U+0000-007F, U+00A0-00BF, U+00D7, U+00F7, U+2000-206F,
+    U+20AC, U+2122, U+2190-2193;
 }
 
 @font-face {
@@ -948,6 +952,25 @@
   to {
     transform: scaleY(1);
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Tarjeta digital
+--------------------------------------------------------------------------- */
+
+.digital-card-wash {
+  background-image:
+    radial-gradient(
+      circle at 88% 8%,
+      color-mix(in oklab, var(--accent) 14%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 6% 96%,
+      color-mix(in oklab, var(--ink) 7%, transparent),
+      transparent 48%
+    );
+  opacity: 0.85;
 }
 
 /* ---------------------------------------------------------------------------

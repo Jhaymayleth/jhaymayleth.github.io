@@ -1,21 +1,11 @@
 import type { CSSProperties } from 'react'
 import { useLanguage } from '../../i18n/useLanguage'
-import { profile } from '../../data/profile'
+import { socialLinks } from '../../data/social-links'
 import { SectionHeader } from '../../components/shared/SectionHeader'
 import { SectionDivider } from '../../components/shared/SectionDivider'
 import { SceneryBackground } from '../../components/shared/SceneryBackground'
 import { VerticalLabel } from '../../components/shared/VerticalLabel'
 import { SocialIcon } from '../../components/shared/SocialIcon'
-
-/**
- * Solo los canales públicos decididos por el titular.
- * Email y teléfonos nunca se muestran aquí.
- */
-const CHANNELS = [
-  { id: 'github', href: profile.links.github, handle: 'Jhaymayleth' },
-  { id: 'linkedin', href: profile.links.linkedin, handle: 'José Mauricio Rangel' },
-  { id: 'instagram', href: profile.links.instagram, handle: '@dylan_.rn' },
-] as const
 
 function revealDelay(delay: number): CSSProperties {
   return { '--reveal-delay': `${delay}ms` } as CSSProperties
@@ -55,7 +45,7 @@ export function Contact() {
           style={revealDelay(200)}
           className="mt-12 grid gap-4 md:grid-cols-3"
         >
-          {CHANNELS.map((channel) => (
+          {socialLinks.map((channel) => (
             <li key={channel.id}>
               <a
                 href={channel.href}
@@ -90,6 +80,24 @@ export function Contact() {
             </li>
           ))}
         </ul>
+
+        <div
+          data-reveal
+          style={revealDelay(280)}
+          className="mt-12 flex flex-col items-start gap-5 border-t border-sumi-soft/20 pt-8 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div>
+            <p className="font-display text-xl text-sumi">{t.card.title}</p>
+            <p className="mt-1 text-sm text-sumi-soft">{t.card.contactNote}</p>
+          </div>
+          <a
+            href="#tarjeta"
+            className="inline-flex items-center gap-2 rounded-full bg-carmesi px-6 py-3 text-sm font-medium text-carmesi-fg shadow-elevated transition-[background-color,transform] duration-300 hover:-translate-y-0.5 hover:bg-carmesi-bright focus-visible:-translate-y-0.5"
+          >
+            {t.card.contactCta}
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
       </div>
     </section>
   )
