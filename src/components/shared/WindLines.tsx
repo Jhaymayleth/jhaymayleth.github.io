@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react'
+import { useInView } from '../../hooks/useInView'
 
 type Point = readonly [number, number]
 
@@ -412,8 +413,14 @@ const SCENE = GUSTS.map((gust) => ({
  * `relative isolate overflow-hidden`, con el contenido en `relative z-10`.
  */
 export function WindLines() {
+  const { ref, inView } = useInView<HTMLDivElement>()
+
   return (
-    <div aria-hidden="true" className="wind-lines">
+    <div
+      ref={ref}
+      aria-hidden="true"
+      className={`wind-lines${inView ? ' is-blowing' : ''}`}
+    >
       {SCENE.map((gust, gustIndex) => (
         <div
           key={`gust-${gustIndex}`}

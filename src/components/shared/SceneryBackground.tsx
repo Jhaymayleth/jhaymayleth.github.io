@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import { useTheme } from '../../theme/useTheme'
+import { useInView } from '../../hooks/useInView'
 
 const SCENES = {
   light: {
@@ -55,9 +56,14 @@ const PETALS: readonly Petal[] = [
 export function SceneryBackground() {
   const { theme } = useTheme()
   const scene = SCENES[theme]
+  const { ref, inView } = useInView<HTMLDivElement>()
 
   return (
-    <div aria-hidden="true" className="scenery">
+    <div
+      ref={ref}
+      aria-hidden="true"
+      className={`scenery${inView ? '' : ' is-idle'}`}
+    >
       <div className="scenery-mobile-image" />
       <img
         src={scene.src}

@@ -480,6 +480,13 @@
   height: 100%;
 }
 
+/* La escena de Contacto se detiene mientras no se ve. */
+.scenery.is-idle .scenery-image,
+.scenery.is-idle .scenery-glow,
+.scenery.is-idle .scenery-petal {
+  animation-play-state: paused;
+}
+
 @keyframes scenery-drift {
   from {
     transform: scale(1.04) translate3d(0, 0, 0);
@@ -601,6 +608,11 @@
       )
       rotate(-0.6deg);
   }
+}
+
+/* Fuera de pantalla la brisa se pausa: no gasta CPU en secciones ocultas. */
+.wind-lines:not(.is-blowing) .wind-wisp {
+  animation-play-state: paused;
 }
 
 /* En móvil se conservan tres ráfagas; el resto solo añade ruido. */
