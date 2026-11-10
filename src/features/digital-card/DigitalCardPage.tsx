@@ -5,15 +5,10 @@ import { profile } from '../../data/profile'
 import { digitalCard } from '../../data/digital-card'
 import { ThemeToggle } from '../../components/shared/ThemeToggle'
 import { LanguageSwitch } from '../../components/shared/LanguageSwitch'
-import { QrCode } from '../../components/shared/QrCode'
 import { DigitalCard } from './DigitalCard'
-import {
-  downloadCardImage,
-  downloadCardPdf,
-  downloadVCard,
-} from './download'
+import { downloadCardImage, downloadCardPdf } from './download'
 
-type Busy = 'vcf' | 'png' | 'pdf' | null
+type Busy = 'png' | 'pdf' | null
 
 type Status =
   | { kind: 'idle' }
@@ -57,11 +52,9 @@ export function DigitalCardPage() {
     setStatus({ kind: 'idle' })
 
     try {
-      if (kind === 'vcf') {
-        downloadVCard(locale)
-      } else if (cardRef.current) {
-        if (kind === 'png') await downloadCardImage(cardRef.current)
-        if (kind === 'pdf') await downloadCardPdf(cardRef.current)
+      if (cardRef.current) {
+        if (kind === 'png') await downloadCardImage(cardRef.current, locale)
+        if (kind === 'pdf') await downloadCardPdf(cardRef.current, locale)
       }
     } catch (error) {
       console.error(error)
@@ -148,14 +141,6 @@ export function DigitalCardPage() {
           <div className="flex flex-wrap gap-3">
             <button
               type="button"
-              onClick={() => handleDownload('vcf')}
-              disabled={busy !== null}
-              className={PRIMARY}
-            >
-              {busy === 'vcf' ? t.card.generating : t.card.downloadVcf}
-            </button>
-            <button
-              type="button"
               onClick={() => handleDownload('png')}
               disabled={busy !== null}
               className={SECONDARY}
@@ -170,11 +155,15 @@ export function DigitalCardPage() {
             >
               {busy === 'pdf' ? t.card.generating : t.card.downloadPdf}
             </button>
+            <a
+              href={digitalCard.qrPoster[locale]}
+              download={`${digitalCard.fileName}-qr-${locale}.svg`}
+              className={SECONDARY}
+            >
+              {t.card.downloadQr}
+            </a>
           </div>
 
-          <p className="max-w-xl text-xs leading-relaxed text-sumi-soft/80">
-            {t.card.vcfHint}
-          </p>
           <p
             role="status"
             aria-live="polite"
@@ -188,10 +177,8 @@ export function DigitalCardPage() {
 
         <section
           aria-labelledby="compartir"
-          className="grid gap-6 border-t border-sumi-soft/20 pt-8 sm:grid-cols-[auto_1fr] sm:items-center"
+          className="mx-auto w-full max-w-4xl border-t border-sumi-soft/20 pt-8"
         >
-          <QrCode className="h-32 w-32 rounded-xl border border-sumi-soft/20 bg-washi p-2" />
-
           <div>
             <h2
               id="compartir"

@@ -1,34 +1,5 @@
 import type { Locale } from '../../types/content'
 import { digitalCard } from '../../data/digital-card'
-import { profile } from '../../data/profile'
-
-function escapeVCardValue(value: string) {
-  return value
-    .replace(/\\/g, '\\\\')
-    .replace(/([,;])/g, '\\$1')
-    .replace(/\r?\n/g, '\\n')
-}
-
-/**
- * vCard 3.0 con datos exclusivamente públicos: nombre, rol, ubicación,
- * portafolio y perfiles. Sin email ni teléfonos.
- */
-export function buildVCard(locale: Locale) {
-  return [
-    'BEGIN:VCARD',
-    'VERSION:3.0',
-    `N:${escapeVCardValue(profile.lastName)};${escapeVCardValue(profile.firstName)};;;`,
-    `FN:${escapeVCardValue(profile.fullName)}`,
-    `TITLE:${escapeVCardValue(profile.role[locale])}`,
-    `ADR;TYPE=WORK:;;${escapeVCardValue(profile.location[locale])};;;`,
-    `URL:${digitalCard.siteUrl}`,
-    `X-SOCIALPROFILE;TYPE=github:${profile.links.github}`,
-    `X-SOCIALPROFILE;TYPE=linkedin:${profile.links.linkedin}`,
-    `X-SOCIALPROFILE;TYPE=instagram:${profile.links.instagram}`,
-    'END:VCARD',
-    '',
-  ].join('\r\n')
-}
 
 function triggerDownload(url: string, fileName: string) {
   const anchor = document.createElement('a')
@@ -40,30 +11,36 @@ function triggerDownload(url: string, fileName: string) {
   anchor.remove()
 }
 
-export function downloadVCard(locale: Locale) {
-  const blob = new Blob([buildVCard(locale)], {
-    type: 'text/vcard;charset=utf-8',
-  })
-  const url = URL.createObjectURL(blob)
-  triggerDownload(url, `${digitalCard.fileName}.vcf`)
-  window.setTimeout(() => URL.revokeObjectURL(url), 1000)
-}
-
 async function renderCard(node: HTMLElement) {
   const { toPng } = await import('html-to-image')
+  const { width, height } = node.getBoundingClientRect()
+  const exportWidth = Math.ceil(width)
+  const exportHeight = Math.ceil(height)
+
   return toPng(node, {
     pixelRatio: 2,
+    width: exportWidth,
+    height: exportHeight,
+    canvasWidth: exportWidth * 2,
+    canvasHeight: exportHeight * 2,
     cacheBust: true,
     backgroundColor: getComputedStyle(node).backgroundColor,
+    style: {
+      width: `${exportWidth}px`,
+      height: `${exportHeight}px`,
+      maxWidth: 'none',
+      transform: 'none',
+      boxSizing: 'border-box',
+    },
   })
 }
 
-export async function downloadCardImage(node: HTMLElement) {
+export async function downloadCardImage(node: HTMLElement, locale: Locale) {
   const dataUrl = await renderCard(node)
-  triggerDownload(dataUrl, `${digitalCard.fileName}.png`)
+  triggerDownload(dataUrl, `${digitalCard.fileName}-${locale}.png`)
 }
 
-export async function downloadCardPdf(node: HTMLElement) {
+export async function downloadCardPdf(node: HTMLElement, locale: Locale) {
   const [{ jsPDF }, dataUrl] = await Promise.all([
     import('jspdf'),
     renderCard(node),
@@ -79,7 +56,7 @@ export async function downloadCardPdf(node: HTMLElement) {
   })
 
   pdf.addImage(dataUrl, 'PNG', 0, 0, image.width, image.height)
-  pdf.save(`${digitalCard.fileName}.pdf`)
+  pdf.save(`${digitalCard.fileName}-${locale}.pdf`)
 }
 
 function loadImage(src: string) {

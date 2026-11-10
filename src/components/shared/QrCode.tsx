@@ -10,7 +10,7 @@ export function QrCode({ className }: { className?: string }) {
       alt={t.card.qrAlt}
       width={512}
       height={512}
-      loading="lazy"
+      loading="eager"
       decoding="async"
       className={className}
     />
