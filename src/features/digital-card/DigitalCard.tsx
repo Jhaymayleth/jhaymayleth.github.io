@@ -70,12 +70,20 @@ export function DigitalCard({
             ))}
           </div>
 
-          <div className="flex shrink-0 items-center gap-3 self-start rounded-xl border border-sumi-soft/15 bg-panel/80 p-3 sm:self-auto">
+          <a
+            href={digitalCard.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex shrink-0 items-center gap-3 self-start rounded-xl border border-sumi-soft/15 bg-panel/80 p-3 transition-colors hover:border-carmesi/40 sm:self-auto"
+          >
             <QrCode className="h-28 w-28 rounded-md bg-white p-1 sm:h-32 sm:w-32" />
-            <span className="max-w-28 font-mono text-[9px] uppercase leading-relaxed tracking-[0.12em] text-sumi-soft">
+            <span className="flex max-w-32 flex-col gap-1 font-mono text-[9px] uppercase leading-relaxed tracking-[0.12em] text-sumi-soft">
               {t.card.qrLabel}
+              <span className="text-[11px] font-semibold normal-case tracking-normal text-carmesi">
+                {digitalCard.whatsappNumber}
+              </span>
             </span>
-          </div>
+          </a>
         </div>
 
         <p className="mt-5 text-right font-mono text-[9px] uppercase tracking-[0.14em] text-sumi-soft/70">

@@ -158,7 +158,7 @@ ELYSIA fuera. Cuenta Vercel lista, despliegue por separado.
 **Pasos:**
 
 1. [x] `features/digital-card/` — página `#tarjeta` con tarjeta (nombre, foto, claim, rol, ubicación y perfiles), póster localizado ES/EN y monograma provisional `M` mientras no haya logo.
-2. [x] QR al portafolio (`npm run qr` → `public/images/qr-portfolio.svg`, más variantes por idioma) + descargas **PDF, PNG, QR y `.vcf`**. El `.vcf` solo lleva datos públicos: nombre, rol, ubicación, portafolio, WhatsApp y perfiles; sin email.
+2. [x] QR de WhatsApp (`npm run qr` → `public/images/qr-whatsapp.svg`, más variantes por idioma) con el número visible + descargas **PDF, PNG, QR y `.vcf`**. El `.vcf` solo lleva datos públicos: nombre, rol, ubicación, portafolio, WhatsApp y perfiles; sin email.
 3. [x] SEO: canonical, OpenGraph/Twitter, JSON-LD Person, `robots.txt`, `sitemap.xml`, `useDocumentMeta` y `og-cover.png` 1200×630 generado. Favicon propio en `public/favicon.svg`.
 4. [x] Analítica sin cookies: GitHub Traffic (repo) + Cloudflare Web Analytics. El snippet queda documentado y **comentado** en `index.html` hasta recibir el token.
 5. [x] Reemplazar `README.md` con descripción, stack, cómo correr y estructura.
@@ -186,4 +186,4 @@ ELYSIA fuera. Cuenta Vercel lista, despliegue por separado.
 
 ---
 
-*Actualizado el 2026-11-10: Fase 1 revisada, Fase 2 y 3 cerradas, Fase 6 casi cerrada con tarjeta digital, QR, SEO, favicon e imagen OG implementados. Marcar cada checklist al cerrar su fase. Si surge una decisión nueva, registrarla en `docs/plan-portafolio.md` antes de implementarla.*
+*Actualizado el 2026-11-11: Fase 1 revisada, Fase 2 y 3 cerradas, Fase 6 casi cerrada con tarjeta digital, QR, SEO, favicon, imagen OG y `.vcf`. Se añadió animación ambiental de líneas de viento sumi-e en todo el home (`WindLines`). Marcar cada checklist al cerrar su fase. Si surge una decisión nueva, registrarla en `docs/plan-portafolio.md` antes de implementarla.*

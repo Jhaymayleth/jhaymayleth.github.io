@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { useTheme } from '../../theme/useTheme'
+import { useTheme } from '../../hooks/useTheme'
 import { useInView } from '../../hooks/useInView'
 
 const SCENES = {

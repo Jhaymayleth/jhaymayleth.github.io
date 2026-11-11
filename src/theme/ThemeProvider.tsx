@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { ThemeContext } from './theme-context'
 import type { Theme } from './theme-context'
+import { InkTransition } from '../components/theme'
 
 const STORAGE_KEY = 'portfolio:theme'
 const THEME_COLORS: Record<Theme, string> = {
@@ -9,7 +10,6 @@ const THEME_COLORS: Record<Theme, string> = {
   dark: '#0e100f',
 }
 
-/** El script de `index.html` ya fijó el tema antes del primer paint. */
 function detectTheme(): Theme {
   const current = document.documentElement.dataset.theme
   return current === 'dark' ? 'dark' : 'light'
@@ -24,8 +24,14 @@ function readStoredTheme(): Theme | null {
   }
 }
 
+interface TransitionState {
+  origin: { x: number; y: number }
+  next: Theme
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(detectTheme)
+  const [transition, setTransition] = useState<TransitionState | null>(null)
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -34,7 +40,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       ?.setAttribute('content', THEME_COLORS[theme])
   }, [theme])
 
-  // Si el visitante nunca eligió manualmente, se sigue al sistema.
   useEffect(() => {
     const query = window.matchMedia('(prefers-color-scheme: dark)')
     const syncWithSystem = (event: MediaQueryListEvent) => {
@@ -46,19 +51,48 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => query.removeEventListener('change', syncWithSystem)
   }, [])
 
-  const toggleTheme = useCallback(() => {
-    setThemeState((current) => {
+  const toggleTheme = useCallback(
+    (origin?: { x: number; y: number }) => {
+      if (transition) return
+
+      const current = theme
       const next: Theme = current === 'dark' ? 'light' : 'dark'
+
       try {
         window.localStorage.setItem(STORAGE_KEY, next)
       } catch {
-        /* sin persistencia: el tema sigue vivo en el estado de React */
+        /* sin persistencia */
       }
-      return next
-    })
-  }, [])
+
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduced) {
+        setThemeState(next)
+        return
+      }
+
+      const o = origin ?? { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+
+      setTransition({ origin: o, next })
+    },
+    [theme, transition],
+  )
 
   const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme])
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  return (
+    <ThemeContext.Provider value={value}>
+      {children}
+      {transition && (
+        <InkTransition
+          active
+          origin={transition.origin}
+          targetTheme={transition.next}
+          onComplete={() => {
+            setThemeState(transition.next)
+            setTransition(null)
+          }}
+        />
+      )}
+    </ThemeContext.Provider>
+  )
 }

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useLanguage } from '../../i18n/useLanguage'
 import { profile } from '../../data/profile'
-import { ThemeToggle } from '../shared/ThemeToggle'
+import { ThemeToggle } from '../theme'
 import { LanguageSwitch } from '../shared/LanguageSwitch'
 
 const SECTION_HREFS = {

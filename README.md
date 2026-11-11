@@ -11,7 +11,8 @@ Claim: *Interfaces que se sienten, sistemas que sostienen.* / *Interfaces you fe
 - **Bilingüe ES/EN** con diccionario tipado y contexto React; detecta el idioma del navegador y lo persiste en `localStorage`.
 - **Tema claro/oscuro** que sigue al sistema hasta que el visitante elige manualmente.
 - **Secciones:** Home, About, Experience, Skills, Proyectos (pendiente) y Contacto.
-- **Tarjeta digital** en una página propia (`#tarjeta`): tarjeta visual, QR al portafolio, compartir/copiar enlace y descargas `.vcf`, PNG y PDF.
+- **Dinamismo ambiental:** pétalos animados en Contacto y líneas de viento estilo pincelada sumi-e en todas las secciones del home; respeta `prefers-reduced-motion`.
+- **Tarjeta digital** en una página propia (`#tarjeta`): tarjeta visual, QR de WhatsApp con el número público, compartir/copiar enlace y descargas `.vcf`, PNG y PDF.
 - **SEO técnico:** canonical, OpenGraph/Twitter, JSON-LD `Person`, `robots.txt`, `sitemap.xml`, `og-cover.png` 1200×630 y favicon propio.
 - **Solo datos públicos:** GitHub, LinkedIn, Instagram y WhatsApp (aprobado el 2026-11-10). El email y el teléfono personal nunca se publican.
 
@@ -43,7 +44,7 @@ npm run dev      # servidor local
 npm run build    # type-check + build de producción
 npm run preview  # sirve el build
 npm run lint     # ESLint
-npm run qr       # regenera public/images/qr-portfolio.svg
+npm run qr       # regenera public/images/qr-whatsapp.svg (y pósteres ES/EN)
 ```
 
 ## Estructura

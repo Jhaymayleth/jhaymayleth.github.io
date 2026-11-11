@@ -1,9 +1,6 @@
+import { useRef } from 'react'
+import { useTheme } from '../../hooks/useTheme'
 import { useLanguage } from '../../i18n/useLanguage'
-import { useTheme } from '../../theme/useTheme'
-
-interface ThemeToggleProps {
-  className?: string
-}
 
 function MoonIcon() {
   return (
@@ -40,19 +37,31 @@ function SunIcon() {
   )
 }
 
-export function ThemeToggle({ className = '' }: ThemeToggleProps) {
+export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme()
   const { t } = useLanguage()
+  const buttonRef = useRef<HTMLButtonElement>(null)
+
   const isDark = theme === 'dark'
   const label = isDark ? t.nav.themeToLight : t.nav.themeToDark
 
+  const handleToggle = () => {
+    const rect = buttonRef.current?.getBoundingClientRect()
+    const origin = rect
+      ? { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }
+      : undefined
+
+    toggleTheme(origin)
+  }
+
   return (
     <button
+      ref={buttonRef}
       type="button"
-      onClick={toggleTheme}
+      onClick={handleToggle}
       aria-label={label}
       title={label}
-      className={`theme-toggle flex h-10 w-10 items-center justify-center rounded-full border border-ink-block-fg/30 text-ink-block-fg transition-[color,border-color,transform] duration-200 hover:border-carmesi-on-block hover:text-carmesi-on-block active:scale-95 ${className}`}
+      className="theme-toggle flex h-10 w-10 items-center justify-center rounded-full border border-ink-block-fg/30 text-ink-block-fg transition-[color,border-color,transform] duration-200 hover:border-carmesi-on-block hover:text-carmesi-on-block active:scale-95"
     >
       {isDark ? <SunIcon /> : <MoonIcon />}
     </button>

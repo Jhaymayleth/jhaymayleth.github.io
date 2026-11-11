@@ -1,0 +1,221 @@
+/* Tokens de tema. `washi` es el fondo, `sumi` el texto; ambos se invierten
+   en oscuro. El carmesí y el gris conservan su papel en las dos versiones. */
+
+:root {
+  color-scheme: light;
+  --paper: #f7f5f0;
+  --paper-deep: #ece9e2;
+  --ink: #0e100f;
+  --ink-soft: #616763;
+  --accent: #a51c30;
+  --accent-bright: #c8102e;
+  --accent-on-block: #ff929a;
+  --accent-foreground: #ffffff;
+  --accent-bright-foreground: #ffffff;
+  --panel: #ffffff;
+  --ink-block: #0e100f;
+  --ink-block-fg: #f7f5f0;
+
+  /* Escalas compartidas de espaciado y tipografía. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-gutter: clamp(1.25rem, 4vw, 3rem);
+  --space-section: clamp(4rem, 8vw, 7rem);
+  --space-skip-block: 0.7rem;
+  --space-skip-inline: 1.1rem;
+  --space-focus-offset: 3px;
+  --space-technology-gap: 0.65rem;
+
+  --type-label: 0.6875rem;
+  --type-body-sm: 0.82rem;
+  --type-body: 1rem;
+  --type-lead: clamp(1.125rem, 1.3vw, 1.25rem);
+  --type-h3: clamp(1.5rem, 2.4vw, 2rem);
+  --type-h2: clamp(2.25rem, 6vw, 4.5rem);
+  --type-h1: clamp(3rem, 9vw, 7.25rem);
+  --line-height-tight: 0.95;
+  --line-height-heading: 1.1;
+  --line-height-ui: 1.25;
+  --line-height-body: 1.65;
+  --letter-spacing-label: 0.12em;
+
+  /* Bordes, radios y elevación sutil. */
+  --border-width-hairline: 1px;
+  --border-width-emphasis: 2px;
+  --border-subtle: color-mix(in oklab, var(--ink) 12%, transparent);
+  --border-strong: color-mix(in oklab, var(--ink) 28%, transparent);
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-pill: 9999px;
+  --radius-icon: 0.6rem;
+  --elevation-soft: 0 8px 24px -18px color-mix(in oklab, var(--ink) 24%, transparent);
+  --elevation-raised: 0 20px 48px -30px color-mix(in oklab, var(--ink) 30%, transparent);
+  --elevation-accent: 0 28px 60px -38px color-mix(in oklab, var(--accent) 45%, transparent);
+
+  /* Movimiento consistente para estados y cambios de tema. */
+  --duration-fast: 180ms;
+  --duration-base: 220ms;
+  --duration-medium: 320ms;
+  --duration-slow: 600ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-theme:
+    background-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+
+  /* Alphas de los motivos decorativos, ajustadas por tema. */
+  --alpha-rail: 70%;
+  --alpha-wash: 14%;
+  --alpha-contour: 18%;
+  --alpha-pattern: 8%;
+  --alpha-pattern-soft: 6%;
+  --alpha-ghost: 10%;
+  --alpha-ghost-sm: 7%;
+  --alpha-divider: 72%;
+  --alpha-paper-texture: 34%;
+  --alpha-seigaiha: 68%;
+
+  /* Velo de la escena sumi-e. */
+  --veil-top: 96%;
+  --veil-edge: 55%;
+  --veil-strong: 92%;
+  --veil-mid: 66%;
+  --veil-bottom: 84%;
+  --veil-end: 97%;
+
+  /* Velo fijo entre secciones al hacer scroll. */
+  --overlay-strong: rgb(14 16 15 / 0.1);
+  --overlay-soft: rgb(247 245 240 / 0.06);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #0e100f;
+  --paper-deep: #171a17;
+  --ink: #f3f0e9;
+  --ink-soft: #9ba19b;
+  --accent: #e0565f;
+  --accent-bright: #a51c30;
+  --accent-on-block: #a51c30;
+  --accent-foreground: #0e100f;
+  --accent-bright-foreground: #ffffff;
+  --panel: #171a17;
+  --ink-block: #f3f0e9;
+  --ink-block-fg: #0e100f;
+  --border-subtle: color-mix(in oklab, var(--ink) 16%, transparent);
+  --border-strong: color-mix(in oklab, var(--ink) 34%, transparent);
+  --elevation-soft: 0 8px 24px -18px rgb(0 0 0 / 0.42);
+  --elevation-raised: 0 20px 48px -30px rgb(0 0 0 / 0.58);
+  --elevation-accent: 0 28px 60px -38px color-mix(in oklab, var(--accent) 38%, transparent);
+
+  --alpha-rail: 55%;
+  --alpha-wash: 22%;
+  --alpha-contour: 14%;
+  --alpha-pattern: 6%;
+  --alpha-pattern-soft: 4.5%;
+  --alpha-ghost: 7%;
+  --alpha-ghost-sm: 5%;
+  --alpha-paper-texture: 24%;
+  --alpha-seigaiha: 56%;
+
+  --veil-top: 90%;
+  --veil-edge: 38%;
+  --veil-strong: 80%;
+  --veil-mid: 54%;
+  --veil-bottom: 76%;
+  --veil-end: 92%;
+
+  --overlay-strong: rgb(0 0 0 / 0.45);
+  --overlay-soft: rgb(0 0 0 / 0.2);
+}
+
+/* Aliases para componentes del tema */
+:root {
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --surface: var(--panel);
+  --muted: var(--ink-soft);
+}
+
+:root[data-theme='dark'] {
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --surface: var(--panel);
+  --muted: var(--ink-soft);
+}
+
+/* Botón de cambio de tema */
+.theme-toggle {
+  width: 44px;
+  height: 44px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--muted);
+  border-radius: 50%;
+
+  background: var(--surface);
+  color: var(--foreground);
+
+  font-size: 21px;
+  cursor: pointer;
+
+  transition:
+    background 200ms ease,
+    color 200ms ease,
+    transform 200ms ease;
+}
+
+.theme-toggle:hover:not(:disabled) {
+  transform: rotate(15deg);
+}
+
+.theme-toggle:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+
+:root {
+  color-scheme: dark;
+
+  --background: #111113;
+  --foreground: #f4f1ea;
+  --surface: #1b1b1e;
+  --muted: #a4a0a0;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --background: #f4f1ea;
+  --foreground: #191919;
+  --surface: #ffffff;
+  --muted: #686868;
+}
+
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  margin: 0;
+  transition: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+

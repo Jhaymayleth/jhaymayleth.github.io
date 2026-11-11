@@ -3,7 +3,7 @@ import { useLanguage } from '../../i18n/useLanguage'
 import { useDocumentMeta } from '../../hooks/useDocumentMeta'
 import { profile } from '../../data/profile'
 import { digitalCard } from '../../data/digital-card'
-import { ThemeToggle } from '../../components/shared/ThemeToggle'
+import { ThemeToggle } from '../../components/theme'
 import { LanguageSwitch } from '../../components/shared/LanguageSwitch'
 import { DigitalCard } from './DigitalCard'
 import { downloadCardImage, downloadCardPdf, downloadContactCard } from './download'
@@ -195,7 +195,16 @@ export function DigitalCardPage() {
             >
               {t.card.qrLabel}
             </h2>
-            <p className="mt-2 text-sm text-sumi-soft">{digitalCard.siteUrl}</p>
+            <p className="mt-2 text-sm text-sumi-soft">
+              <a
+                href={digitalCard.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline-offset-4 transition-colors hover:text-carmesi hover:underline"
+              >
+                WhatsApp · {digitalCard.whatsappNumber}
+              </a>
+            </p>
 
             <div className="mt-4 flex flex-wrap gap-3">
               <button type="button" onClick={handleShare} className={PRIMARY}>

@@ -174,10 +174,10 @@ Los 5, en orden de revisión ascendente (1 → 5):
 
 ### 6.4 Tarjeta digital, QR, contacto
 
-- **Tarjeta digital con QR:** QR redirige al portafolio. Tarjeta con información relevante: nombre, foto, monograma, slogan/claim, ubicación, redes sociales y botón de WhatsApp. Nada más.
+- **Tarjeta digital con QR:** el QR abre un chat de WhatsApp con el número público y se muestra junto al número. La tarjeta incluye nombre, foto, monograma, slogan/claim, ubicación, redes sociales y botón de WhatsApp. El enlace del portafolio se comparte con los botones de compartir/copiar; no tiene sentido un QR que devuelva a la misma página. Nada más.
 - **Página exclusiva:** vive en `#tarjeta` (hash, sin router, compatible con GitHub Pages) y se abre desde un botón en Contacto.
 - **Descargas:** PDF, PNG, QR y `.vcf` para importar contacto.
-- **QR:** SVG estático generado con `qrcode` (devDependency) mediante `npm run qr`; no se carga ninguna librería de QR en el cliente.
+- **QR:** SVG estático generado con `qrcode` (devDependency) mediante `npm run qr`; apunta a `https://wa.me/573044752063` y se acompaña del número visible. No se carga ninguna librería de QR en el cliente.
 - **PNG/PDF:** se rasterizan con `html-to-image` y `jspdf`, cargados con `import()` diferido para no pesar en la carga inicial.
 - **Contacto vía:** perfiles públicos y WhatsApp. No hay formulario ni email en la web.
 
@@ -206,7 +206,7 @@ El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del por
 | Stack del portafolio | React + TypeScript + Vite + Tailwind CSS 4, GitHub Pages + Actions. Sin Next.js |
 | Tailwind vs CSS | Adoptar **Tailwind 4** para layout/utilidades; CSS nativo solo para animaciones cinemáticas del avatar/proyectos |
 | Sistema de idioma | **Diccionario tipado + contexto React**, sin rutas `/es` `/en`. Razón: GitHub Pages no tiene backend, una sola URL evita el fallback de `404.html` y la duplicación de rutas. Detecta idioma del navegador, persiste en `localStorage` y sincroniza `<html lang>` |
-| Animaciones | Gestos en click/hover/scroll, scroll **cinemático** desde diferentes ángulos, no solo lineal. Proyectos con **salto espacial** entre proyectos, clicks para salto rápido, scroll que avanza mientras habla el avatar, pausa al click y retoma al click en avatar. Respetar `prefers-reduced-motion` y teclado |
+| Animaciones | Gestos en click/hover/scroll, scroll **cinemático** desde diferentes ángulos, no solo lineal. Proyectos con **salto espacial** entre proyectos, clicks para salto rápido, scroll que avanza mientras habla el avatar, pausa al click y retoma al click en avatar. Motion ambiental: pétalos en Contacto y líneas de viento sumi-e (`WindLines`) en todo el home. Respetar `prefers-reduced-motion` y teclado |
 | Analítica | Sin cookies. Contar cuántos, desde dónde, con qué dispositivo (no quiénes). GitHub Traffic + Cloudflare Web Analytics (beacon libre, sin cookies) |
 | Dominio | `jhaymayleth.github.io`. SEO ok: OpenGraph/Twitter, canonical, JSON-LD Person, `robots.txt`, `sitemap.xml` |
 | Datos de proyectos | El agente decide lo mejor (ej. `src/data/projects.ts` + tipos en `src/types/`) |
@@ -246,6 +246,7 @@ El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del por
 - Numeración coherente: 01 Home, 02 About, 03 Experiencia, 04 Skills, 05 Proyectos, 06 Contacto.
 - SEO técnico: canonical, OG/Twitter, JSON-LD `Person`, `robots.txt`, `sitemap.xml`, metadatos sincronizados con idioma y vista (`useDocumentMeta`) y `og-cover.png` 1200×630 generado desde la identidad del sitio.
 - Favicon propio (sello carmesí con monograma `M`) en `public/favicon.svg`; reemplaza el favicon de Vite.
+- Animación ambiental: `components/shared/WindLines.tsx` dibuja pinceladas de viento sumi-e deterministas y las monta en Hero, About, Experience, Skills, Proyectos y Contacto. El movimiento se desactiva con `prefers-reduced-motion`.
 - Accesibilidad: skip-link, menú con `aria-expanded`/`aria-controls`, `:focus-visible`, `aria-live` en descargas, `prefers-reduced-motion`.
 
 **Deuda / pendiente:**
