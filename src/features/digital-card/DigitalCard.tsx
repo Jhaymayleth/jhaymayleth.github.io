@@ -1,4 +1,3 @@
-import { siWhatsapp } from 'simple-icons'
 import type { RefObject } from 'react'
 import { useLanguage } from '../../i18n/useLanguage'
 import { profile } from '../../data/profile'
@@ -28,30 +27,16 @@ export function DigitalCard({
       />
 
       <div className="digital-card-wash relative p-6 sm:p-9">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0">
-            <p className="font-display text-3xl leading-tight text-sumi sm:text-4xl">
-              {profile.fullName}
-            </p>
-            <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-carmesi">
-              {profile.role[locale]}
-            </p>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-sumi-soft">
-              {t.hero.claim.join(' ')}
-            </p>
-          </div>
-
-          <a
-            href={digitalCard.whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-[#128c4a] px-4 py-2.5 font-mono text-xs text-white transition-colors hover:bg-[#0e713c]"
-          >
-            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 fill-current">
-              <path d={siWhatsapp.path} />
-            </svg>
-            WhatsApp · {digitalCard.whatsappNumber}
-          </a>
+        <div className="min-w-0">
+          <p className="font-display text-3xl leading-tight text-sumi sm:text-4xl">
+            {profile.fullName}
+          </p>
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-carmesi">
+            {profile.role[locale]}
+          </p>
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-sumi-soft">
+            {t.hero.claim.join(' ')}
+          </p>
         </div>
 
         <div className="mt-7 flex flex-col gap-5 border-t border-sumi-soft/20 pt-6 sm:flex-row sm:items-center sm:justify-between">
