@@ -154,7 +154,7 @@ export function Navbar() {
               role="dialog"
               aria-modal="true"
               aria-label={t.nav.home}
-              className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-ink-block text-ink-block-fg xl:hidden"
+              className="fixed inset-0 z-[10001] flex flex-col overflow-y-auto overscroll-contain bg-ink-block text-ink-block-fg transition-colors duration-300 xl:hidden"
             >
               <div className="flex items-center justify-between border-b border-ink-block-fg/20 px-6 py-4">
                 <span className="font-display text-lg text-ink-block-fg">

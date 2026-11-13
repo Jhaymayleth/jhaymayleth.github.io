@@ -1,14 +1,19 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { ThemeContext } from './theme-context'
 import type { Theme } from './theme-context'
-import { InkTransition } from '../components/theme'
+import { InkTransition } from './ink/inkTransition'
+import './ink/ink.css'
 
 const STORAGE_KEY = 'portfolio:theme'
 const THEME_COLORS: Record<Theme, string> = {
   light: '#f7f5f0',
   dark: '#0e100f',
 }
+
+/** Campos de texto que deben tragarse los atajos de teclado. */
+const TEXT_ENTRY =
+  'input:not([type="range"]):not([type="checkbox"]):not([type="button"]), textarea, select, [contenteditable="true"]'
 
 function detectTheme(): Theme {
   const current = document.documentElement.dataset.theme
@@ -24,14 +29,37 @@ function readStoredTheme(): Theme | null {
   }
 }
 
-interface TransitionState {
-  origin: { x: number; y: number }
-  next: Theme
+function storeTheme(theme: Theme): void {
+  try {
+    window.localStorage.setItem(STORAGE_KEY, theme)
+  } catch {
+    /* sin persistencia */
+  }
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(detectTheme)
-  const [transition, setTransition] = useState<TransitionState | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const inkRef = useRef<InkTransition | null>(null)
+
+  // El motor es dueño de la aplicación del tema: cambia el DOM y avisa a React.
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ink = new InkTransition(canvas, {
+      onThemeApplied: (next) => {
+        storeTheme(next)
+        setThemeState(next)
+      },
+    })
+    inkRef.current = ink
+
+    return () => {
+      ink.destroy()
+      inkRef.current = null
+    }
+  }, [])
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -51,48 +79,47 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => query.removeEventListener('change', syncWithSystem)
   }, [])
 
-  const toggleTheme = useCallback(
-    (origin?: { x: number; y: number }) => {
-      if (transition) return
+  const toggleTheme = useCallback((origin?: { x: number; y: number }) => {
+    const ink = inkRef.current
+    if (ink) {
+      ink.toggle(origin)
+      return
+    }
 
-      const current = theme
+    // Mientras el motor se monta (o si WebGL no llega a inicializarse).
+    setThemeState((current) => {
       const next: Theme = current === 'dark' ? 'light' : 'dark'
+      storeTheme(next)
+      return next
+    })
+  }, [])
 
-      try {
-        window.localStorage.setItem(STORAGE_KEY, next)
-      } catch {
-        /* sin persistencia */
-      }
+  // Atajo T, igual que en el proyecto original. Respeta campos de texto.
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.repeat || event.metaKey || event.ctrlKey || event.altKey) return
+      const target = event.target
+      if (target instanceof Element && target.closest(TEXT_ENTRY)) return
+      if (event.key.toLowerCase() !== 't') return
+      event.preventDefault()
+      toggleTheme()
+    }
 
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      if (reduced) {
-        setThemeState(next)
-        return
-      }
-
-      const o = origin ?? { x: window.innerWidth / 2, y: window.innerHeight / 2 }
-
-      setTransition({ origin: o, next })
-    },
-    [theme, transition],
-  )
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [toggleTheme])
 
   const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme])
 
   return (
     <ThemeContext.Provider value={value}>
       {children}
-      {transition && (
-        <InkTransition
-          active
-          origin={transition.origin}
-          targetTheme={transition.next}
-          onComplete={() => {
-            setThemeState(transition.next)
-            setTransition(null)
-          }}
-        />
-      )}
+      <canvas
+        ref={canvasRef}
+        className="ink-canvas"
+        aria-hidden="true"
+        data-html2canvas-ignore=""
+      />
     </ThemeContext.Provider>
   )
 }

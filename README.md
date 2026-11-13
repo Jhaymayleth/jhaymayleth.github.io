@@ -9,7 +9,8 @@ Claim: *Interfaces que se sienten, sistemas que sostienen.* / *Interfaces you fe
 ## Qué incluye
 
 - **Bilingüe ES/EN** con diccionario tipado y contexto React; detecta el idioma del navegador y lo persiste en `localStorage`.
-- **Tema claro/oscuro** que sigue al sistema hasta que el visitante elige manualmente.
+- **Tema claro/oscuro con transición "ink bleed"**: al cambiar de tema se captura la página, se voltea el DOM vivo debajo y una gota de tinta estilo bloque sumi-e se expande desde el botón del tema (WebGL2 + `feTurbulence`). Cae a un cross-fade CSS si falta WebGL2, hay `prefers-reduced-motion` o las capturas no están listas. El interruptor del navbar se ve por encima del overlay; la sección de atajos sigue al sistema y lo persiste.
+- **Atajos:** `T` alterna el tema (respeta campos de texto).
 - **Secciones:** Home, About, Experience, Skills, Proyectos (pendiente) y Contacto.
 - **Dinamismo ambiental:** pétalos animados en Contacto y líneas de viento estilo pincelada sumi-e en todas las secciones del home; respeta `prefers-reduced-motion`.
 - **Tarjeta digital** en una página propia (`#tarjeta`): tarjeta visual, QR de WhatsApp con el número público, compartir/copiar enlace y descargas `.vcf`, PNG y PDF.
@@ -25,12 +26,14 @@ Claim: *Interfaces que se sienten, sistemas que sostienen.* / *Interfaces you fe
 | Estilos | Tailwind CSS 4 + CSS nativo para animaciones |
 | Hosting | GitHub Pages con GitHub Actions |
 | Tipografías | Hiro Misake, Inter e IBM Plex Mono, auto-hospedadas en `woff2` |
+| Tema | Motor propio WebGL2 + captura con `html2canvas-pro`, adaptado de [ink-bleed-theme-changer](https://github.com/codemure-official/ink-bleed-theme-changer) de Codemure (MIT, ver [`ATTRIBUTION.md`](ATTRIBUTION.md)) |
 
 Sin backend, sin cookies y sin router: el sitio es estático y la tarjeta usa un hash (`#tarjeta`), compatible con GitHub Pages sin reescrituras.
 
 ### Dependencias puntuales
 
 - `html-to-image` + `jspdf`: generan el PNG y el PDF de la tarjeta. Se cargan con `import()` diferido, así que no pesan en la carga inicial.
+- `html2canvas-pro`: captura la página para la transición de tinta; versión fork que sí parsea `color-mix(in oklab)`. También con `import()` diferido.
 - `qrcode` (dev): genera el SVG estático del QR mediante `npm run qr`. El cliente no carga ninguna librería de QR.
 - `simple-icons`: logotipos de las tecnologías que se muestran en Skills.
 
@@ -65,6 +68,7 @@ src/
 ├─ hooks/            useHashRoute, useDocumentMeta, useScrollReveal
 ├─ i18n/             diccionario ES/EN, contexto y hook
 ├─ theme/            proveedor de tema claro/oscuro
+│  └─ ink/           motor de la transición "ink bleed" (WebGL2, captura, fallback CSS)
 └─ types/            tipos de contenido
 public/
 ├─ fonts/            tipografías auto-hospedadas
@@ -82,6 +86,11 @@ Cada push a `main` dispara `.github/workflows/deploy.yml`: instala con `npm ci`,
 
 - [`docs/plan-portafolio.md`](docs/plan-portafolio.md) — objetivo, identidad, decisiones y datos del titular.
 - [`docs/ruta-ejecucion.md`](docs/ruta-ejecucion.md) — fases, estado y criterios de salida.
+
+## Créditos
+
+- Motor de transición de tema: **Codemure** — [ink-bleed-theme-changer](https://github.com/codemure-official/ink-bleed-theme-changer), MIT. Ver [`ATTRIBUTION.md`](ATTRIBUTION.md).
+- [GSAP](https://gsap.com/) y [html2canvas](https://html2canvas.hertzen.com/) / `html2canvas-pro`: utilidades de animación y captura, bajo sus propias licencias.
 
 ## Estado
 

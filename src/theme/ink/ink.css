@@ -1,0 +1,51 @@
+/* Overlay WebGL del ink bleed. El canvas se crea una sola vez y se reutiliza. */
+.ink-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 1;
+}
+
+.ink-canvas.is-active {
+  visibility: visible;
+}
+
+/*
+ * El header sticky se queda por encima del overlay para no desaparecer al hacer
+ * scroll. Su propio `transition-colors` suaviza el cambio de tema mientras la tinta
+ * cubre el resto de la página.
+ */
+.site-header {
+  z-index: 10000;
+}
+
+/*
+ * Fallback de cross-fade CSS: sin WebGL2, con movimiento reducido o antes de que
+ * existan capturas. Solo se aplica durante el cambio para no filtrarse en las capturas.
+ */
+html.theme-fade,
+html.theme-fade *,
+html.theme-fade *::before,
+html.theme-fade *::after {
+  transition:
+    background-color var(--theme-fade, 0.45s) ease,
+    border-color var(--theme-fade, 0.45s) ease,
+    color var(--theme-fade, 0.45s) ease,
+    fill var(--theme-fade, 0.45s) ease,
+    stroke var(--theme-fade, 0.45s) ease,
+    box-shadow var(--theme-fade, 0.45s) ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-fade,
+  html.theme-fade *,
+  html.theme-fade *::before,
+  html.theme-fade *::after {
+    transition: none !important;
+  }
+}
