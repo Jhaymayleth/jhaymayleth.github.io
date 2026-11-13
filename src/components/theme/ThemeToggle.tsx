@@ -41,7 +41,7 @@ const BUTTON_CLASS =
   'theme-toggle flex h-10 w-10 items-center justify-center rounded-full border border-ink-block-fg/30 text-ink-block-fg transition-[color,border-color,transform] duration-200 hover:border-carmesi-on-block hover:text-carmesi-on-block active:scale-95'
 
 export default function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme()
+  const { theme, toggleTheme, primeInk } = useTheme()
   const { t } = useLanguage()
   const buttonRef = useRef<HTMLButtonElement>(null)
 
@@ -62,6 +62,8 @@ export default function ThemeToggle() {
       ref={buttonRef}
       type="button"
       onClick={handleToggle}
+      onPointerEnter={primeInk}
+      onFocus={primeInk}
       aria-label={label}
       aria-pressed={isDark}
       title={label}

@@ -65,6 +65,8 @@ export class InkTransition {
   private captureQueued = false
   private resizeTimer = 0
   private destroyed = false
+  /** Las capturas solo existen tras `prime()`: nunca se toman en el arranque. */
+  private primed = false
 
   private resizeHandler: (() => void) | null = null
   private resizeObserver: ResizeObserver | null = null
@@ -87,27 +89,39 @@ export class InkTransition {
     this.renderer.resize(renderScale())
     this.renderer.watchContext(
       () => this.cancel(),
-      () => this.scheduleCapture(0),
+      () => this.refreshCaptures(0),
     )
 
     this.resizeHandler = () => {
       this.renderer?.resize(renderScale())
       if (this.frame) this.draw()
-      this.scheduleCapture(RESIZE_DEBOUNCE_MS)
+      this.refreshCaptures(RESIZE_DEBOUNCE_MS)
     }
     window.addEventListener('resize', this.resizeHandler)
 
     // Detecta cambios de altura que no son resize de ventana (fuentes tardías, imágenes).
     this.resizeObserver = new ResizeObserver(() =>
-      this.scheduleCapture(RESIZE_DEBOUNCE_MS),
+      this.refreshCaptures(RESIZE_DEBOUNCE_MS),
     )
     this.resizeObserver.observe(document.body)
 
     // Las capturas se omiten con movimiento reducido; tómarlas si se desactiva.
-    this.motionHandler = () => this.scheduleCapture(0)
+    this.motionHandler = () => this.refreshCaptures(0)
     reducedMotion.addEventListener('change', this.motionHandler)
+  }
 
-    void document.fonts.ready.then(() => this.scheduleCapture(300))
+  /**
+   * Prepara las capturas de tinta de forma diferida. Se llama por intención de uso
+   * (hover/focus sobre el selector de tema) o tras el primer cambio de tema, nunca en
+   * el arranque: capturar la página completa cuesta segundos de hilo principal.
+   */
+  prime(): void {
+    if (this.primed) return
+    this.primed = true
+    // La primera vez, espera a que las fuentes estén listas para no congelar un layout
+    // con métricas provisionales; después basta con el estado actual del documento.
+    if (document.fonts.status === 'loaded') this.scheduleCapture(0)
+    else void document.fonts.ready.then(() => this.scheduleCapture(0))
   }
 
   get isWebGL(): boolean {
@@ -145,6 +159,8 @@ export class InkTransition {
     if (!canAnimate) {
       this.cancel()
       this.crossFade(to)
+      // Primer cambio sin capturas: deja la tinta lista para el siguiente.
+      this.primed = true
       if (!reducedMotion.matches) this.scheduleCapture(0)
       return
     }
@@ -329,6 +345,12 @@ export class InkTransition {
   }
 
   // ---------- Programación de capturas ----------
+
+  /** Programa una renovación, pero solo si ya se pidió alguna captura antes. */
+  private refreshCaptures(delay: number): void {
+    if (!this.primed) return
+    this.scheduleCapture(delay)
+  }
 
   private scheduleCapture(delay: number): void {
     if (this.destroyed) return

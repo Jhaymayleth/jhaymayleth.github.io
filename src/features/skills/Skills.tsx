@@ -9,17 +9,24 @@ import { SectionHeader } from '../../components/shared/SectionHeader'
 import { SectionDivider } from '../../components/shared/SectionDivider'
 import { TechnologyMark } from '../../components/shared/TechnologyMark'
 import { WindLines } from '../../components/shared/WindLines'
+import { useInView } from '../../hooks/useInView'
 
 export function Skills() {
   const { locale, t } = useLanguage()
+  // Pausa el patrón de fondo (y evita descargarlo) mientras la sección está lejos.
+  const { ref, inView } = useInView<HTMLElement>('50% 0px')
 
   return (
     <section
+      ref={ref}
       id="skills"
       className="relative isolate overflow-hidden bg-washi-deep/40 py-20 lg:py-28"
     >
       <SectionDivider />
-      <div aria-hidden="true" className="seigaiha-layer" />
+      <div
+        aria-hidden="true"
+        className={`seigaiha-layer${inView ? '' : ' is-idle'}`}
+      />
 
       <WindLines />
 

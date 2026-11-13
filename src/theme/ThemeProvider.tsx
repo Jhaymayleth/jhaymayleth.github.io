@@ -94,6 +94,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     })
   }, [])
 
+  const primeInk = useCallback(() => {
+    inkRef.current?.prime()
+  }, [])
+
   // Atajo T, igual que en el proyecto original. Respeta campos de texto.
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -102,14 +106,18 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       if (target instanceof Element && target.closest(TEXT_ENTRY)) return
       if (event.key.toLowerCase() !== 't') return
       event.preventDefault()
+      primeInk()
       toggleTheme()
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [toggleTheme])
+  }, [primeInk, toggleTheme])
 
-  const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme])
+  const value = useMemo(
+    () => ({ theme, toggleTheme, primeInk }),
+    [theme, toggleTheme, primeInk],
+  )
 
   return (
     <ThemeContext.Provider value={value}>

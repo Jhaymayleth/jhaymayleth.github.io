@@ -56,7 +56,8 @@ const PETALS: readonly Petal[] = [
 export function SceneryBackground() {
   const { theme } = useTheme()
   const scene = SCENES[theme]
-  const { ref, inView } = useInView<HTMLDivElement>()
+  // Margen amplio: el fondo (una imagen pesada) debe estar descargado al llegar.
+  const { ref, inView } = useInView<HTMLDivElement>('80% 0px')
 
   return (
     <div

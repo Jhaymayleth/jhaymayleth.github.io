@@ -105,6 +105,11 @@ export async function capturePage(
           el.style.transform = 'none'
           el.style.transition = 'none'
         })
+      // Las secciones lejanas pausan (y no descargan) sus fondos con `is-idle`; la
+      // captura cubre el documento entero, así que ahí deben estar presentes.
+      doc.querySelectorAll('.is-idle').forEach((el) => {
+        el.classList.remove('is-idle')
+      })
       // Los controles vivos se dibujan sobre el overlay: deja un hueco para ellos.
       // `visibility` (y no data-html2canvas-ignore) conserva su caja y evita saltos.
       doc

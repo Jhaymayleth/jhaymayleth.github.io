@@ -636,6 +636,11 @@
     background-image: url('/images/contact-dark.webp');
   }
 
+  /* Sección aún lejana: el fondo se descarga al acercarse al viewport. */
+  .scenery.is-idle .scenery-mobile-image {
+    background-image: none;
+  }
+
   .scenery-image {
     display: none;
   }
@@ -1017,6 +1022,11 @@
   opacity: var(--alpha-seigaiha);
   mix-blend-mode: multiply;
   pointer-events: none;
+}
+
+/* Sección aún lejana: no se descarga el patrón hasta acercarse al viewport. */
+.seigaiha-layer.is-idle {
+  background-image: none;
 }
 
 :root[data-theme='dark'] .seigaiha-layer {

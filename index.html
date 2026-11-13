@@ -130,6 +130,15 @@
       type="font/woff2"
       crossorigin
     />
+    <!-- LCP del home: el retrato lo inserta React, así que se descubre tarde. -->
+    <link
+      rel="preload"
+      as="image"
+      href="/images/profile-840.webp"
+      imagesrcset="/images/profile-480.webp 480w, /images/profile-840.webp 840w, /images/profile-1080.webp 1080w"
+      imagesizes="(max-width: 1024px) 360px, 420px"
+      fetchpriority="high"
+    />
     <title>José Mauricio Rangel Núñez — Desarrollador Full Stack</title>
   </head>
   <body>
