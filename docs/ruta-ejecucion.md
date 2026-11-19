@@ -2,8 +2,9 @@
 
 > Paso a paso por fases para no olvidar nada. El contexto y las decisiones están en `docs/plan-portafolio.md`.
 
-**Repositorio:** `jhaymayleth.github.io` / **Alojamiento:** GitHub Pages, frontend estático  
-**Última actualización:** 2026-11-10
+**Repositorio:** `jhaymayleth.github.io` / **Alojamiento:** GitHub Pages, frontend estático<br />
+**Web app externa:** avatar + experiencias de proyecto, repositorio y despliegue independientes (URL por definir)<br />
+**Última actualización:** 2026-11-19
 
 ---
 
@@ -17,9 +18,10 @@
 - [x] Definir alcance del portafolio: 5 proyectos, ELYSIA fuera, Multicine = MineRoyal
 - [x] Definir contacto: solo GitHub/LinkedIn/Instagram públicos; email y teléfonos privados. LinkedIn e Instagram ya entregados
 - [x] Definir avatar guía (merodea → sorpresa a 3s → bienvenida → habla → click pausa → retoma con frase puente)
+- [x] Decidir separación: avatar y experiencias de proyecto en una web app externa; el portafolio solo enlaza (2026-11-19)
 - [x] Definir Tailwind 4 + CSS para animaciones, analítica sin cookies, dominio con SEO
 - [x] Recibir del titular: CV PDF (**entregado el 2026-11-06**)
-- [ ] Recibir del titular: datos por proyecto, logotipo, alcance del `.vcf`, guión del avatar
+- [ ] Recibir del titular: datos por proyecto, logotipo, guión del avatar y URL de la web app externa
 
 **Criterio de salida:** decisiones en `docs/plan-portafolio.md` y datos faltantes listados en §9 del mismo documento.
 
@@ -60,7 +62,7 @@
 1. [x] Extraer `components/layout/Navbar.tsx` (marca propia, sticky, menú móvil con bloqueo de scroll + focus trap, cierre con `Escape`).
 2. [x] Extraer `components/layout/Footer.tsx`.
 3. [x] Extraer `features/home/Hero.tsx` (claim bilingüe, badge Colombia/remoto, CTA `Ver mis proyectos`, numeración de secciones real).
-4. [x] Extraer componentes compartidos a `components/{ui,shared}/` según uso real (`SectionHeader`, `SectionPlaceholder`).
+4. [x] Extraer componentes compartidos a `components/{ui,shared}/` según uso real (`SectionHeader` y shared reutilizables).
 5. [x] Migrar estilos: utilidades **Tailwind 4** para layout; CSS nativo solo para animaciones. `src/App.css` eliminado.
 6. [x] Reemplazar sistema tipográfico a Hiro Misake + Inter + IBM Plex Mono, auto-hospedadas `woff2` en `public/fonts/`, con `preload` en `index.html`.
 7. [x] Reemplazar paleta a Washi + Sumi + Torii + Indigo (luego refinada a carmesí/papel/tinta con tema claro/oscuro; ver Fase 6 y `plan-portafolio.md` §4).
@@ -88,13 +90,33 @@
 6. [x] Datos centralizados en `src/data/` + tipos en `src/types/` (`profile.ts`, `experience.ts`, `skills.ts`, `content.ts`).
 7. [x] Bilingüe completo ES/EN: sistema resuelto como **diccionario tipado + contexto React**, sin rutas. Cubre Hero, About, Experience, Skills, Contact, navbar y footer.
 
-**Criterio de salida:** navegación Home → About → Experience → Skills → Contact sin placeholders, bilingüe, sin datos privados en web. **Cumplido**, salvo que Proyectos sigue como placeholder hasta la Fase 4 (fuera de esta fase).
+**Criterio de salida:** navegación Home → About → Experience → Skills → Contact sin placeholders, bilingüe, sin datos privados en web. **Cumplido**. Proyectos ya tiene su sección 05 de enlaces; la experiencia completa vive en la app externa (Fase 4).
 
 ---
 
-## Fase 4 — Proyectos multi-tecnología (1 → 5, secuencial con limpieza)
+## Fase 4 — Proyectos: sección 05 + experiencia externa
 
-**Objetivo:** los 5 proyectos como casos de estudio reales (tarjeta + página de detalle), con capturas/video reales y enlaces live a Vercel.
+**Objetivo:** presentar los 5 proyectos desde el portafolio y abrir su experiencia interactiva en una web app externa. Este repo no aloja el motor de renderizado, las animaciones pesadas ni los videos.
+
+**Hecho en este repo (2026-11-19):**
+
+- [x] `src/data/projects.ts` con los 5 proyectos, descripciones cortas bilingües y stack.
+- [x] `features/projects/ProjectLink.tsx` — tarjeta-enlace accesible, abre en pestaña nueva.
+- [x] `features/projects/Projects.tsx` — sección `05`, encabezado, instrucción y listado.
+- [x] `App.tsx` monta `<Projects />`; placeholder retirado.
+- [x] Anclajes por proyecto: `#muiska`, `#mineroyal`, `#multitenant`, `#omegacomplex`, `#alegria`.
+- [x] `projectsAppUrl` centralizada en `src/data/projects.ts` (provisional).
+- [x] `npm run lint` y `npm run build` verdes.
+
+**Pendiente en la web app externa:**
+
+1. Crear el repositorio externo (nombre y URL por definir), separado de `jhaymayleth.github.io`.
+2. Implementar allí el avatar y la presentación cinemática de los 5 proyectos.
+3. Resolver los anclajes `#muiska`... y definir el contrato de navegación.
+4. Incluir en la app externa el caso de estudio, capturas y video de cada proyecto. Nada de código expuesto.
+5. Desplegar la app en Vercel u otro host y verificar HTTP 200, consola limpia, responsive, teclado y `prefers-reduced-motion`.
+6. Sustituir la URL base provisional (`https://jhaymayleth.github.io/experiencias/`) por la URL real en `src/data/projects.ts`.
+7. Verificar desde el portafolio que las 5 tarjetas abren el proyecto correcto.
 
 **Orden exacto (no paralelizar):**
 
@@ -106,48 +128,36 @@
 | 4 | Omegacomplex | `https://github.com/LaoraSad/omegaComplex.git` | |
 | 5 | AlegrIA | `https://github.com/xDemoxz/AlegrIA.git` | |
 
-ELYSIA fuera. Cuenta Vercel lista, despliegue por separado.
+ELYSIA fuera. Los repos son referencia interna; el portafolio no los enlaza. La cuenta Vercel está disponible para desplegar la app externa.
 
-### Flujo por proyecto (repetir 5 veces, de a uno)
+**Contenido de la app externa (no se ejecuta en este repo):**
 
-1. **Ubicar o clonar:** revisar en la PC si ya está clonado (sin clonar de nuevo si existe). Si no existe, clonar en carpeta temporal aprobada (fuera de `jhaymayleth.github.io`).
-2. **Inspeccionar sin instalar:** stack real (`package.json`, `*.csproj`, `composer.json`, `requirements.txt`, etc.), README, `.env.example`, scripts.
-3. **Instalar solo lo necesario** (`npm ci` o equivalente) y levantar (`dev` / `preview`).
-4. **Verificar:** build sin errores, sin 404, imágenes/rutas rotas, variables de entorno faltantes, responsive desktop/móvil, consola limpia, accesibilidad mínima.
-5. **Capturar y grabar con Playwright:**
-   - `preview-desktop.webp` (1440px)
-   - `preview-mobile.webp` (390px)
-   - 2-3 capturas de secciones clave, WebP optimizado
-   - `demo.mp4` 8-15s sin audio en loop: **login → home** con credencial admin. Poster = captura desktop. Respetar `prefers-reduced-motion`.
-   - Ubicación: `public/projects/<slug>/`
-6. **Dejar listo para Vercel:** rutas/assets compatibles, `vercel.json` solo si el framework lo necesita, lista de variables de entorno.
-7. **Detener servidor y limpiar YA:** eliminar `node_modules`, `dist`, `build`, `.next`, cachés de Vite/build y temporales. Verificar espacio liberado. No acumular instalaciones de los 5 proyectos.
-8. Reportar "listo para Vercel" o lista de correcciones. Pasar al siguiente solo al terminar la limpieza.
+- Auditar cada proyecto con `docs/mejoras-proyectos.md`; conservar el contenido real y no inventar métricas.
+- Capturas WebP desktop/móvil y video 8-15s (login → home con credencial admin) para cada proyecto.
+- Videos pesados a YouTube/Vimeo o al host de la app externa, nunca al repo del portafolio.
+- La app externa puede usar Three.js/R3F, GSAP, Lenis, etc. El portafolio solo enlaza.
 
-### Cierre de la fase
-
-9. **Despliegue Vercel** (titular): 5 proyectos separados (Import → Deploy). Entregar URLs.
-10. **Verificación por URL:** HTTP 200, sin 404, sin errores de consola, responsive desktop/móvil. Conectar a `src/data/projects.ts` y a `features/projects/` (tarjeta + página de detalle bilingüe).
-11. Videos pesados a YouTube/Vimeo, no al repo.
-
-**Criterio de salida:** 5 proyectos con build verificado, capturas WebP, video demo, enlace live verificado y tarjeta + detalle conectados.
+**Criterio de salida:** sección 05 publicada con 5 enlaces reales; cada enlace abre la experiencia correcta en la web app externa; sin assets pesados ni motor de renderizado en GitHub Pages.
 
 ---
 
-## Fase 5 — Avatar anime raster + voz
+## Fase 5 — Avatar anime raster + voz (web app externa)
 
-**Objetivo:** guía interactivo y cinemático que presenta el portafolio como el titular cara a cara.
+**Objetivo:** guía interactivo y cinemático que presenta el portafolio como el titular cara a cara, dentro de la web app externa.
+
+**Dónde vive:** en el repositorio externo, junto a la presentación de proyectos. `jhaymayleth.github.io` no monta el avatar ni carga sus capas.
 
 **Pasos:**
 
 1. **Ilustración (titular, Krita):** capas PNG transparentes (cuerpo, cabello, ojos, boca, expresiones) basadas en foto real. Personaje independiente, pequeño y amigable.
-2. **Máquina de estados React:** `features/avatar/` con `idle / surprise / talking / thinking / explaining / happy` (estados finales según guión). CSS: respiración, parpadeo, boca, gestos, hover/click.
+2. **Máquina de estados en el repo externo:** `idle / surprise / talking / thinking / explaining / happy` (estados finales según guión). CSS: respiración, parpadeo, boca, gestos, hover/click.
 3. **Comportamiento:** merodea → a los 3s se sorprende → bienvenida → habla/responde. **Click = pausa**; pulsar avatar = retoma con frase puente natural (no desde donde quedó).
 4. **Guión:** borrador de bienvenida + explicación por proyecto + lista de preguntas/respuestas, aprobado por el titular.
 5. **Voz:** TTS sintética masculina joven, amigable y natural. Solo tras clic del visitante (sin autoplay). Controles: activar/pausar/repetir/navegar sin audio. Pulsar sobre el avatar.
-6. **Integración con Projects:** scroll cinemático con salto espacial entre proyectos; el avance acompaña la narración; pausa al click, retoma al click en avatar. Fallback vertical en móvil, teclado y `prefers-reduced-motion`.
+6. **Integración con proyectos en la misma app externa:** scroll cinemático con salto espacial entre proyectos; el avance acompaña la narración; pausa al click, retoma al click en avatar.
+7. **Enlace desde el portafolio:** la sección 05 abre la app externa; no se incrusta el avatar ni se cargan sus assets en GitHub Pages. Fallback vertical en móvil, teclado y `prefers-reduced-motion` dentro de la app externa.
 
-**Criterio de salida:** avatar visible y animando correctamente, voz opt-in, navegación sin audio funcional, guión aprobado.
+**Criterio de salida:** avatar funcionando en la app externa, voz opt-in, navegación sin audio funcional, guión aprobado y enlace del portafolio verificado.
 
 ---
 
@@ -168,7 +178,7 @@ ELYSIA fuera. Cuenta Vercel lista, despliegue por separado.
 
 **Criterio de salida:** sitio publicado sin placeholders, sin datos inventados ni código expuesto, build y deploy verificados.
 
-**Nota de cierre:** el `.vcf`, los metadatos, la imagen OG y el favicon ya están resueltos. WhatsApp quedó aprobado como dato público (2026-11-10) e incluido en la tarjeta y el `.vcf`. Faltan el token de analítica y la publicación del commit. Los placeholders de Proyectos pertenecen a la Fase 4, aún pendiente, por lo que el MVP se publica sin esa sección completa.
+**Nota de cierre:** el `.vcf`, los metadatos, la imagen OG y el favicon ya están resueltos. WhatsApp quedó aprobado como dato público (2026-11-10) e incluido en la tarjeta y el `.vcf`. Faltan el token de analítica y la publicación del commit. La sección 05 ya está implementada como tarjetas-enlace; la experiencia completa de avatar + proyectos vive en la app externa, pendiente de URL y despliegue. El MVP puede publicarse con la sección 05, pero sus enlaces deben apuntar a la URL real antes de cerrar la fase.
 
 ---
 
@@ -176,14 +186,14 @@ ELYSIA fuera. Cuenta Vercel lista, despliegue por separado.
 
 1. Fase 1 (revisión Home) → **revisada 2026-11-10**, pendiente aprobación de ajustes menores
 2. Fase 2 (módulos + visual nuevo) → **completada**
-3. Fase 3 (contenido) → **completada**; Fase 4 (proyectos, de a uno con limpieza) → **pendiente**
-4. Fase 5 (avatar, necesita ilustración del titular + guión aprobado) → **pendiente**
-5. Fase 6 (tarjeta/QR/SEO/publicación) → **casi cerrada**; faltan el token de analítica y el deploy con los cambios del 2026-11-10 (WhatsApp ya aprobado como dato público)
+3. Fase 3 (contenido) → **completada**; Fase 4 (sección 05 + app externa) → **sección 05 hecha; app externa pendiente**
+4. Fase 5 (avatar en la app externa, necesita ilustración del titular + guión aprobado) → **pendiente**
+5. Fase 6 (tarjeta/QR/SEO/publicación) → **casi cerrada**; faltan el token de analítica y la verificación final del deploy (WhatsApp ya aprobado como dato público)
 
-**Corte MVP para el lunes 9 de noviembre de 2026:** Home revisado modular, About/Experience/Skills/Contact bilingües, 4-5 proyectos con capturas+video+Vercel, avatar MVP, tarjeta/QR, publicado. Pulido v2 después: animaciones espaciales completas, guiones finos, detalles visuales.
+**Corte MVP para el lunes 9 de noviembre de 2026:** Home revisado modular, About/Experience/Skills/Contact bilingües, sección 05 con 5 enlaces, app externa con avatar/experiencias si se alcanza, tarjeta/QR y publicación. Pulido v2 después: animaciones espaciales completas, guiones finos y detalles visuales en la app externa.
 
 **Regla anti-basura en toda la ruta:** no acumular `node_modules`, `dist`, cachés ni temporales. Limpiar en el momento tras cada proyecto.
 
 ---
 
-*Actualizado el 2026-11-11: Fase 1 revisada, Fase 2 y 3 cerradas, Fase 6 casi cerrada con tarjeta digital, QR, SEO, favicon, imagen OG y `.vcf`. Se añadió animación ambiental de líneas de viento sumi-e en todo el home (`WindLines`). Marcar cada checklist al cerrar su fase. Si surge una decisión nueva, registrarla en `docs/plan-portafolio.md` antes de implementarla.*
+*Actualizado el 2026-11-19: se separó avatar + experiencias a una web app externa, se implementó la sección 05 con cinco tarjetas-enlace y se ajustaron las fases 4 y 5. Fase 1 revisada, Fase 2 y 3 cerradas, Fase 6 casi cerrada con tarjeta digital, QR, SEO, favicon, imagen OG y `.vcf`. Marcar cada checklist al cerrar su fase. Si surge una decisión nueva, registrarla en `docs/plan-portafolio.md` antes de implementarla.*

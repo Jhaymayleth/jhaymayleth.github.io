@@ -34,6 +34,13 @@ export interface SkillGroup {
   items: readonly string[]
 }
 
+export interface ProjectItem {
+  id: string
+  name: string
+  tagline: LocalizedText
+  stack: readonly string[]
+}
+
 export interface LanguageProficiency {
   id: string
   language: LocalizedText

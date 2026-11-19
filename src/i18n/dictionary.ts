@@ -78,13 +78,15 @@ const es = {
       instagram: { label: 'Instagram', note: 'Fuera del código' },
     },
   },
-  placeholders: {
-    note: 'Contenido en preparación',
-    projects: {
-      index: '05',
-      label: 'Trabajo seleccionado',
-      title: 'Proyectos que convierten ideas en soluciones.',
-    },
+  projects: {
+    index: '05',
+    label: 'Trabajo seleccionado',
+    title: 'Proyectos que convierten ideas en soluciones.',
+    description:
+      'Cinco proyectos, cada uno con su propia experiencia interactiva. Se abren en una web app aparte, pensada para animaciones y recorridos con más movimiento.',
+    instruction: 'Selecciona un proyecto para abrir su experiencia externa',
+    open: 'Abrir experiencia',
+    external: 'Se abre en una pestaña nueva',
   },
   card: {
     label: 'Tarjeta digital',
@@ -194,13 +196,15 @@ const en: Dictionary = {
       instagram: { label: 'Instagram', note: 'Beyond the code' },
     },
   },
-  placeholders: {
-    note: 'Content in progress',
-    projects: {
-      index: '05',
-      label: 'Selected work',
-      title: 'Projects that turn ideas into solutions.',
-    },
+  projects: {
+    index: '05',
+    label: 'Selected work',
+    title: 'Projects that turn ideas into solutions.',
+    description:
+      'Five projects, each with its own interactive experience. They open in a separate web app built for animation and more dynamic walkthroughs.',
+    instruction: 'Select a project to open its external experience',
+    open: 'Open experience',
+    external: 'Opens in a new tab',
   },
   card: {
     label: 'Digital card',

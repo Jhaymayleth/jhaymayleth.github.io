@@ -4,7 +4,7 @@
 
 **Repositorio:** `jhaymayleth.github.io`  
 **Alojamiento:** GitHub Pages (frontend estático, sin backend)  
-**Última actualización:** 2026-11-06
+**Última actualización:** 2026-11-19
 
 ---
 
@@ -17,6 +17,7 @@ Construir un portafolio que represente la identidad de **José Mauricio Rangel N
 - Orientado a **ofertas laborales tech**. Cualquier persona puede verlo, pero está dirigido a mi versión tech, que es lo que me destaca.
 - Los proyectos se presentan como **casos de estudio reales**: problema, contexto, responsabilidades, decisiones técnicas, tecnologías y aprendizajes. No inventar resultados, métricas ni funcionalidades no implementadas.
 - No hay experiencia laboral: mi experiencia es **formativa y son mis proyectos**. Por eso "experiencia" = proyectos.
+- La **presentación interactiva de los proyectos y el avatar** viven en una **web app externa**, con repositorio y despliegue propios. Este portafolio solo presenta la sección 05 y enlaza a esa experiencia; no aloja el motor de renderizado ni las animaciones pesadas.
 
 ## 2. Objetivo de visita, CTA y medición
 
@@ -121,8 +122,9 @@ Riwi (formación Full Stack) y Universidad de Cartagena (Ingeniería de Software
 - Función: mini-ayudante guía, pequeño y amigable. Es la primera curiosidad del visitante. Merodea por la pantalla; unos **3 segundos después se sorprende del visitante**, le da la bienvenida y **se presenta como si fuera el titular cara a cara**, mostrando personalidad y respondiendo preguntas adicionales sobre el portafolio.
 - Ciclo: **click sobre el avatar = pausa** (para explorar). Al pulsar continuar, el avatar **no retoma desde donde quedó**: habla con naturalidad con frase puente (ej. "bueno, como te venía contando, José puede hacer…" — ejemplo del titular, guión final por aprobar).
 - Control de voz: pulsar sobre el avatar.
-- Herramientas: Krita 5.2.2 (raster por capas), React + TypeScript, CSS, OpenCode/DeepSeek para código. Sin Rive, Live2D ni pagos. Sin ComfyUI por ahora. Sin motor externo para empezar.
-- Estrategia: PNG transparentes separados por partes (cuerpo, cabello, ojos, boca, expresiones) combinados/controlados desde React.
+- **Dónde vive:** en la web app externa de avatar + experiencias, no en `jhaymayleth.github.io`. El portafolio solo enlaza a esa app; no monta el avatar ni carga sus capas.
+- Herramientas: Krita 5.2.2 (raster por capas), React + TypeScript, CSS, OpenCode/DeepSeek para código. Sin Rive, Live2D, pagos ni ComfyUI por ahora. Sin motor de animación dedicado: PNG por capas.
+- Estrategia: PNG transparentes separados por partes (cuerpo, cabello, ojos, boca, expresiones) combinados/controlados desde React en el repo externo.
 - La programación con IA genera código, no sustituye la creación artística.
 
 **Estados base:** `idle` (respiración/parpadeo), `talking` (boca), `thinking`, `explaining`, `happy`. El titular acepta que se propongan los estados necesarios según el comportamiento descrito (ej. sorpresa inicial) y los apruebe.
@@ -147,7 +149,7 @@ Todo el Home actual es propenso a cambiar. No asumir que queda como está (sloga
 ### 6.2 About / Experience / Skills
 
 - **About:** incluye **foto adicional** además de la del Home. Datos desde el CV.
-- **Experience:** experiencia formativa = proyectos (ver Sección 7). Datos desde el CV.
+- **Experience:** experiencia formativa = proyectos (ver §6.3). Datos desde el CV.
 - **Skills:** **logos / stack visual** (opción c).
 - **Aprendiendo actualmente:** sección sí.
 - **Idiomas:** español nativo, inglés B2 en formación.
@@ -164,13 +166,22 @@ Los 5, en orden de revisión ascendente (1 → 5):
 | 4 | Omegacomplex | `https://github.com/LaoraSad/omegaComplex.git` | |
 | 5 | AlegrIA | `https://github.com/xDemoxz/AlegrIA.git` | Proyecto agregado al final |
 
+**Arquitectura de presentación (decisión 2026-11-19):**
+
+- La experiencia interactiva de los 5 proyectos (avatar, presentación cinemática, capturas, video y casos de estudio) vive en una **web app externa**, en un repositorio propio y con despliegue independiente.
+- `jhaymayleth.github.io` solo renderiza la sección **05 — Proyectos** con **5 tarjetas-enlace** bilingües. No incluye visor 3D, motor de renderizado, video pesado ni páginas de detalle locales.
+- Cada tarjeta abre `projectsAppUrl#slug`, con los slugs `muiska`, `mineroyal`, `multitenant`, `omegacomplex` y `alegria`. La app externa debe resolver esos anclajes.
+- La URL base se centraliza en `src/data/projects.ts` (`projectsAppUrl`) y los datos de tarjeta en el mismo archivo. **URL real pendiente**; la actual es provisional: `https://jhaymayleth.github.io/experiencias/`.
+- Motivo: GitHub Pages no debe cargar el motor de animación ni los assets pesados. La app externa puede usar el stack que necesite (por ejemplo Three.js/R3F, GSAP, Lenis) y desplegarse en Vercel u otro host.
+- El portafolio no enlaza a los repositorios de código; mantiene los enlaces solo como referencia interna. Nada de código expuesto.
+- El contenido de cada caso de estudio (problema, rol, año, decisiones, aprendizajes, capturas y video) se implementa en la app externa. En este repo solo viven nombre, descripción corta y stack de la tarjeta.
+- Datos pendientes por proyecto (no inventar): año/período, rol exacto, problema en 2-3 líneas, stack exacto y anclaje definitivo en la app externa.
 - **ELYSIA queda fuera.** No se muestra.
-- Repos públicos de los 5.
-- Cuenta Vercel ya lista, falta desplegar cada proyecto por separado.
-- **Nivel del caso de estudio:** tarjeta + página de detalle (problema, decisiones técnicas, aprendizajes).
-- **Contenido sensible:** no hay información delicada (proyectos formativos). **Screenshots sí** pueden aparecer. **Código NO debe aparecer** — nada técnico.
-- **Video demo por proyecto:** 8-15 seg mostrando **login y luego el home**, con credencial de **administrador** que contiene todas las vistas y funcionalidades.
-- Datos pendientes por proyecto (no inventar): año/período, rol exacto, problema en 2-3 líneas del titular, stack exacto.
+- Repos públicos de los 5, solo como referencia interna.
+- La cuenta Vercel está disponible; el despliegue de la app externa se hace por separado.
+- **Contenido sensible:** no hay información delicada (proyectos formativos). **Screenshots sí** pueden aparecer en la app externa. **Código NO debe aparecer** — nada técnico.
+- **Video demo por proyecto:** 8-15 seg mostrando **login y luego el home**, con credencial de **administrador** que contiene todas las vistas y funcionalidades; se aloja en la app externa o en YouTube/Vimeo, no en este repo.
+- **Nivel del caso de estudio:** en la app externa, no en este repo.
 
 ### 6.4 Tarjeta digital, QR, contacto
 
@@ -204,12 +215,13 @@ El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del por
 | Tema | Decisión |
 |---|---|
 | Stack del portafolio | React + TypeScript + Vite + Tailwind CSS 4, GitHub Pages + Actions. Sin Next.js |
-| Tailwind vs CSS | Adoptar **Tailwind 4** para layout/utilidades; CSS nativo solo para animaciones cinemáticas del avatar/proyectos |
+| Tailwind vs CSS | Adoptar **Tailwind 4** para layout/utilidades; CSS nativo solo para movimiento ambiental del portafolio. Las animaciones de avatar/proyectos viven en la app externa |
 | Sistema de idioma | **Diccionario tipado + contexto React**, sin rutas `/es` `/en`. Razón: GitHub Pages no tiene backend, una sola URL evita el fallback de `404.html` y la duplicación de rutas. Detecta idioma del navegador, persiste en `localStorage` y sincroniza `<html lang>` |
-| Animaciones | Gestos en click/hover/scroll, scroll **cinemático** desde diferentes ángulos, no solo lineal. Proyectos con **salto espacial** entre proyectos, clicks para salto rápido, scroll que avanza mientras habla el avatar, pausa al click y retoma al click en avatar. Motion ambiental: pétalos en Contacto y líneas de viento sumi-e (`WindLines`) en todo el home. Respetar `prefers-reduced-motion` y teclado |
+| Animaciones | **Portafolio:** reveals, hover, `WindLines`, pétalos en Contacto y transiciones sobrias; sin motor de renderizado. **Avatar + proyectos:** viven en la web app externa, que puede usar Three.js/R3F, GSAP, Lenis u otro motor. Respetar `prefers-reduced-motion` y teclado en ambas |
+| Separación avatar/proyectos | Web app externa en repositorio propio. `jhaymayleth.github.io` solo presenta la sección 05 y enlaza; no monta el avatar ni las experiencias pesadas |
 | Analítica | Sin cookies. Contar cuántos, desde dónde, con qué dispositivo (no quiénes). GitHub Traffic + Cloudflare Web Analytics (beacon libre, sin cookies) |
 | Dominio | `jhaymayleth.github.io`. SEO ok: OpenGraph/Twitter, canonical, JSON-LD Person, `robots.txt`, `sitemap.xml` |
-| Datos de proyectos | El agente decide lo mejor (ej. `src/data/projects.ts` + tipos en `src/types/`) |
+| Datos de proyectos | `src/data/projects.ts` + tipos en `src/types/`: 5 tarjetas-enlace y `projectsAppUrl` centralizada. El caso de estudio completo vive en la app externa |
 | Dependencias | Evitar innecesarias. Cada librería con razón técnica clara |
 | Límites | Sin datos ni clientes reales. Screenshots sí, código nunca |
 | Revisión final | Solo el titular |
@@ -222,14 +234,14 @@ El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del por
 - Node.js 24.18.0, npm 12.0.2, Git 2.43.0, Krita 5.2.2.
 - No recomendar modelos locales pesados ni generación de imágenes con GPU potente.
 
-## 8. Estado real del repo (actualizado al 2026-11-10)
+## 8. Estado real del repo (actualizado al 2026-11-19)
 
 **Implementado:**
 
 - React 19.3 + TypeScript 6 + Vite 8 + Tailwind 4.3.
 - `vite.config.ts` con `react()` + `tailwindcss()`, `base: '/'` correcto para sitio de usuario.
 - `.github/workflows/deploy.yml` con Node 22, `npm ci`, `npm run lint`, build y deploy a Pages.
-- Estructura `src/features/{home,about,experience,projects,skills,contact,avatar,digital-card}`, `components/{layout,ui,shared}`, `data`, `types`, `hooks`, `styles`, `i18n`.
+- Estructura `src/features/{home,about,experience,projects,skills,contact,digital-card}`, `components/{layout,ui,shared}`, `data`, `types`, `hooks`, `styles`, `i18n`.
 - Paleta carmesí/papel/tinta en `@theme` (`#a51c30`, `#c8102e`, `#f7f5f0`, `#0e100f`) con tema claro/oscuro. Reemplaza Torii/Indigo.
 - Tipografías Hiro Misake + Inter + IBM Plex Mono auto-hospedadas en `public/fonts/` con `preload` de las dos primeras caras. Manrope eliminada. Hiro Misake excluye del `unicode-range` las vocales acentuadas y la ñ (el archivo las mapea a la letra base).
 - `App.tsx` solo compone. `src/App.css` eliminado: layout en Tailwind, CSS nativo solo para skip-link, tokens y `prefers-reduced-motion`.
@@ -239,10 +251,12 @@ El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del por
 - `features/about/About.tsx`: perfil, formación y ficha en dos idiomas, solo con hechos del CV.
 - `features/contact/Contact.tsx`: únicamente GitHub, LinkedIn e Instagram, más el botón `Ver mi tarjeta digital`.
 - `features/digital-card/`: página `#tarjeta` con tarjeta visual, QR, compartir/copiar enlace, botón de WhatsApp y descargas `.vcf`/PNG/PDF. La tarjeta usa póster localizado (`spanish.card.png` / `english-card.webp`) y QR por idioma.
-- Bilingüe ES/EN completo en la infraestructura (`src/i18n/`) y en Hero, About, Experience, Skills, Contact, navbar, footer y tarjeta. Selector ES/EN en navbar y en la tarjeta.
-- `src/data/` con `profile.ts`, `experience.ts`, `skills.ts`, `social-links.ts`, `digital-card.ts`; tipos en `src/types/content.ts`.
+- Bilingüe ES/EN completo en la infraestructura (`src/i18n/`) y en Hero, About, Experience, Skills, Proyectos, Contact, navbar, footer y tarjeta. Selector ES/EN en navbar y en la tarjeta.
+- `src/data/` con `profile.ts`, `experience.ts`, `skills.ts`, `projects.ts`, `social-links.ts`, `digital-card.ts`; tipos en `src/types/content.ts`.
 - `features/experience/Experience.tsx` con Riwi y Universidad de Cartagena desde el CV.
 - `features/skills/Skills.tsx` con grupos de stack, "aprendiendo ahora", habilidades humanas e idiomas. Los logos ya se muestran con `simple-icons` mediante `components/shared/TechnologyMark.tsx`.
+- `features/projects/`: sección 05 con 5 tarjetas-enlace bilingües (`ProjectLink`), apertura en pestaña nueva y anclajes por proyecto.
+- `src/data/projects.ts`: los 5 proyectos, descripciones cortas, stack y `projectsAppUrl` centralizada (provisional).
 - Numeración coherente: 01 Home, 02 About, 03 Experiencia, 04 Skills, 05 Proyectos, 06 Contacto.
 - SEO técnico: canonical, OG/Twitter, JSON-LD `Person`, `robots.txt`, `sitemap.xml`, metadatos sincronizados con idioma y vista (`useDocumentMeta`) y `og-cover.png` 1200×630 generado desde la identidad del sitio.
 - Favicon propio (sello carmesí con monograma `M`) en `public/favicon.svg`; reemplaza el favicon de Vite.
@@ -251,26 +265,27 @@ El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del por
 
 **Deuda / pendiente:**
 
-1. Proyectos sigue como placeholder marcado ("Contenido en preparación") hasta cerrar la Fase 4.
-2. Faltan datos de los 5 proyectos, foto adicional para About, logotipo definitivo (la navbar y el favicon usan marcas tipográficas provisionales) y guión del avatar.
+1. La web app externa de avatar + experiencias aún no está creada ni desplegada. La sección 05 ya existe y enlaza a una URL base provisional; falta la URL real y el contrato de anclajes.
+2. Faltan datos de detalle de los 5 proyectos (año, rol, problema y stack exacto para la app externa), foto adicional para About, logotipo definitivo (la navbar y el favicon usan marcas tipográficas provisionales) y guión del avatar.
 3. Cloudflare Web Analytics sigue desactivada: el snippet quedó documentado y comentado en `index.html` hasta recibir el token real.
 4. Revisión visual del Home: revisión técnica hecha el 2026-11-10 con capturas 1440/390 y sin bloqueantes; falta la aprobación del titular sobre dos ajustes menores (contraste del riel vertical y aire del claim en desktop).
 5. Inconsistencia menor en el CV: Riwi figura como 16 de febrero en formación y 17 de febrero en experiencia. La web usa "Febrero 2026" hasta que el titular confirme.
-6. En el working tree hay dos borrados sin commit: `public/images/profile.png` (fuente del retrato) y `public/images/seigaiha.png`. Confirmar si se conservan en el repo o si la documentación debe actualizarse.
-7. Deploy final pendiente: el sitio en producción responde 200, pero los cambios de esta sesión (favicon, `og-cover.png` y `.vcf`) aún no se han publicado; hoy `https://jhaymayleth.github.io/images/og-cover.png` devuelve 404.
+6. `public/images/profile.png` (fuente del retrato) y `seigaiha.png` se eliminaron en `c394603`; el working tree está limpio. Confirmar si se restaura la fuente o se actualiza el requisito.
+7. Deploy final: el sitio y los assets (`og-cover.png`, `favicon.svg`, `sitemap.xml`) responden 200 (verificado 2026-11-19); falta la verificación final del titular.
 
 ## 9. Ideas pendientes (datos que faltan del titular)
 
 1. ~~CV PDF~~ **entregado el 2026-11-06**, aplicado a About, Experience y Skills. Falta la foto adicional de About y el relato personal.
    - LinkedIn e Instagram **entregados**: ver §6.4.
-2. Por cada proyecto (5): año/período, rol exacto, problema en 2-3 líneas, stack exacto.
-3. Guión del avatar por aprobar (borrador + preguntas/respuestas).
+2. Por cada proyecto (5), para la app externa: año/período, rol exacto, problema en 2-3 líneas, stack exacto y material visual.
+3. Guión del avatar por aprobar (borrador + preguntas/respuestas) para la app externa.
 4. ~~Alcance del `.vcf`~~ **resuelto**: solo datos públicos, sin email ni teléfonos.
 5. Logotipo propio (marca) — pendiente; navbar y favicon usan marcas provisionales.
 6. Referentes visuales concretos (si los hay).
 7. ~~`og-cover.png` 1200×630~~ **generado el 2026-11-10** en `public/images/og-cover.png`.
 8. Token de Cloudflare Web Analytics — pendiente; el snippet queda comentado en `index.html` hasta recibirlo.
 9. ~~Decisión sobre WhatsApp~~ **resuelta el 2026-11-10:** el titular decidió publicarlo como botón en la tarjeta digital y en el `.vcf`. La política quedó actualizada en §6.4; email y teléfono personal siguen privados.
+10. URL real de la web app externa (repositorio y despliegue) y confirmación de los anclajes `#muiska`, `#mineroyal`, `#multitenant`, `#omegacomplex` y `#alegria`.
 
 ## 10. Cómo trabajar
 
@@ -280,10 +295,11 @@ El `.vcf` incluye **solo datos públicos**: nombre, rol, ubicación, URL del por
 - No repetir preguntas ya definidas. No inventar experiencia, proyectos o contacto.
 - No instalar dependencias sin justificar necesidad técnica. Comprobar compatibilidad antes de instalar.
 - No convertir el proyecto en un monolito. Arquitectura modular, escalable y mantenible.
+- Avatar y experiencias de proyecto no se implementan en este repo: viven en la web app externa. Aquí solo se mantienen la sección 05, sus datos de enlace y la URL base.
 - Tener en cuenta GitHub Pages (sin backend). Evitar decisiones que compliquen rendimiento o carga.
 - Actuar como arquitecto de software y desarrollador frontend senior que acompaña, no como generador de código sin planificación.
 - No tomar decisiones por el titular: proponer y esperar aprobación.
 
 ---
 
-*Fuente: contexto del titular + auditoría del repo + respuestas de la Fase 0 + CV entregado el 2026-11-06. Este documento corrige versiones anteriores (ELYSIA fuera, Multicine = MineRoyal, paleta y tipografías nuevas, disponibilidad nacional/remoto). Actualizado el 2026-11-10 con el estado real (logos de Skills, favicon, imagen OG y deuda de privacidad). La ruta de ejecución está en `docs/ruta-ejecucion.md`.*
+*Fuente: contexto del titular + auditoría del repo + respuestas de la Fase 0 + CV entregado el 2026-11-06. Este documento corrige versiones anteriores (ELYSIA fuera, Multicine = MineRoyal, paleta y tipografías nuevas, disponibilidad nacional/remoto). Actualizado el 2026-11-19: se separó la experiencia de avatar + proyectos a una web app externa y se implementó la sección 05 con cinco tarjetas-enlace. La ruta de ejecución está en `docs/ruta-ejecucion.md`.*
