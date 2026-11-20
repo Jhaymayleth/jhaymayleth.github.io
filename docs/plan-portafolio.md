@@ -171,7 +171,7 @@ Los 5, en orden de revisión ascendente (1 → 5):
 - La experiencia interactiva de los 5 proyectos (avatar, presentación cinemática, capturas, video y casos de estudio) vive en una **web app externa**, en un repositorio propio y con despliegue independiente.
 - `jhaymayleth.github.io` solo renderiza la sección **05 — Proyectos** con **5 tarjetas-enlace** bilingües. No incluye visor 3D, motor de renderizado, video pesado ni páginas de detalle locales.
 - Cada tarjeta abre `projectsAppUrl#slug`, con los slugs `muiska`, `mineroyal`, `multitenant`, `omegacomplex` y `alegria`. La app externa debe resolver esos anclajes.
-- La URL base se centraliza en `src/data/projects.ts` (`projectsAppUrl`) y los datos de tarjeta en el mismo archivo. **URL real pendiente**; la actual es provisional: `https://jhaymayleth.github.io/experiencias/`.
+- La URL base se centraliza en `src/data/projects.ts` (`projectsAppUrl`) y los datos de tarjeta en el mismo archivo. URL de producción: `https://kai-digital-phi.vercel.app/`.
 - Motivo: GitHub Pages no debe cargar el motor de animación ni los assets pesados. La app externa puede usar el stack que necesite (por ejemplo Three.js/R3F, GSAP, Lenis) y desplegarse en Vercel u otro host.
 - El portafolio no enlaza a los repositorios de código; mantiene los enlaces solo como referencia interna. Nada de código expuesto.
 - El contenido de cada caso de estudio (problema, rol, año, decisiones, aprendizajes, capturas y video) se implementa en la app externa. En este repo solo viven nombre, descripción corta y stack de la tarjeta.

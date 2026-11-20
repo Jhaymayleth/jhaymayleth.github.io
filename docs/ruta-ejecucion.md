@@ -105,18 +105,15 @@
 - [x] `features/projects/Projects.tsx` — sección `05`, encabezado, instrucción y listado.
 - [x] `App.tsx` monta `<Projects />`; placeholder retirado.
 - [x] Anclajes por proyecto: `#muiska`, `#mineroyal`, `#multitenant`, `#omegacomplex`, `#alegria`.
-- [x] `projectsAppUrl` centralizada en `src/data/projects.ts` (provisional).
+- [x] `projectsAppUrl` centralizada en `src/data/projects.ts` y apuntando a `https://kai-digital-phi.vercel.app/`.
 - [x] `npm run lint` y `npm run build` verdes.
 
-**Pendiente en la web app externa:**
+**Pendiente de verificación del despliegue externo:**
 
-1. Crear el repositorio externo (nombre y URL por definir), separado de `jhaymayleth.github.io`.
-2. Implementar allí el avatar y la presentación cinemática de los 5 proyectos.
-3. Resolver los anclajes `#muiska`... y definir el contrato de navegación.
-4. Incluir en la app externa el caso de estudio, capturas y video de cada proyecto. Nada de código expuesto.
-5. Desplegar la app en Vercel u otro host y verificar HTTP 200, consola limpia, responsive, teclado y `prefers-reduced-motion`.
-6. Sustituir la URL base provisional (`https://jhaymayleth.github.io/experiencias/`) por la URL real en `src/data/projects.ts`.
-7. Verificar desde el portafolio que las 5 tarjetas abren el proyecto correcto.
+1. Verificar que `https://kai-digital-phi.vercel.app/` responde HTTP 200 tras el despliegue.
+2. Verificar desde el portafolio que las 5 tarjetas abren el anclaje de proyecto correcto.
+3. Revisar la app desplegada en escritorio y teléfono, incluyendo teclado y `prefers-reduced-motion`.
+4. Completar casos de estudio, capturas y video si se decide incluirlos. No exponer código de los repositorios.
 
 **Orden exacto (no paralelizar):**
 

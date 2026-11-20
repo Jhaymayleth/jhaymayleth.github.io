@@ -1,12 +1,7 @@
 import type { ProjectItem } from '../types/content'
 
-/**
- * URL base de la web app externa que contiene el avatar y las experiencias
- * de proyecto. Las animaciones pesadas viven allí, no en GitHub Pages.
- *
- * PENDIENTE: sustituir por la URL real del despliegue cuando exista.
- */
-export const projectsAppUrl = 'https://jhaymayleth.github.io/experiencias/'
+/** URL de producción de la web app que contiene las experiencias de proyecto. */
+export const projectsAppUrl = 'https://kai-digital-phi.vercel.app/'
 
 /** Los 5 proyectos públicos, en el orden de revisión acordado. */
 export const projects: readonly ProjectItem[] = [
