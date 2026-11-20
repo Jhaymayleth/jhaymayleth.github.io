@@ -42,7 +42,7 @@ export function ProjectLink({ project, index }: ProjectLinkProps) {
           {project.stack.map((technology) => (
             <span
               key={technology}
-              className="inline-flex items-center gap-1.5 rounded-full border border-sumi-soft/25 bg-panel/45 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-sumi-soft"
+              className="inline-flex items-center gap-1.5 rounded-full border border-sumi-soft/25 bg-panel/45 px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-sumi-soft"
             >
               <TechnologyMark technology={technology} compact />
               {technology}
