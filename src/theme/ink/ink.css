@@ -43,3 +43,45 @@
 .ink-veil.is-active {
   visibility: visible;
 }
+
+/*
+ * Tinta ligera para móvil: una capa del color anterior cubre la página y una máscara
+ * radial le abre un agujero desde el botón. Solo se interpola el radio de la máscara,
+ * así que no hay capturas ni tareas largas de html2canvas. El borde de 8px suaviza el
+ * frente de la tinta sin dejar ver el tema nuevo fuera del agujero.
+ */
+@property --ink-r {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+.ink-veil--wipe {
+  --ink-r: 0px;
+  z-index: 10001;
+  background-color: var(--ink-old, #f7f5f0);
+  -webkit-mask-image: radial-gradient(
+    circle at var(--ink-x, 50%) var(--ink-y, 50%),
+    transparent 0 var(--ink-r),
+    #000 calc(var(--ink-r) + 8px)
+  );
+  mask-image: radial-gradient(
+    circle at var(--ink-x, 50%) var(--ink-y, 50%),
+    transparent 0 var(--ink-r),
+    #000 calc(var(--ink-r) + 8px)
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  transition: --ink-r var(--ink-duration, 1.2s)
+    cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ink-veil--wipe.is-running {
+  --ink-r: var(--ink-target, 150vmax);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink-veil--wipe {
+    transition: none;
+  }
+}

@@ -20,6 +20,7 @@ const FADE_OUT = 0.15
 const RESIZE_DEBOUNCE_MS = 250
 /** Cross-fade CSS usado sin WebGL2, con movimiento reducido o sin capturas listas. */
 const CSS_FADE_S = 0.45
+const CSS_WIPE_S = 1.2
 
 /**
  * Forma de la expansión a lo largo del tiempo. `growth`: radio base al final,
@@ -36,6 +37,12 @@ export const SPREAD = {
 }
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+/**
+ * En puntero grueso (móvil/tableta) no se captura la página: html2canvas recorre
+ * miles de píxeles y bloquea el hilo principal varios segundos. Ahí la tinta es una
+ * capa CSS con un agujero animado, mucho más barata y sin fotogramas congelados.
+ */
+const coarsePointer = window.matchMedia('(pointer: coarse)')
 
 export interface InkTransitionOptions {
   /** `false` fuerza el fallback CSS (útil para depurar). */
@@ -59,6 +66,7 @@ type ActiveFrame = Omit<InkFrame, 'progress' | 'radius' | 'time' | 'cleanup'>
  */
 export class InkTransition {
   private readonly renderer: InkRenderer | null
+  private readonly lightweight: boolean
   private readonly onThemeApplied?: (theme: Theme) => void
   private readonly state = { progress: 0, time: 0 }
   private tween: Tween | null = null
@@ -86,11 +94,14 @@ export class InkTransition {
     opts: InkTransitionOptions = {},
   ) {
     this.onThemeApplied = opts.onThemeApplied
+    this.lightweight = coarsePointer.matches
     this.renderer =
-      opts.webgl === false ? null : InkRenderer.create(canvas)
+      opts.webgl === false || this.lightweight
+        ? null
+        : InkRenderer.create(canvas)
 
     if (!this.renderer) {
-      document.documentElement.dataset.ink = 'css'
+      document.documentElement.dataset.ink = this.lightweight ? 'wipe' : 'css'
       return
     }
     document.documentElement.dataset.ink = 'webgl'
@@ -125,7 +136,7 @@ export class InkTransition {
    * el arranque: capturar la página completa cuesta segundos de hilo principal.
    */
   prime(): void {
-    if (this.primed) return
+    if (this.primed || !this.renderer) return
     this.primed = true
     // La primera vez, espera a que las fuentes estén listas para no congelar un layout
     // con métricas provisionales; después basta con el estado actual del documento.
@@ -151,7 +162,11 @@ export class InkTransition {
     const to = otherTheme(getTheme())
     const renderer = this.renderer
     if (!renderer) {
-      this.crossFade(to)
+      if (this.lightweight && !reducedMotion.matches) {
+        this.inkWipe(to, point ?? this.toggleCenter())
+      } else {
+        this.crossFade(to)
+      }
       return
     }
 
@@ -377,6 +392,43 @@ export class InkTransition {
     )
   }
 
+  /**
+   * Tinta ligera para puntero grueso: una capa del color anterior cubre la página y
+   * una máscara radial le abre un agujero desde el botón. Solo anima el radio de la
+   * máscara; no hay capturas ni trabajo de html2canvas.
+   */
+  private inkWipe(to: Theme, point: Point): void {
+    const veil = this.ensureVeil()
+    const current = getTheme()
+    window.clearTimeout(this.veilTimer)
+    this.fallbackActive = true
+
+    veil.classList.add('ink-veil--wipe', 'is-active')
+    veil.classList.remove('is-running')
+    veil.style.transition = 'none'
+    veil.style.opacity = '1'
+    veil.style.removeProperty('background-color')
+    veil.style.setProperty('--ink-x', `${point.x}px`)
+    veil.style.setProperty('--ink-y', `${point.y}px`)
+    veil.style.setProperty('--ink-old', THEME_BACKGROUND[current])
+    veil.style.setProperty(
+      '--ink-target',
+      `${farthestCorner(point) + 24}px`,
+    )
+    veil.style.setProperty('--ink-duration', `${CSS_WIPE_S}s`)
+
+    // Fija el agujero en 0 y la capa opaca antes de voltear el DOM vivo debajo.
+    void veil.offsetWidth
+    veil.style.transition = ''
+    this.apply(to)
+
+    veil.classList.add('is-running')
+    this.veilTimer = window.setTimeout(
+      () => this.hideVeil(),
+      CSS_WIPE_S * 1000 + 80,
+    )
+  }
+
   private ensureVeil(): HTMLDivElement {
     if (this.veil) return this.veil
     const veil = document.createElement('div')
@@ -398,7 +450,8 @@ export class InkTransition {
     if (this.veil) {
       this.veil.style.transition = 'none'
       this.veil.style.opacity = '0'
-      this.veil.classList.remove('is-active')
+      this.veil.classList.remove('is-active', 'is-running', 'ink-veil--wipe')
+      this.veil.style.removeProperty('--ink-target')
     }
 
     if (reschedule && this.captureQueued && !this.destroyed) {

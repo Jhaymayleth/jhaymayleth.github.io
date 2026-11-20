@@ -9,7 +9,7 @@ Claim: *Interfaces que se sienten, sistemas que sostienen.* / *Interfaces you fe
 ## Qué incluye
 
 - **Bilingüe ES/EN** con diccionario tipado y contexto React; detecta el idioma del navegador y lo persiste en `localStorage`.
-- **Tema claro/oscuro con transición "ink bleed"**: al cambiar de tema se captura la página, se voltea el DOM vivo debajo y una gota de tinta estilo bloque sumi-e se expande desde el botón del tema (WebGL2 + `feTurbulence`). El motor prepara sus capturas en segundo plano tras la carga para que el primer cambio ya sea tinta; si falta WebGL2, hay `prefers-reduced-motion` o las capturas aún no están listas, cae a un fundido opaco sin colores intermedios. El interruptor del navbar se ve por encima del overlay; la sección de atajos sigue al sistema y lo persiste.
+- **Tema claro/oscuro con transición "ink bleed"**: al cambiar de tema se captura la página, se voltea el DOM vivo debajo y una gota de tinta estilo bloque sumi-e se expande desde el botón del tema (WebGL2 + `feTurbulence`). El motor prepara sus capturas en segundo plano tras la carga para que el primer cambio ya sea tinta; si falta WebGL2, hay `prefers-reduced-motion` o las capturas aún no están listas, cae a un fundido opaco sin colores intermedios. En punteros gruesos (móvil/tableta) no se captura nada: la tinta es una capa CSS con una máscara radial animada, así el hilo principal no se bloquea. El interruptor del navbar se ve por encima del overlay; la sección de atajos sigue al sistema y lo persiste.
 - **Atajos:** `T` alterna el tema (respeta campos de texto).
 - **Secciones:** Home, About, Experience, Skills, Proyectos (pendiente) y Contacto.
 - **Dinamismo ambiental:** pétalos animados en Contacto y líneas de viento estilo pincelada sumi-e en todas las secciones del home; respeta `prefers-reduced-motion`.
@@ -68,7 +68,7 @@ src/
 ├─ hooks/            useHashRoute, useDocumentMeta, useScrollReveal
 ├─ i18n/             diccionario ES/EN, contexto y hook
 ├─ theme/            proveedor de tema claro/oscuro
-│  └─ ink/           motor de la transición "ink bleed" (WebGL2, captura, fallback CSS)
+│  └─ ink/           motor de la transición "ink bleed" (WebGL2, captura, tinta ligera móvil y fallback CSS)
 └─ types/            tipos de contenido
 public/
 ├─ fonts/            tipografías auto-hospedadas
