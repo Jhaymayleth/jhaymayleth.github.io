@@ -1,3 +1,4 @@
+import { THEME_BACKGROUND } from './theme'
 import type { Theme } from './theme'
 
 /**
@@ -17,11 +18,6 @@ export interface Snapshot {
   /** Layout para el que esta captura es válida; ver {@link layoutKey}. */
   key: string
   ms: number
-}
-
-const BACKGROUND: Record<Theme, string> = {
-  light: '#f7f5f0',
-  dark: '#0e100f',
 }
 
 /**
@@ -78,7 +74,7 @@ export async function capturePage(
   const { default: html2canvas } = await import('html2canvas-pro')
   const canvas = await html2canvas(document.body, {
     scale: safeScale,
-    backgroundColor: BACKGROUND[theme],
+    backgroundColor: THEME_BACKGROUND[theme],
     x: 0,
     y: 0,
     width,
@@ -93,6 +89,20 @@ export async function capturePage(
     useCORS: true,
     onclone: (doc) => {
       doc.documentElement.dataset.theme = theme
+
+      // El clon no debe heredar transiciones en curso (cambio de tema, hover,
+      // revelado). Sin esto, una captura que coincide con un cambio de tema puede
+      // hornear colores intermedios y la siguiente tinta arranca desde una imagen
+      // incorrecta. `animation` se conserva: algunos trazos decorativos dependen de
+      // su estado final para dibujarse.
+      const settle = doc.createElement('style')
+      settle.textContent =
+        '*,*::before,*::after{transition:none!important}'
+      doc.head.appendChild(settle)
+
+      // La capa de fallback (y los controles vivos) nunca forman parte de la página.
+      doc.querySelectorAll<HTMLElement>('.ink-veil').forEach((el) => el.remove())
+
       // La captura cubre el documento entero: revela todo el contenido para que las
       // secciones fuera del viewport también existan al hacer scroll durante la tinta.
       doc

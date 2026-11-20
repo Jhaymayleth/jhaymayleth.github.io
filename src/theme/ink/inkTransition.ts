@@ -1,7 +1,13 @@
 import { capturePage, layoutKey, renderScale } from './capture'
 import { inkParams } from './gl/params'
 import { InkRenderer, type InkFrame, type InkSource } from './gl/renderer'
-import { applyTheme, getTheme, otherTheme, type Theme } from './theme'
+import {
+  applyTheme,
+  getTheme,
+  otherTheme,
+  THEME_BACKGROUND,
+  type Theme,
+} from './theme'
 import { power3Out, Tween } from './tween'
 
 export interface Point {
@@ -48,8 +54,8 @@ type ActiveFrame = Omit<InkFrame, 'progress' | 'radius' | 'time' | 'cleanup'>
  *     debajo y expande la tinta; después funde el overlay sobre la página ya cambiada
  *  3. si se cambia a mitad de la expansión, congela el frame en pantalla y expande la
  *     siguiente tinta encima
- *  4. cae a un cross-fade CSS sin WebGL2, con movimiento reducido o antes de que las
- *     capturas estén listas
+ *  4. cae a una capa opaca que se funde sin WebGL2, con movimiento reducido o antes
+ *     de que las capturas estén listas
  */
 export class InkTransition {
   private readonly renderer: InkRenderer | null
@@ -58,7 +64,10 @@ export class InkTransition {
   private tween: Tween | null = null
   private fade: Tween | null = null
   private frame: ActiveFrame | null = null
-  private cssFadeTimer = 0
+  private veil: HTMLDivElement | null = null
+  private veilTimer = 0
+  private veilFrame = 0
+  private fallbackActive = false
 
   private captureGen = 0
   private capturing = false
@@ -165,6 +174,9 @@ export class InkTransition {
       return
     }
 
+    // Si el fallback opaco seguía fundiéndose, la tinta ya toma el relevo.
+    this.hideVeil(false)
+
     // Interrumpida: congela exactamente lo que hay en pantalla y expande encima.
     let from: InkSource = getTheme()
     if (interrupting) {
@@ -228,9 +240,10 @@ export class InkTransition {
     }
 
     window.clearTimeout(this.resizeTimer)
-    window.clearTimeout(this.cssFadeTimer)
     this.captureGen++
-    document.documentElement.classList.remove('theme-fade')
+    this.hideVeil(false)
+    this.veil?.remove()
+    this.veil = null
 
     const canvas = this.renderer?.canvas
     if (canvas) {
@@ -290,7 +303,21 @@ export class InkTransition {
       canvas.classList.remove('is-active')
       canvas.style.opacity = '1'
     }
-    if (this.captureQueued) this.scheduleCapture(0)
+    if (this.captureQueued || this.needsCapture()) {
+      this.scheduleCapture(RESIZE_DEBOUNCE_MS)
+    }
+  }
+
+  /** True si falta alguna de las dos capturas para el layout actual. */
+  private needsCapture(): boolean {
+    const renderer = this.renderer
+    if (!renderer || renderer.isLost) return false
+    const key = layoutKey(renderScale())
+    const current = getTheme()
+    return (
+      !renderer.hasValid(current, key) ||
+      !renderer.hasValid(otherTheme(current), key)
+    )
   }
 
   private cancel(): void {
@@ -306,29 +333,77 @@ export class InkTransition {
     this.onThemeApplied?.(theme)
   }
 
-  /** Cross-fade de color plano (sin WebGL2, movimiento reducido o capturas no listas). */
+  /**
+   * Fallback sin capturas: una capa opaca del color actual cubre la página, se aplica
+   * el tema nuevo debajo y la capa se funde. A diferencia de transicionar cada
+   * elemento, no deja colores intermedios si el usuario pulsa varias veces seguidas.
+   */
   private crossFade(to: Theme): void {
-    const root = document.documentElement
     const motion = !reducedMotion.matches
-    window.clearTimeout(this.cssFadeTimer)
-
-    if (motion) {
-      root.classList.add('theme-fade')
-      root.style.setProperty('--theme-fade', `${CSS_FADE_S}s`)
-    }
-
-    this.apply(to)
+    window.clearTimeout(this.veilTimer)
 
     if (!motion) {
-      root.classList.remove('theme-fade')
+      this.hideVeil(false)
+      this.apply(to)
       if (this.captureQueued) this.scheduleCapture(0)
       return
     }
 
-    this.cssFadeTimer = window.setTimeout(() => {
-      root.classList.remove('theme-fade')
-      if (this.captureQueued) this.scheduleCapture(0)
-    }, CSS_FADE_S * 1000 + 50)
+    const veil = this.ensureVeil()
+    const current = getTheme()
+    this.fallbackActive = true
+    cancelAnimationFrame(this.veilFrame)
+
+    // Reinicio sin transición: cada toque parte de un color sólido, nunca de una
+    // mezcla a medio fundir.
+    veil.style.transition = 'none'
+    veil.style.backgroundColor = THEME_BACKGROUND[current]
+    veil.style.opacity = '1'
+    veil.classList.add('is-active')
+    void veil.offsetWidth
+
+    this.apply(to)
+
+    // Pinta la capa opaca antes de empezar a desvanecerla.
+    this.veilFrame = requestAnimationFrame(() => {
+      if (this.destroyed || !this.fallbackActive) return
+      veil.style.transition = `opacity ${CSS_FADE_S}s ease`
+      veil.style.opacity = '0'
+    })
+
+    this.veilTimer = window.setTimeout(
+      () => this.hideVeil(),
+      CSS_FADE_S * 1000 + 60,
+    )
+  }
+
+  private ensureVeil(): HTMLDivElement {
+    if (this.veil) return this.veil
+    const veil = document.createElement('div')
+    veil.className = 'ink-veil'
+    veil.setAttribute('aria-hidden', 'true')
+    veil.dataset.html2canvasIgnore = ''
+    document.body.appendChild(veil)
+    this.veil = veil
+    return veil
+  }
+
+  private hideVeil(reschedule = true): void {
+    window.clearTimeout(this.veilTimer)
+    this.veilTimer = 0
+    cancelAnimationFrame(this.veilFrame)
+    this.veilFrame = 0
+    this.fallbackActive = false
+
+    if (this.veil) {
+      this.veil.style.transition = 'none'
+      this.veil.style.opacity = '0'
+      this.veil.classList.remove('is-active')
+    }
+
+    if (reschedule && this.captureQueued && !this.destroyed) {
+      this.scheduleCapture(0)
+    }
   }
 
   private toggleCenter(): Point {
@@ -363,13 +438,9 @@ export class InkTransition {
     if (!renderer || renderer.isLost || reducedMotion.matches || this.destroyed)
       return
 
-    // Capturar bloquea el hilo principal; nunca a mitad de animación (ni de un fade CSS,
-    // que hornearía colores a medio transicionar en la captura).
-    if (
-      this.capturing ||
-      this.frame ||
-      document.documentElement.classList.contains('theme-fade')
-    ) {
+    // Capturar bloquea el hilo principal; nunca a mitad de animación ni del fallback,
+    // que hornearía colores a medio transicionar en la captura.
+    if (this.capturing || this.frame || this.fallbackActive) {
       this.captureQueued = true
       return
     }

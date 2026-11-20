@@ -1,15 +1,19 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import type { ReactNode } from 'react'
 import { ThemeContext } from './theme-context'
 import type { Theme } from './theme-context'
 import { InkTransition } from './ink/inkTransition'
+import { THEME_BACKGROUND } from './ink/theme'
 import './ink/ink.css'
 
 const STORAGE_KEY = 'portfolio:theme'
-const THEME_COLORS: Record<Theme, string> = {
-  light: '#f7f5f0',
-  dark: '#0e100f',
-}
 
 /** Campos de texto que deben tragarse los atajos de teclado. */
 const TEXT_ENTRY =
@@ -43,7 +47,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const inkRef = useRef<InkTransition | null>(null)
 
   // El motor es dueño de la aplicación del tema: cambia el DOM y avisa a React.
-  useEffect(() => {
+  // Layout effect: el canvas y sus manejadores existen antes del primer pintado, así
+  // un clic inmediato al cargar nunca se salta el motor.
+  useLayoutEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -55,7 +61,35 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     })
     inkRef.current = ink
 
+    // Prepara las capturas en segundo plano tras la carga: así el primer cambio de
+    // tema ya usa la tinta y no el fallback. Antes solo se preparaban al pasar el
+    // puntero, lo que en táctil llegaba tarde y hacía que varios toques seguidos
+    // cayeran en el fallback.
+    let idleId = 0
+    let timeoutId = 0
+    let cancelled = false
+
+    const warmInk = () => {
+      if (!cancelled) ink.prime()
+    }
+    const scheduleWarm = () => {
+      if (cancelled) return
+      const requestIdle = window.requestIdleCallback
+      if (typeof requestIdle === 'function') {
+        idleId = requestIdle.call(window, warmInk, { timeout: 2000 })
+      } else {
+        timeoutId = window.setTimeout(warmInk, 600)
+      }
+    }
+
+    if (document.readyState === 'complete') scheduleWarm()
+    else window.addEventListener('load', scheduleWarm, { once: true })
+
     return () => {
+      cancelled = true
+      window.removeEventListener('load', scheduleWarm)
+      if (idleId) window.cancelIdleCallback(idleId)
+      window.clearTimeout(timeoutId)
       ink.destroy()
       inkRef.current = null
     }
@@ -65,7 +99,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     document.documentElement.dataset.theme = theme
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', THEME_COLORS[theme])
+      ?.setAttribute('content', THEME_BACKGROUND[theme])
   }, [theme])
 
   useEffect(() => {

@@ -25,27 +25,21 @@
 }
 
 /*
- * Fallback de cross-fade CSS: sin WebGL2, con movimiento reducido o antes de que
- * existan capturas. Solo se aplica durante el cambio para no filtrarse en las capturas.
+ * Fallback sin capturas: una capa opaca del color del tema anterior se funde sobre
+ * la página ya cambiada. Sustituye al cross-fade por elemento, que podía dejar
+ * colores intermedios al pulsar el selector varias veces seguidas.
  */
-html.theme-fade,
-html.theme-fade *,
-html.theme-fade *::before,
-html.theme-fade *::after {
-  transition:
-    background-color var(--theme-fade, 0.45s) ease,
-    border-color var(--theme-fade, 0.45s) ease,
-    color var(--theme-fade, 0.45s) ease,
-    fill var(--theme-fade, 0.45s) ease,
-    stroke var(--theme-fade, 0.45s) ease,
-    box-shadow var(--theme-fade, 0.45s) ease !important;
+.ink-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: block;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  background-color: #f7f5f0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html.theme-fade,
-  html.theme-fade *,
-  html.theme-fade *::before,
-  html.theme-fade *::after {
-    transition: none !important;
-  }
+.ink-veil.is-active {
+  visibility: visible;
 }
